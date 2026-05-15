@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="gRide" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f59e0b"/>
+      <stop offset="0.45" stop-color="#7c2d12"/>
+      <stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <radialGradient id="rRide" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(200 480) rotate(-35) scale(520 380)">
+      <stop stop-color="#fb923c" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect width="1200" height="630" fill="url(#gRide)" opacity="0.5"/>
+  <rect width="1200" height="630" fill="url(#rRide)"/>
+  <path d="M0 380 Q400 320 800 400 T1200 360 L1200 630 L0 630Z" fill="rgb(15 23 42 / 0.78)"/>
+  <rect x="480" y="160" width="280" height="160" rx="16" stroke="rgb(251 191 36 / 0.35)" stroke-width="3" fill="rgb(15 23 42 / 0.45)"/>
+  <path d="M520 260h200M520 290h140" stroke="rgb(254 243 199 / 0.2)" stroke-width="6" stroke-linecap="round"/>
+</svg>

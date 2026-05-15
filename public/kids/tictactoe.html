@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic‑Tac‑Toe • Rat‑A‑Game</title>
+  <style>
+    :root {
+      --bg: #0f1220;
+      --panel: #14182b;
+      --accent: #7c5cff;
+      --accent-2: #22c55e;
+      --text: #e6e7ee;
+      --muted: #9aa0b6;
+      --danger: #ef4444;
+      --win: #10b981;
+      --grid: #2a3153;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% 0%, #151a33 0%, var(--bg) 55%),
+                  radial-gradient(900px 500px at 100% 0%, #1b2145 0%, transparent 60%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .app {
+      width: min(920px, 96vw);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #161a31 0%, var(--panel) 100%);
+      border: 1px solid #1f2642;
+      overflow: hidden;
+    }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px; border-bottom: 1px solid #202749;
+      background: linear-gradient(180deg,#1b2143,#151a33);
+    }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .logo { width: 42px; height: 42px; border-radius: 12px; background:
+      radial-gradient(60% 60% at 30% 30%, #ffffff 0 10%, transparent 11%),
+      radial-gradient(60% 60% at 60% 60%, #ffffff 0 10%, transparent 11%),
+      conic-gradient(from 0deg, #7c5cff, #22d3ee, #22c55e, #f59e0b, #ef4444, #7c5cff);
+      filter: saturate(1.1) drop-shadow(0 8px 18px rgba(124,92,255,.35));
+      border: 2px solid #2b2f55;
+    }
+    h1 { font-size: clamp(18px, 2.2vw, 22px); margin: 0; letter-spacing: .3px; }
+    .sub { color: var(--muted); font-size: 12px; }
+
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    }
+    .btn, .seg label {
+      background: #1b2143; color: var(--text);
+      border: 1px solid #2a3153; border-radius: 12px;
+      padding: 10px 14px; cursor: pointer; font-weight: 600; letter-spacing: .2px;
+      transition: transform .05s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+    }
+    .btn:hover { background: #1f2652; }
+    .btn:active { transform: translateY(1px) scale(.99); }
+    .btn.secondary { background: #141a34; color: #c7cbe3; }
+    .btn.danger { background: #2a1a1a; border-color: #3a2323; color: #fecaca; }
+
+    .seg { display: inline-grid; grid-auto-flow: column; gap: 8px; }
+    .seg input { display: none; }
+    .seg label { padding: 8px 12px; font-size: 13px; }
+    .seg input:checked + label { background: #262f61; border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+    main { display: grid; grid-template-columns: 360px 1fr; gap: 24px; padding: 20px; }
+    @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+
+    .left {
+      display: grid; gap: 16px; align-content: start;
+    }
+    .score {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .card { background: #121731; border: 1px solid #232a4d; border-radius: 16px; padding: 14px; }
+    .card h3 { margin: 0 0 8px; font-size: 14px; color: var(--muted); font-weight: 600; }
+    .score .tile { display: grid; gap: 6px; align-content: center; text-align: center; padding: 16px; border-radius: 14px; border: 1px solid #25305e; }
+    .score .x { background: linear-gradient(180deg,#1e214b,#252a66); }
+    .score .o { background: linear-gradient(180deg,#1b3b30,#154432); }
+    .score .d { background: linear-gradient(180deg,#3b2a2a,#2d1d1d); }
+    .big { font-size: 26px; font-weight: 800; }
+
+    .board-wrap { display: grid; gap: 14px; }
+    .status { display:flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .status .msg { font-size: 14px; color: #cbd1ec; }
+
+    .board {
+      --size: min(78vw, 520px);
+      width: var(--size); height: var(--size);
+      background: #0f1433; border-radius: 22px; padding: 16px; border: 1px solid #222a51;
+      display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 12px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03), var(--shadow);
+    }
+    .cell {
+      position: relative; display: grid; place-items: center; cursor: pointer; user-select: none;
+      background: radial-gradient(200px 140px at 50% 20%, #1a1f45 0%, #121735 60%);
+      border: 1px solid var(--grid); border-radius: 18px; transition: transform .06s ease, box-shadow .2s ease, background .3s ease;
+      font-size: clamp(42px, 8.6vw, 72px); font-weight: 900; letter-spacing: 2px;
+      text-shadow: 0 4px 10px rgba(0,0,0,.35);
+    }
+    .cell:hover { box-shadow: inset 0 0 0 1px #33407a; }
+    .cell:active { transform: translateY(1px) scale(.99); }
+    .cell[data-v="X"] { color: #aeb8ff; }
+    .cell[data-v="O"] { color: #9cf0c9; }
+    .cell.win { outline: 3px solid var(--win); box-shadow: 0 0 0 4px rgba(16,185,129,.2); }
+    .cell.disabled { cursor: not-allowed; filter: grayscale(.2) brightness(.9); }
+
+    footer { padding: 14px 20px 20px; color: var(--muted); font-size: 12px; }
+    .muted { color: var(--muted); }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #0d1125; border: 1px solid #1f2747; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Tic Tac Toe Rat‑A‑Game">
+    <header>
+      <div class="brand" aria-hidden="true">
+        <div class="logo" title="Rat‑A‑Game"></div>
+        <div>
+          <h1>Tic‑Tac‑Toe — <span style="color:var(--accent)">Rat‑A‑Game</span></h1>
+          <div class="sub">Play vs Friend or Smart AI • Mobile‑friendly • No libraries</div>
+        </div>
+      </div>
+      <div class="controls" aria-label="Game Controls">
+        <div class="seg" role="radiogroup" aria-label="Game Mode">
+          <input type="radio" id="mode2" name="mode" value="pvp" checked>
+          <label for="mode2" title="Two players on the same device">👥 2 Players</label>
+          <input type="radio" id="mode1" name="mode" value="ai">
+          <label for="mode1" title="Play against AI">🤖 vs AI</label>
+        </div>
+        <div class="seg" role="radiogroup" aria-label="Player Token" id="tokenWrap" hidden>
+          <input type="radio" id="asX" name="token" value="X" checked>
+          <label for="asX">You: X</label>
+          <input type="radio" id="asO" name="token" value="O">
+          <label for="asO">You: O</label>
+        </div>
+        <button class="btn" id="new">New Round</button>
+        <button class="btn secondary" id="reset">Reset Scores</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="left">
+        <div class="card">
+          <h3>Scoreboard</h3>
+          <div class="score">
+            <div class="tile x" aria-live="polite">
+              <div>Player X</div>
+              <div class="big" id="sx">0</div>
+            </div>
+            <div class="tile o" aria-live="polite">
+              <div>Player O</div>
+              <div class="big" id="so">0</div>
+            </div>
+            <div class="tile d" aria-live="polite">
+              <div>Draws</div>
+              <div class="big" id="sd">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Tips</h3>
+          <div class="muted">
+            • Click a square to place X or O. <br>
+            • In <strong>vs AI</strong> mode, choose your token (X/O). AI uses the other one and plays optimally (minimax with pruning).<br>
+            • Press <span class="kbd">N</span> for New Round, <span class="kbd">R</span> to Reset scores.
+          </div>
+        </div>
+      </section>
+
+      <section class="board-wrap">
+        <div class="status">
+          <div class="msg" id="msg">Turn: <strong>X</strong></div>
+          <div class="muted" id="modeText">Mode: 2 Players</div>
+        </div>
+        <div class="board" id="board" aria-label="Game Board" role="grid">
+          <!-- 9 cells -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Built for fun by <span class="muted">Rat‑A‑Game</span>. Use your keyboard: <span class="kbd">1..9</span> to play.
+    </footer>
+  </div>
+
+  <script>
+    // ====== State ======
+    const boardEl = document.getElementById('board');
+    const msgEl = document.getElementById('msg');
+    const modeTextEl = document.getElementById('modeText');
+    const tokenWrap = document.getElementById('tokenWrap');
+    const scoreXEl = document.getElementById('sx');
+    const scoreOEl = document.getElementById('so');
+    const scoreDEl = document.getElementById('sd');
+    const btnNew = document.getElementById('new');
+    const btnReset = document.getElementById('reset');
+
+    let state = {
+      board: Array(9).fill(null),
+      turn: 'X',
+      mode: 'pvp', // 'pvp' or 'ai'
+      human: 'X',
+      ai: 'O',
+      scores: { X: 0, O: 0, D: 0 },
+      over: false
+    };
+
+    // Build board
+    const cells = [];
+    for (let i = 0; i < 9; i++) {
+      const c = document.createElement('button');
+      c.className = 'cell';
+      c.setAttribute('role','gridcell');
+      c.setAttribute('aria-label', `Cell ${i+1}`);
+      c.dataset.i = i;
+      c.addEventListener('click', () => handleMove(i));
+      cells.push(c); boardEl.appendChild(c);
+    }
+
+    // Radio controls
+    const modeRadios = Array.from(document.querySelectorAll('input[name="mode"]'));
+    const tokenRadios = Array.from(document.querySelectorAll('input[name="token"]'));
+
+    modeRadios.forEach(r => r.addEventListener('change', () => {
+      state.mode = document.querySelector('input[name="mode"]:checked').value;
+      tokenWrap.hidden = state.mode !== 'ai';
+      modeTextEl.textContent = state.mode === 'ai' ? `Mode: vs AI (${state.human} as You)` : 'Mode: 2 Players';
+      newRound();
+    }));
+
+    tokenRadios.forEach(r => r.addEventListener('change', () => {
+      state.human = document.querySelector('input[name="token"]:checked').value;
+      state.ai = state.human === 'X' ? 'O' : 'X';
+      modeTextEl.textContent = `Mode: vs AI (${state.human} as You)`;
+      newRound();
+      // If human picked O, AI (X) starts
+      if (state.mode === 'ai' && state.turn === state.ai) {
+        aiMove();
+      }
+    }));
+
+    btnNew.addEventListener('click', newRound);
+    btnReset.addEventListener('click', () => { state.scores = { X:0, O:0, D:0 }; syncScore(); newRound(); });
+
+    // Keyboard shortcuts: 1..9 place; N new; R reset
+    window.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (k >= '1' && k <= '9') { const i = parseInt(k,10) - 1; handleMove(i); }
+      if (k === 'n') newRound();
+      if (k === 'r') { state.scores = { X:0, O:0, D:0 }; syncScore(); newRound(); }
+    });
+
+    function handleMove(i) {
+      if (state.over) return;
+      if (state.board[i]) return;
+      // if AI mode and it's AI's turn, ignore human click
+      if (state.mode === 'ai' && state.turn === state.ai) return;
+
+      place(i, state.turn);
+      const res = checkGame(state.board);
+      if (res.done) return finish(res);
+
+      // Switch turn
+      state.turn = other(state.turn);
+      updateMsg();
+
+      // If AI's turn, play
+      if (state.mode === 'ai' && state.turn === state.ai && !state.over) {
+        // small delay for UX
+        setTimeout(aiMove, 180);
+      }
+    }
+
+    function aiMove() {
+      const i = bestMove(state.board, state.ai, state.human);
+      place(i, state.ai);
+      const res = checkGame(state.board);
+      if (res.done) return finish(res);
+      state.turn = other(state.turn);
+      updateMsg();
+    }
+
+    function place(i, v) {
+      state.board[i] = v;
+      cells[i].dataset.v = v;
+      cells[i].textContent = v;
+      cells[i].classList.add('disabled');
+    }
+
+    function finish(res) {
+      state.over = true;
+      if (res.winner) {
+        res.line.forEach(idx => cells[idx].classList.add('win'));
+        msgEl.innerHTML = `Winner: <strong>${res.winner}</strong>`;
+        state.scores[res.winner]++;
+      } else {
+        msgEl.textContent = 'Draw!';
+        state.scores.D++;
+      }
+      syncScore();
+    }
+
+    function newRound() {
+      state.board = Array(9).fill(null);
+      state.over = false;
+      // If AI mode and human is O, AI (X) starts
+      state.turn = (state.mode === 'ai' && state.human === 'O') ? 'X' : 'X';
+      cells.forEach(c => { c.textContent = ''; c.dataset.v = ''; c.classList.remove('win','disabled'); });
+      updateMsg();
+      if (state.mode === 'ai') {
+        state.ai = state.human === 'X' ? 'O' : 'X';
+        modeTextEl.textContent = `Mode: vs AI (${state.human} as You)`;
+      } else {
+        modeTextEl.textContent = 'Mode: 2 Players';
+      }
+      // If AI starts
+      if (state.mode === 'ai' && state.turn === state.ai) {
+        setTimeout(aiMove, 200);
+      }
+    }
+
+    function updateMsg() {
+      msgEl.innerHTML = `Turn: <strong>${state.turn}</strong>`;
+    }
+
+    function syncScore() { scoreXEl.textContent = state.scores.X; scoreOEl.textContent = state.scores.O; scoreDEl.textContent = state.scores.D; }
+
+    function other(p){ return p === 'X' ? 'O' : 'X'; }
+
+    // ====== Game Logic ======
+    const LINES = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ];
+
+    function checkGame(b) {
+      for (const line of LINES) {
+        const [a,b1,c] = line;
+        if (b[a] && b[a] === b[b1] && b[a] === b[c]) {
+          return { done: true, winner: b[a], line };
+        }
+      }
+      if (b.every(Boolean)) return { done: true, winner: null, line: [] };
+      return { done: false };
+    }
+
+    // Minimax with alpha-beta pruning
+    function bestMove(board, ai, human) {
+      // If first move and center free, take center
+      if (board.filter(Boolean).length === 0 && !board[4]) return 4;
+      // If only one move available
+      const empties = board.map((v,i)=>v?null:i).filter(v=>v!==null);
+      if (empties.length === 1) return empties[0];
+
+      let bestScore = -Infinity;
+      let move = empties[0];
+      for (const i of empties) {
+        board[i] = ai;
+        const score = minimax(board, 0, false, ai, human, -Infinity, Infinity);
+        board[i] = null;
+        if (score > bestScore) { bestScore = score; move = i; }
+      }
+      return move;
+    }
+
+    function minimax(b, depth, isMax, ai, human, alpha, beta) {
+      const res = checkGame(b);
+      if (res.done) {
+        if (res.winner === ai) return 10 - depth;
+        if (res.winner === human) return depth - 10;
+        return 0;
+      }
+      const empties = b.map((v,i)=>v?null:i).filter(v=>v!==null);
+      if (isMax) {
+        let best = -Infinity;
+        for (const i of empties) {
+          b[i] = ai;
+          const score = minimax(b, depth+1, false, ai, human, alpha, beta);
+          b[i] = null;
+          best = Math.max(best, score);
+          alpha = Math.max(alpha, score);
+          if (beta <= alpha) break;
+        }
+        return best;
+      } else {
+        let best = Infinity;
+        for (const i of empties) {
+          b[i] = human;
+          const score = minimax(b, depth+1, true, ai, human, alpha, beta);
+          b[i] = null;
+          best = Math.min(best, score);
+          beta = Math.min(beta, score);
+          if (beta <= alpha) break;
+        }
+        return best;
+      }
+    }
+
+    // Init
+    newRound();
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="g2" x1="1200" y1="0" x2="0" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14b8a6"/>
+      <stop offset="0.45" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#4c1d95"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="rgb(148 163 184 / 0.12)" stroke-width="1" fill="none"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#020617"/>
+  <rect width="1200" height="630" fill="url(#g2)" opacity="0.4"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.6"/>
+  <rect x="80" y="80" width="1040" height="470" rx="28" stroke="rgb(94 234 212 / 0.25)" stroke-width="2" fill="rgb(15 23 42 / 0.35)"/>
+  <rect x="140" y="160" width="280" height="20" rx="6" fill="rgb(45 212 191 / 0.35)"/>
+  <rect x="140" y="210" width="520" height="14" rx="4" fill="rgb(148 163 184 / 0.2)"/>
+  <rect x="140" y="240" width="440" height="14" rx="4" fill="rgb(148 163 184 / 0.15)"/>
+  <circle cx="1020" cy="200" r="64" stroke="rgb(56 189 248 / 0.35)" stroke-width="4" fill="none"/>
+</svg>

@@ -1,0 +1,78 @@
+{
+  "name": "Abdul Hamid Shuvo",
+  "title": "Senior Software Engineer",
+  "location": "Dhaka, Bangladesh - open to remote",
+  "email": "me@suvo.me",
+  "website": "https://suvo.me",
+  "linkedin": "https://www.linkedin.com/in/shuv0",
+  "github": "https://github.com/suv0",
+  "summary": "Staff-level product engineer with 16+ years in software — Dwetech from 2009 through 2016 (60+ international client projects) and 9+ years at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.",
+  "strengths": [
+    "Frontend and mobile product ownership across React, React Native, Next.js, TypeScript, and accessibility-minded UI.",
+    "Production systems judgment from grocery, logistics, payments, dispatch, and unstable-network field operations.",
+    "Backend and platform fluency with F#, .NET, REST APIs, PostgreSQL, Redis, PHP, and MySQL.",
+    "Cross-functional delivery: product shaping, release management, code review, mentoring, regulatory documentation, and stakeholder communication."
+  ],
+  "experience": [
+    {
+      "role": "Senior Software Engineer",
+      "company": "Chaldal (YC S15)",
+      "location": "Dhaka, Bangladesh",
+      "period": "Jan 2017 - Present",
+      "highlights": [
+        "Joined when Chaldal had minimal desktop web, no mobile web, and no production native shopper apps; built the mobile web from zero and evolved the production shopper web experience.",
+        "Built the original Android and iOS Chaldal shopper apps from the ground up as primary engineer, with ongoing ownership across releases and shopper-stack reliability.",
+        "Owned Chalao consumer ride-sharing product work under Chaldal, including app delivery plus BRTA meetings, documentation, and licensing/enlistment work.",
+        "Own Chalao Driver, a React Native logistics app for Chaldal's last-mile delivery network, designed around dispatch pressure, unreliable connectivity, location accuracy, and Play Store releases.",
+        "Shipped Protocol for 1,000+ internal users and contributed to Subject / EggShell frontend architecture and reusable product foundations."
+      ]
+    },
+    {
+      "role": "Co-founder & Lead Developer",
+      "company": "Dwetech",
+      "location": "Bangladesh / remote client delivery",
+      "period": "Jun 2009 - Dec 2016",
+      "highlights": [
+        "Co-founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
+        "Built client systems across PHP, JavaScript, CMS ecosystems, integrations, automation-heavy workflows, and productized internal tools.",
+        "Maintained a 5.0 rating across 63 completed Freelancer.com projects, including long-running repeat enterprise engagements."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Chaldal Shopper App",
+      "details": "Consumer grocery app for Chaldal's national delivery platform. Primary engineer on the original Android and iOS builds; Android 1M+ downloads, 4.4 rating, iOS 4.8 rating."
+    },
+    {
+      "name": "Chalao Driver",
+      "details": "Production React Native driver app for dispatch, navigation, earnings, and field operations in Chaldal's last-mile logistics network."
+    },
+    {
+      "name": "Protocol by Chaldal",
+      "details": "Internal collaboration platform used by operations, finance, HR, and engineering teams; supports task visibility and workflow coordination for 1,000+ users."
+    },
+    {
+      "name": "Subject / EggShell",
+      "details": "Open-source application stack contribution focused on frontend APIs, reusable component patterns, and product development foundations."
+    }
+  ],
+  "skills": [
+    {
+      "group": "Frontend",
+      "items": ["TypeScript", "React", "Next.js", "Tailwind CSS", "Accessibility", "Performance"]
+    },
+    {
+      "group": "Mobile",
+      "items": ["React Native", "Android releases", "iOS releases", "Location systems", "Field operations"]
+    },
+    {
+      "group": "Backend & data",
+      "items": ["F#", ".NET", "REST APIs", "PostgreSQL", "Redis", "PHP", "MySQL"]
+    },
+    {
+      "group": "Practice",
+      "items": ["System design", "Release management", "Code review", "CI/CD", "Mentorship"]
+    }
+  ]
+}

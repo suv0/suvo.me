@@ -1,0 +1,26 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: suvo-me-portfolio:latest
+    container_name: suvo-portfolio
+    # Bind to loopback only: not reachable from LAN/WAN on :5050. Use Cloudflare Tunnel (or curl from this host) for access.
+    ports:
+      - "127.0.0.1:5050:5050"
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:5050/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 4
+      start_period: 25s
+

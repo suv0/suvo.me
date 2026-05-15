@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alphabet Playground</title>
+  <style>
+    :root{
+      --bg: #f8fafc; /* slate-50 */
+      --card: #ffffff;
+      --ink: #0f172a; /* slate-900 */
+      --muted: #64748b; /* slate-500 */
+      --brand: #7c3aed; /* violet-600 */
+      --brand-2: #06b6d4; /* cyan-500 */
+      --win: #22c55e; /* green-500 */
+      --lose: #ef4444; /* red-500 */
+      --gold: #f59e0b; /* amber-500 */
+      --shadow: 0 10px 25px rgba(2,6,23,.08), 0 2px 6px rgba(2,6,23,.06);
+      --radius-xl: 20px;
+    }
+    *{box-sizing:border-box}
+    html, body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, #e9d5ff, transparent 40%), radial-gradient(1000px 500px at 110% 0%, #cffafe, transparent 35%), var(--bg);
+      color: var(--ink);
+    }
+    header{ position:sticky; top:0; z-index:10; backdrop-filter: blur(6px); background: linear-gradient(to bottom, rgba(255,255,255,.9), rgba(255,255,255,.6)); border-bottom: 1px solid rgba(2,6,23,.06); }
+    .wrap{max-width:1200px; margin:0 auto; padding: 16px;}
+    .app-title{display:flex; align-items:center; gap:14px;}
+    .logo{ width:44px; height:44px; border-radius:14px; background: conic-gradient(from 180deg at 50% 50%, #7c3aed, #06b6d4, #22c55e, #f59e0b, #ef4444, #7c3aed); box-shadow: var(--shadow); }
+    .app-title h1{font-size: clamp(22px, 2.5vw, 32px); margin:0}
+    .stars{ margin-left:auto; display:flex; align-items:center; gap:6px; font-weight:700; color:var(--gold) }
+    .pill{padding:6px 10px; border-radius:999px; background:#fff; box-shadow: var(--shadow); color:var(--muted); font-size:12px}
+
+    /* Tabs */
+    .tabs{ display:flex; gap:8px; flex-wrap: wrap; margin-top:12px }
+    .tab-btn{ appearance:none; border:0; background:#fff; color:var(--ink); padding:10px 14px; border-radius:999px; box-shadow: var(--shadow); font-weight:700; cursor:pointer; transition: transform .05s ease, box-shadow .2s ease; outline-offset:3px; }
+    .tab-btn[aria-selected="true"]{ background: linear-gradient(135deg, #7c3aed, #06b6d4); color:#fff }
+    .tab-btn:active{ transform: translateY(1px) }
+
+    main{ max-width:1200px; margin:18px auto; padding: 0 16px 32px }
+    section.panel{ display:none }
+    section.panel.active{ display:block }
+
+    /* Card Grid */
+    .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(86px,1fr)); gap:14px }
+    .card{ background: var(--card); border-radius: var(--radius-xl); box-shadow: var(--shadow); aspect-ratio: 1 / 1; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer; user-select:none; transition: transform .08s ease, box-shadow .2s; }
+    .card:hover{ transform: translateY(-2px)}
+    .card:active{ transform: translateY(1px)}
+    .card .letter{ font-size: clamp(28px, 6vw, 42px); font-weight:900 }
+    .card small{ position:absolute; bottom:8px; left:10px; right:10px; text-align:center; color:var(--muted); font-weight:600 }
+
+    /* Learn area */
+    .learn-area{ display:grid; grid-template-columns: 1.2fr .8fr; gap:18px }
+    @media (max-width: 840px){ .learn-area{ grid-template-columns:1fr } }
+    .stage{ background:#fff; border-radius: var(--radius-xl); box-shadow: var(--shadow); padding:18px; min-height: 260px; display:grid; grid-template-columns: 1fr; align-items:center; justify-items:center; text-align:center; position:relative; }
+    .stage .big{ font-size: clamp(80px, 18vw, 140px); font-weight: 900; line-height: .8 }
+    .stage .emoji{ font-size: clamp(36px, 10vw, 64px) }
+    .stage .word{ font-size: clamp(18px, 4vw, 28px); color:var(--muted); font-weight:800; letter-spacing:.5px }
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:8px }
+    .btn{ appearance:none; border:0; border-radius:12px; background:#0ea5e9; color:#fff; padding:10px 14px; font-weight:800; cursor:pointer; box-shadow: var(--shadow) }
+    .btn.secondary{ background:#7c3aed }
+
+    /* Drag & Match */
+    .match-wrap{ display:grid; grid-template-columns: 1fr 1fr; gap:18px }
+    @media (max-width: 760px){ .match-wrap{ grid-template-columns:1fr } }
+    .dragbox, .dropbox{ background:#fff; border-radius: var(--radius-xl); box-shadow: var(--shadow); padding:16px; min-height: 220px }
+    .draggable{ display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; border-radius:14px; background:linear-gradient(135deg,#06b6d4,#7c3aed); color:#fff; font-weight:900; font-size:28px; margin:8px; cursor:grab }
+    .drop{ display:inline-flex; align-items:center; justify-content:center; width:72px; height:72px; border-radius:16px; border:3px dashed #cbd5e1; color:#94a3b8; font-size:24px; margin:8px }
+    .drop.ok{ border-color: var(--win); color:var(--win)}
+    .drop.bad{ border-color: var(--lose); color:var(--lose)}
+
+    /* Memory */
+    .memory-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(90px,1fr)); gap:12px }
+    .tile{ position:relative; aspect-ratio:1/1; perspective: 800px }
+    .tile > button{ width:100%; height:100%; border:0; border-radius:18px; background:#e2e8f0; box-shadow: var(--shadow); cursor:pointer; font-size:32px; font-weight:900; transform-style: preserve-3d; transition: transform .35s }
+    .tile.flipped > button{ transform: rotateY(180deg) }
+    .tile > button > span{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; border-radius:18px }
+    .front{ background:linear-gradient(135deg,#7c3aed,#06b6d4); color:#fff }
+    .back{ background:#fff; transform:rotateY(180deg) }
+
+    /* Listen & Type */
+    .type-wrap{ background:#fff; border-radius: var(--radius-xl); box-shadow: var(--shadow); padding:18px; text-align:center }
+    .type-input{ font-size:40px; width:120px; text-align:center; padding:10px; border-radius:12px; border:2px solid #cbd5e1; font-weight:900 }
+    .kbd{ display:inline-block; padding:2px 8px; border-radius:8px; background:#eef2ff; border:1px solid #c7d2fe; font-weight:800 }
+
+    /* Tracing */
+    .trace-wrap{ background:#fff; border-radius: var(--radius-xl); box-shadow: var(--shadow); padding:18px; text-align:center }
+    canvas#traceCanvas{ width:100%; max-width:560px; height:auto; aspect-ratio: 4 / 5; background: repeating-linear-gradient(0deg, #f8fafc 0 24px, #eff6ff 24px 25px); border-radius:18px; box-shadow: var(--shadow); touch-action: none; }
+    .ghost-letter{ position:absolute; font-size: clamp(160px, 32vw, 280px); color:#93c5fd; opacity:.3; font-weight:900; left:50%; top:50%; transform:translate(-50%,-55%); pointer-events:none; user-select:none }
+    .trace-tools{ display:flex; gap:10px; justify-content:center; margin-top:10px }
+
+    /* Footer */
+    footer{ text-align:center; color:var(--muted); padding:22px 0 }
+
+    /* Utility */
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0 }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="app-title" role="banner">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Alphabet Playground</h1>
+        <div class="stars" title="Your stars">
+          ⭐ <span id="starCount">0</span>
+          <span class="pill" id="progressPill">0% mastered</span>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Modes">
+        <button class="tab-btn" role="tab" aria-selected="true" aria-controls="learn" id="tab-learn">Learn</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="match" id="tab-match">Match</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="memory" id="tab-memory">Memory</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="type" id="tab-type">Listen & Type</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="trace" id="tab-trace">Trace</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Learn Panel -->
+    <section id="learn" class="panel active" role="tabpanel" aria-labelledby="tab-learn">
+      <div class="learn-area">
+        <div class="stage" aria-live="polite">
+          <div>
+            <div class="big" id="bigLetter">A</div>
+            <div class="emoji" id="bigEmoji" aria-hidden="true">🍎</div>
+            <div class="word" id="bigWord">Apple</div>
+            <div class="controls">
+              <button class="btn" id="btnSpeak">🔊 Say it</button>
+              <button class="btn secondary" id="btnRandom">🎲 Random</button>
+              <button class="btn" id="btnStar">⭐ Earn Star</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="pill" style="margin-bottom:10px">Tap a letter to learn</div>
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Match Panel -->
+    <section id="match" class="panel" role="tabpanel" aria-labelledby="tab-match">
+      <div class="match-wrap">
+        <div class="dragbox">
+          <div class="pill">Drag these</div>
+          <div id="dragZone"></div>
+        </div>
+        <div class="dropbox">
+          <div class="pill">Drop on matches</div>
+          <div id="dropZone"></div>
+          <div class="controls" style="justify-content:flex-start">
+            <button class="btn" id="btnNewMatch">New Set</button>
+            <span id="matchMsg" class="pill">Match upper ➜ lower</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Memory Panel -->
+    <section id="memory" class="panel" role="tabpanel" aria-labelledby="tab-memory">
+      <div class="pill" style="margin-bottom:10px">Flip to find pairs (A with a)</div>
+      <div class="memory-grid" id="memoryGrid"></div>
+      <div class="controls">
+        <button class="btn" id="btnMemoryNew">Shuffle</button>
+        <span id="memoryMsg" class="pill">0 moves</span>
+      </div>
+    </section>
+
+    <!-- Listen & Type Panel -->
+    <section id="type" class="panel" role="tabpanel" aria-labelledby="tab-type">
+      <div class="type-wrap">
+        <p>Press <span class="kbd">🔊 Speak</span>. Type the letter you hear!</p>
+        <div class="controls" style="justify-content:center">
+          <button class="btn" id="btnPlayLetter">🔊 Speak</button>
+          <input id="typeInput" class="type-input" maxlength="1" aria-label="Type the letter"/>
+          <button class="btn" id="btnCheckType">Check</button>
+        </div>
+        <p id="typeMsg" class="pill" style="display:inline-block; margin-top:10px">Ready?</p>
+      </div>
+    </section>
+
+    <!-- Trace Panel -->
+    <section id="trace" class="panel" role="tabpanel" aria-labelledby="tab-trace">
+      <div class="trace-wrap">
+        <p class="pill">Pick a letter and trace over it with your finger or mouse</p>
+        <div style="position:relative; display:grid; place-items:center">
+          <canvas id="traceCanvas" width="560" height="700" aria-label="Tracing canvas"></canvas>
+          <div class="ghost-letter" id="ghost">A</div>
+        </div>
+        <div class="trace-tools">
+          <label>Letter:
+            <select id="traceLetter"></select>
+          </label>
+          <label>Pen size:
+            <input type="range" id="pen" min="3" max="22" value="8" />
+          </label>
+          <button class="btn" id="btnClearTrace">Clear</button>
+          <button class="btn secondary" id="btnSaveTrace">Save drawing</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with ❤ for curious kids. Press any key A–Z to highlight a letter.
+  </footer>
+
+  <audio id="ding" preload="auto">
+    <source src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAAACAAACcQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/mp3"/>
+  </audio>
+
+  <script>
+    // --- Data ---------------------------------------------------------------
+    const ALPHABET = [
+      ['A','Apple','🍎'], ['B','Bee','🐝'], ['C','Cat','🐱'], ['D','Dog','🐶'],
+      ['E','Elephant','🐘'], ['F','Fish','🐟'], ['G','Grapes','🍇'], ['H','House','🏠'],
+      ['I','Ice','🧊'], ['J','Juice','🧃'], ['K','Kite','🪁'], ['L','Lion','🦁'],
+      ['M','Moon','🌙'], ['N','Nest','🪹'], ['O','Orange','🍊'], ['P','Panda','🐼'],
+      ['Q','Queen','👑'], ['R','Rainbow','🌈'], ['S','Sun','☀️'], ['T','Tree','🌳'],
+      ['U','Umbrella','☂️'], ['V','Violin','🎻'], ['W','Whale','🐳'], ['X','Xylophone','🎼'],
+      ['Y','Yo-yo','🪀'], ['Z','Zebra','🦓']
+    ];
+
+    const voicesReady = new Promise(resolve => {
+      if (!('speechSynthesis' in window)) return resolve(false);
+      const iv = setInterval(() => {
+        const v = speechSynthesis.getVoices();
+        if (v && v.length) { clearInterval(iv); resolve(true); }
+      }, 100);
+      setTimeout(()=>{ clearInterval(iv); resolve(true); }, 1500);
+    });
+
+    // --- Stars / Progress ---------------------------------------------------
+    const starEl = document.getElementById('starCount');
+    const progressPill = document.getElementById('progressPill');
+    const store = {
+      get stars(){ return Number(localStorage.getItem('ap_stars')||0)},
+      set stars(v){ localStorage.setItem('ap_stars', v); starEl.textContent = v; },
+      get mastered(){ try {return JSON.parse(localStorage.getItem('ap_mastered')||'{}')} catch {return {}} },
+      set mastered(m){ localStorage.setItem('ap_mastered', JSON.stringify(m)); updateProgress(); }
+    }
+    starEl.textContent = store.stars;
+    const updateProgress = () => {
+      const mastered = store.mastered;
+      const count = Object.values(mastered).filter(Boolean).length;
+      const pct = Math.round(count / 26 * 100);
+      progressPill.textContent = `${pct}% mastered`;
+    }
+    updateProgress();
+
+    // --- Tabs ---------------------------------------------------------------
+    const panels = [...document.querySelectorAll('section.panel')];
+    const tabs = [...document.querySelectorAll('.tab-btn')];
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(b => b.setAttribute('aria-selected','false'));
+      t.setAttribute('aria-selected','true');
+      panels.forEach(p => p.classList.remove('active'));
+      const active = document.getElementById(t.getAttribute('aria-controls'));
+      active.classList.add('active');
+      if (t.getAttribute('aria-controls')==='trace') {
+        requestAnimationFrame(()=>{ try { resizeCanvas(); } catch(e){} });
+      }
+    }));
+
+    // --- Learn Grid ---------------------------------------------------------
+    const grid = document.getElementById('grid');
+    const bigLetter = document.getElementById('bigLetter');
+    const bigWord = document.getElementById('bigWord');
+    const bigEmoji = document.getElementById('bigEmoji');
+
+    function speak(text){
+      if (!('speechSynthesis' in window)) return;
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = .9; u.pitch = 1;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    }
+
+    function setStage(idx){
+      const [L, w, e] = ALPHABET[idx];
+      bigLetter.textContent = L; bigWord.textContent = w; bigEmoji.textContent = e;
+      currentIndex = idx;
+    }
+
+    let currentIndex = 0; setStage(0);
+    ALPHABET.forEach(([L, w, e], i) => {
+      const el = document.createElement('button');
+      el.className = 'card';
+      el.innerHTML = `<div class="letter">${L}</div><small>${w}</small>`;
+      el.setAttribute('aria-label', `${L} for ${w}`);
+      el.addEventListener('click', () => { setStage(i); flash(el); playDing(); speak(`${L}. ${w}.`); });
+      grid.appendChild(el);
+    });
+
+    const btnSpeak = document.getElementById('btnSpeak');
+    const btnRandom = document.getElementById('btnRandom');
+    const btnStar = document.getElementById('btnStar');
+
+    btnSpeak.addEventListener('click', async () => {
+      await voicesReady; const [L,w] = ALPHABET[currentIndex]; speak(`${L}. ${w}.`);
+    });
+    btnRandom.addEventListener('click', () => setStage(Math.floor(Math.random()*26)));
+    btnStar.addEventListener('click', () => {
+      store.stars = store.stars + 1; confetti();
+      const m = store.mastered; m[ALPHABET[currentIndex][0]] = true; store.mastered = m;
+    });
+
+    function flash(el){ el.animate([{transform:'scale(1.0)'},{transform:'scale(1.06)'}],{duration:150, direction:'alternate'}); }
+    function playDing(){ const a=document.getElementById('ding'); a.currentTime=0; a.play().catch(()=>{}); }
+
+    // Highlight on keyboard press
+    window.addEventListener('keydown', e => {
+      const k = e.key.toUpperCase();
+      const idx = ALPHABET.findIndex(([L]) => L===k);
+      if (idx>-1){ setStage(idx); speak(`${ALPHABET[idx][0]}`); }
+    });
+
+    // --- Drag & Match -------------------------------------------------------
+    const dragZone = document.getElementById('dragZone');
+    const dropZone = document.getElementById('dropZone');
+    const btnNewMatch = document.getElementById('btnNewMatch');
+    const matchMsg = document.getElementById('matchMsg');
+
+    function newMatchSet(){
+      dragZone.innerHTML = ''; dropZone.innerHTML = ''; matchMsg.textContent = 'Match upper ➜ lower';
+      const picks = shuffle([...ALPHABET]).slice(0,8);
+      picks.forEach(([L]) => {
+        const d = document.createElement('div'); d.className='draggable'; d.draggable=true; d.textContent=L; d.dataset.letter=L;
+        d.addEventListener('dragstart', ev => { ev.dataTransfer.setData('text/plain', L); });
+        dragZone.appendChild(d);
+      });
+      const lowers = shuffle(picks.map(([L]) => L.toLowerCase()));
+      lowers.forEach(l => {
+        const drop = document.createElement('div'); drop.className='drop'; drop.textContent=l; drop.dataset.letter=l;
+        drop.addEventListener('dragover', ev => ev.preventDefault());
+        drop.addEventListener('drop', ev => {
+          ev.preventDefault(); const L = ev.dataTransfer.getData('text/plain');
+          if (!L) return; const ok = L.toLowerCase()===drop.dataset.letter;
+          drop.classList.remove('bad','ok'); drop.classList.add(ok?'ok':'bad');
+          if (ok){ drop.textContent = `${L}✓`; const drag = [...dragZone.children].find(c=>c.dataset.letter===L); if (drag) drag.remove(); playDing(); }
+          checkMatchWin();
+        });
+        dropZone.appendChild(drop);
+      });
+    }
+    function checkMatchWin(){
+      if (!dragZone.children.length){ matchMsg.textContent = 'Great job! ⭐ +1'; store.stars = store.stars + 1; confetti(); }
+    }
+    btnNewMatch.addEventListener('click', newMatchSet);
+    newMatchSet();
+
+    // --- Memory Game --------------------------------------------------------
+    const memoryGrid = document.getElementById('memoryGrid');
+    const btnMemoryNew = document.getElementById('btnMemoryNew');
+    const memoryMsg = document.getElementById('memoryMsg');
+    let first=null, second=null, lock=false, moves=0, pairs=0;
+
+    function buildMemory(){
+      memoryGrid.innerHTML=''; first=second=null; lock=false; moves=0; pairs=0; memoryMsg.textContent='0 moves';
+      const set = shuffle([...ALPHABET]).slice(0,6); // 6 pairs = 12 tiles
+      const tiles = [];
+      set.forEach(([L]) => { tiles.push({text:L, key:L, kind:'U'}); tiles.push({text:L.toLowerCase(), key:L, kind:'L'}); });
+      shuffle(tiles).forEach((t,i)=> memoryGrid.appendChild(makeTile(t)));
+    }
+
+    function makeTile(t){
+      const tile = document.createElement('div'); tile.className='tile'; tile.dataset.key=t.key; tile.dataset.kind=t.kind;
+      const btn = document.createElement('button');
+      btn.innerHTML = `<span class="front"></span><span class="back">${t.text}</span>`;
+      btn.addEventListener('click', ()=> flip(tile));
+      tile.appendChild(btn); return tile;
+    }
+
+    function flip(tile){
+      if (lock || tile.classList.contains('flipped')) return;
+      tile.classList.add('flipped');
+      if (!first) { first = tile; return; }
+      second = tile; lock = true; moves++; memoryMsg.textContent = `${moves} moves`;
+      const match = first.dataset.key===second.dataset.key && first.dataset.kind!==second.dataset.kind;
+      setTimeout(()=>{
+        if (match){
+          first.style.visibility = 'hidden'; second.style.visibility = 'hidden';
+          pairs++; playDing();
+          if (pairs===6){ memoryMsg.textContent = `You matched all pairs in ${moves} moves! ⭐ +1`; store.stars = store.stars + 1; confetti(); }
+        } else { first.classList.remove('flipped'); second.classList.remove('flipped'); }
+        first=null; second=null; lock=false;
+      }, 650);
+    }
+
+    btnMemoryNew.addEventListener('click', buildMemory);
+    buildMemory();
+
+    // --- Listen & Type ------------------------------------------------------
+    let currentTarget = 'A';
+    const typeInput = document.getElementById('typeInput');
+    const typeMsg = document.getElementById('typeMsg');
+    const btnPlayLetter = document.getElementById('btnPlayLetter');
+    const btnCheckType = document.getElementById('btnCheckType');
+
+    function newTarget(){ currentTarget = ALPHABET[Math.floor(Math.random()*26)][0]; }
+    async function speakTarget(){ await voicesReady; speak(currentTarget); }
+
+    btnPlayLetter.addEventListener('click', ()=>{ newTarget(); speakTarget(); typeInput.value=''; typeInput.focus(); typeMsg.textContent='Type what you hear'; })
+    btnCheckType.addEventListener('click', ()=>{
+      const v = (typeInput.value||'').toUpperCase();
+      if (!v) return;
+      const ok = v===currentTarget;
+      typeMsg.textContent = ok? 'Correct! ⭐ +1' : `Oops, it was ${currentTarget}`;
+      if (ok){ store.stars = store.stars + 1; playDing(); confetti(); }
+    });
+
+    // --- Trace --------------------------------------------------------------
+    const canvas = document.getElementById('traceCanvas');
+    const ctx = canvas.getContext('2d');
+    const pen = document.getElementById('pen');
+    const ghost = document.getElementById('ghost');
+    const traceLetter = document.getElementById('traceLetter');
+    const btnClearTrace = document.getElementById('btnClearTrace');
+    const btnSaveTrace = document.getElementById('btnSaveTrace');
+
+    // Populate letter select
+    ALPHABET.forEach(([L])=>{ const o=document.createElement('option'); o.value=L; o.textContent=L; traceLetter.appendChild(o); });
+
+    function resizeCanvas(){
+      const ratio = window.devicePixelRatio || 1;
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return; // skip if hidden
+      canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(ratio, ratio);
+      drawBackground();
+    }
+
+    function drawBackground(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      ctx.save(); ctx.globalAlpha=.08; ctx.fillStyle = '#0f172a';
+      for (let y=40; y<h; y+=40){ for (let x=40; x<w; x+=40){ ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2); ctx.fill(); } }
+      ctx.restore();
+    }
+
+    let drawing=false, last=null;
+    function pos(evt){
+      const r = canvas.getBoundingClientRect();
+      const x = (evt.touches? evt.touches[0].clientX : evt.clientX) - r.left;
+      const y = (evt.touches? evt.touches[0].clientY : evt.clientY) - r.top;
+      return {x, y};
+    }
+    function start(evt){ drawing=true; last=pos(evt); evt.preventDefault(); }
+    function move(evt){ if (!drawing) return; evt.preventDefault(); const p = pos(evt); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle='#111827'; ctx.lineWidth=Number(pen.value); ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); last=p; }
+    function end(){ drawing=false; last=null; }
+
+    canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
+    canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
+
+    btnClearTrace.addEventListener('click', drawBackground);
+    btnSaveTrace.addEventListener('click', ()=>{
+      const link = document.createElement('a'); link.download = `my-tracing-${traceLetter.value}.png`; link.href = canvas.toDataURL('image/png'); link.click();
+    });
+
+    traceLetter.addEventListener('change', ()=>{ ghost.textContent = traceLetter.value; });
+
+    // Init trace canvas
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // --- Helpers ------------------------------------------------------------
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] } return arr }
+
+    // Confetti (minimal, no deps)
+    function confetti(){
+      const N=120, dur=1000; const frag=document.createDocumentFragment();
+      const box = document.body.appendChild(Object.assign(document.createElement('div'),{style:`position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999`}));
+      for(let i=0;i<N;i++){
+        const p = document.createElement('div');
+        const size = 6 + Math.random()*8;
+        p.style.cssText = `position:absolute;width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-10px;background:hsl(${Math.random()*360} 90% 60%);border-radius:${Math.random()<.5?2:50}%;opacity:.9`;
+        frag.appendChild(p);
+        const x = (Math.random()*2-1)*200; const y = 100 + Math.random()*120; const rot = (Math.random()*2-1)*180;
+        p.animate([
+          { transform: `translate(0,0) rotate(0deg)`},
+          { transform: `translate(${x}px, ${y+window.innerHeight}px) rotate(${rot}deg)`}
+        ], { duration: dur + Math.random()*600, easing:'cubic-bezier(.2,.7,.2,1)', fill:'forwards' });
+      }
+      box.appendChild(frag);
+      setTimeout(()=> box.remove(), 1800);
+    }
+
+    // Set initial select & ghost
+    document.getElementById('traceLetter').value = 'A';
+    document.getElementById('ghost').textContent = 'A';
+
+    // Warm up voices
+    voicesReady.then(()=>{});
+  </script>
+</body>
+</html>
