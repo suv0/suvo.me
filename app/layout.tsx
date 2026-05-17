@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -63,7 +65,11 @@ export default function RootLayout({
       <head>
         {facebookAppId ? <meta property="fb:app_id" content={facebookAppId} /> : null}
       </head>
-      <body className="flex min-h-full min-w-0 flex-col overflow-x-hidden">{children}</body>
+      <body className="flex min-h-full min-w-0 flex-col overflow-x-hidden">
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
