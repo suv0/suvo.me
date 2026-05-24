@@ -51,6 +51,7 @@ export const getElapsedYears = (startYear: number, year: number = getCurrentYear
 
 export const CAREER_START_YEAR = 2009;
 export const CHALDAL_START_YEAR = 2017;
+const PROFILE_NAME = "Abdul Hamid Shuvo";
 
 export const getProfileTenure = (year: number = getCurrentYear()) => {
   const careerYears = getElapsedYears(CAREER_START_YEAR, year);
@@ -66,11 +67,11 @@ export const getProfileTenure = (year: number = getCurrentYear()) => {
 
 export const getHeroTagline = (year: number = getCurrentYear()): string => {
   const { careerYears, chaldalYears } = getProfileTenure(year);
-  return `I'm Abdul Hamid Shuvo — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
+  return `I'm ${PROFILE_NAME} — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
 };
 
 export const profile = {
-  name: "Abdul Hamid Shuvo",
+  name: PROFILE_NAME,
   shortName: "Shuvo",
   title: "Senior Software Engineer",
   /** One-line role stack for hero chips / marquee context */
