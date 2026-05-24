@@ -38,6 +38,7 @@ const profileMotion = {
 /** Large editorial hero portrait — matches `sizes` on `Image` below. */
 const heroPortraitSizes =
   "(max-width: 639px) 88vw, (max-width: 1023px) 360px, (max-width: 1279px) 400px, (max-width: 1535px) 440px, 500px";
+const MIN_DISPLAY_YEARS = 1;
 
 function HeroPortraitFrame() {
   return (
@@ -63,7 +64,9 @@ function HeroPortraitFrame() {
 
 function HeroStatChip({ stat }: { stat: HeroStat }) {
   const currentYear = new Date().getUTCFullYear();
-  const value = stat.startYear ? `${Math.max(1, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}` : stat.value ?? "";
+  const value = stat.startYear
+    ? `${Math.max(MIN_DISPLAY_YEARS, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}`
+    : stat.value ?? "";
 
   return (
     <div className="stat-chip">
