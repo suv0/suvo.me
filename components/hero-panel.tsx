@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useSyncExternalStore } from "react";
 import { motionEaseSoft } from "@/lib/motion";
-import { profile, type HeroStat } from "@/lib/portfolio-data";
+import { getCurrentYear, getElapsedYears, profile, type HeroStat } from "@/lib/portfolio-data";
 
 const staggerParent = {
   hidden: {},
@@ -39,6 +39,7 @@ const profileMotion = {
 const heroPortraitSizes =
   "(max-width: 639px) 88vw, (max-width: 1023px) 360px, (max-width: 1279px) 400px, (max-width: 1535px) 440px, 500px";
 const MIN_DISPLAY_YEARS = 1;
+const currentYear = getCurrentYear();
 
 function HeroPortraitFrame() {
   return (
@@ -63,10 +64,9 @@ function HeroPortraitFrame() {
 }
 
 function HeroStatChip({ stat }: { stat: HeroStat }) {
-  const currentYear = new Date().getFullYear();
   const value =
     "startYear" in stat
-      ? `${Math.max(MIN_DISPLAY_YEARS, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}`
+      ? `${Math.max(MIN_DISPLAY_YEARS, getElapsedYears(stat.startYear, currentYear))}${stat.yearSuffix ?? ""}`
       : stat.value;
 
   return (

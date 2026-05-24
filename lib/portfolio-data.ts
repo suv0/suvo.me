@@ -45,6 +45,16 @@ type HeroStatWithStartYear = BaseHeroStat & {
 
 export type HeroStat = HeroStatWithValue | HeroStatWithStartYear;
 
+export const getCurrentYear = (): number => new Date().getFullYear();
+export const getElapsedYears = (startYear: number, year: number = getCurrentYear()): number =>
+  Math.max(1, year - startYear);
+
+const CAREER_START_YEAR = 2009;
+const CHALDAL_START_YEAR = 2017;
+const currentYear = getCurrentYear();
+const careerYears = getElapsedYears(CAREER_START_YEAR, currentYear);
+const chaldalYears = getElapsedYears(CHALDAL_START_YEAR, currentYear);
+
 export const profile = {
   name: "Abdul Hamid Shuvo",
   shortName: "Shuvo",
@@ -64,15 +74,15 @@ export const profile = {
   /** AI studio portrait (editorial crop); high-res asset in `public/`. */
   profileImage: "/hero-portrait-editorial.png",
   tagline:
-    "I'm Abdul Hamid Shuvo — 16 years building software, the last 9 at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.",
+    `I'm Abdul Hamid Shuvo — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`,
   heroSummary:
     "As a senior software engineer, I still build and own products end to end — from first mobile web through native apps to field logistics — with reliability under flaky networks, dispatch pressure, and a steady release cadence. From 2009 through 2016 I co-founded Dwetech and delivered 60+ international client projects; since January 2017 at Chaldal: mobile web from zero, native shopper apps, Chalao ride-sharing (BRTA licensing), Chalao Driver for last-mile logistics, and Protocol with platform architecture in F# and TypeScript.",
   about:
     "I started freelancing and co-founded Dwetech in 2009, delivering 60+ international projects over roughly seven years for clients across the USA, UK, Canada, and Australia. In January 2017, Chaldal (YC S15, ~2,200 staff) had minimal desktop web, no mobile web, and no production native shopper apps on a national-scale grocery and logistics platform. I built mobile web alone from zero, rebuilt and evolved the desktop experience, and led the ground-up Android and iOS shopper apps with teammates on delivery. After that foundation, I moved into Chalao as a consumer ride-sharing product under Chaldal: I built the app and carried BRTA meetings, documentation, and licensing so we could enlist; the ride business did not continue. Today the name Chalao also covers Chalao Driver, our logistics driver app for Chaldal’s own delivery network, which I own end to end with the same rigor I brought to the shopper stack — spanning logistics apps and platform architecture.",
   cta: "Open to Staff Product Engineer and Senior/Staff Software Engineer roles — remote or Dhaka-based. Reach out at me@suvo.me.",
   heroStats: [
-    { label: "Career", startYear: 2009, yearSuffix: "+ yrs" },
-    { label: "Chaldal · National scale · YC S15", startYear: 2017, yearSuffix: "+ yrs" },
+    { label: "Career", startYear: CAREER_START_YEAR, yearSuffix: "+ yrs" },
+    { label: "Chaldal · National scale · YC S15", startYear: CHALDAL_START_YEAR, yearSuffix: "+ yrs" },
     { label: "Dwetech · 2009–2016", value: "60+ projects", href: "https://dwetech.com" },
   ] satisfies HeroStat[],
 };
