@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Space_Grotesk } from "next/font/google";
+import { getProfileTenure, profile } from "@/lib/portfolio-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,9 +23,10 @@ export const viewport: Viewport = {
   themeColor: "#020617",
 };
 
-const ogTitle = "Abdul Hamid Shuvo — Senior Software Engineer · 16+ years";
+const tenure = getProfileTenure();
+const ogTitle = `${profile.name} — Senior Software Engineer · ${tenure.careerYearsLabel}`;
 const ogDescription =
-  "16+ years in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.";
+  `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`;
 
 /** Set in `.env` / build env so Sharing Debugger stops warning; create an app at https://developers.facebook.com/apps/ */
 const facebookAppId = process.env.NEXT_PUBLIC_FB_APP_ID?.trim();
@@ -32,11 +34,11 @@ const facebookAppId = process.env.NEXT_PUBLIC_FB_APP_ID?.trim();
 export const metadata: Metadata = {
   metadataBase: new URL("https://suvo.me"),
   title: {
-    default: "Abdul Hamid Shuvo — Senior Software Engineer · 16+ years",
+    default: ogTitle,
     template: "%s | Abdul Hamid Shuvo",
   },
   description:
-    "Abdul Hamid Shuvo — senior software engineer, 16+ years. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.",
+    `${profile.name} — senior software engineer, ${tenure.careerYearsLabel}. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.`,
   alternates: {
     canonical: "https://suvo.me",
   },

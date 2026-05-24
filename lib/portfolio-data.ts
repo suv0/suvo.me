@@ -49,11 +49,25 @@ export const getCurrentYear = (): number => new Date().getFullYear();
 export const getElapsedYears = (startYear: number, year: number = getCurrentYear()): number =>
   Math.max(1, year - startYear);
 
-const CAREER_START_YEAR = 2009;
-const CHALDAL_START_YEAR = 2017;
-const currentYear = getCurrentYear();
-const careerYears = getElapsedYears(CAREER_START_YEAR, currentYear);
-const chaldalYears = getElapsedYears(CHALDAL_START_YEAR, currentYear);
+export const CAREER_START_YEAR = 2009;
+export const CHALDAL_START_YEAR = 2017;
+
+export const getProfileTenure = (year: number = getCurrentYear()) => {
+  const careerYears = getElapsedYears(CAREER_START_YEAR, year);
+  const chaldalYears = getElapsedYears(CHALDAL_START_YEAR, year);
+
+  return {
+    careerYears,
+    chaldalYears,
+    careerYearsLabel: `${careerYears}+ years`,
+    chaldalYearsLabel: `${chaldalYears}+ years`,
+  };
+};
+
+export const getHeroTagline = (name: string, year: number = getCurrentYear()): string => {
+  const { careerYears, chaldalYears } = getProfileTenure(year);
+  return `I'm ${name} — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
+};
 
 export const profile = {
   name: "Abdul Hamid Shuvo",
@@ -73,8 +87,6 @@ export const profile = {
   contactHeadline: "Open to staff-level product engineering roles",
   /** AI studio portrait (editorial crop); high-res asset in `public/`. */
   profileImage: "/hero-portrait-editorial.png",
-  tagline:
-    `I'm Abdul Hamid Shuvo — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`,
   heroSummary:
     "As a senior software engineer, I still build and own products end to end — from first mobile web through native apps to field logistics — with reliability under flaky networks, dispatch pressure, and a steady release cadence. From 2009 through 2016 I co-founded Dwetech and delivered 60+ international client projects; since January 2017 at Chaldal: mobile web from zero, native shopper apps, Chalao ride-sharing (BRTA licensing), Chalao Driver for last-mile logistics, and Protocol with platform architecture in F# and TypeScript.",
   about:
