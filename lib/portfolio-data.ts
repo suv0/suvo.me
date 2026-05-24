@@ -31,15 +31,11 @@ export type ProjectItem = {
 
 export type HeroStat = {
   label: string;
-  value: string;
+  value?: string;
+  startYear?: number;
+  yearSuffix?: string;
   href?: string;
 };
-
-const DWETECH_START_YEAR = 2009;
-const CHALDAL_START_YEAR = 2017;
-const currentYear = new Date().getUTCFullYear();
-const totalCareerYears = Math.max(1, currentYear - DWETECH_START_YEAR);
-const chaldalYears = Math.max(1, currentYear - CHALDAL_START_YEAR);
 
 export const profile = {
   name: "Abdul Hamid Shuvo",
@@ -67,8 +63,8 @@ export const profile = {
     "I started freelancing and co-founded Dwetech in 2009, delivering 60+ international projects over roughly seven years for clients across the USA, UK, Canada, and Australia. In January 2017, Chaldal (YC S15, ~2,200 staff) had minimal desktop web, no mobile web, and no production native shopper apps on a national-scale grocery and logistics platform. I built mobile web alone from zero, rebuilt and evolved the desktop experience, and led the ground-up Android and iOS shopper apps with teammates on delivery. After that foundation, I moved into Chalao as a consumer ride-sharing product under Chaldal: I built the app and carried BRTA meetings, documentation, and licensing so we could enlist; the ride business did not continue. Today the name Chalao also covers Chalao Driver, our logistics driver app for Chaldal’s own delivery network, which I own end to end with the same rigor I brought to the shopper stack — spanning logistics apps and platform architecture.",
   cta: "Open to Staff Product Engineer and Senior/Staff Software Engineer roles — remote or Dhaka-based. Reach out at me@suvo.me.",
   heroStats: [
-    { label: "Career", value: `${totalCareerYears}+ yrs` },
-    { label: "Chaldal · National scale · YC S15", value: `${chaldalYears}+ yrs` },
+    { label: "Career", startYear: 2009, yearSuffix: "+ yrs" },
+    { label: "Chaldal · National scale · YC S15", startYear: 2017, yearSuffix: "+ yrs" },
     { label: "Dwetech · 2009–2016", value: "60+ projects", href: "https://dwetech.com" },
   ] satisfies HeroStat[],
 };

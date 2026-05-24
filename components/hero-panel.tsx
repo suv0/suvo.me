@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useSyncExternalStore } from "react";
 import { motionEaseSoft } from "@/lib/motion";
-import { profile } from "@/lib/portfolio-data";
+import { profile, type HeroStat } from "@/lib/portfolio-data";
 
 const staggerParent = {
   hidden: {},
@@ -61,6 +61,30 @@ function HeroPortraitFrame() {
   );
 }
 
+function HeroStatChip({ stat }: { stat: HeroStat }) {
+  const currentYear = new Date().getUTCFullYear();
+  const value = stat.startYear ? `${Math.max(1, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}` : stat.value ?? "";
+
+  return (
+    <div className="stat-chip">
+      <span className="stat-chip-value">{value}</span>
+      {stat.href ? (
+        <a
+          className="stat-chip-label underline-offset-4 hover:underline"
+          href={stat.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${stat.label} (opens in a new tab)`}
+        >
+          {stat.label}
+        </a>
+      ) : (
+        <span className="stat-chip-label">{stat.label}</span>
+      )}
+    </div>
+  );
+}
+
 export function HeroPanel() {
   const reduceMotion = useReducedMotion();
   const hydrated = useSyncExternalStore(
@@ -96,16 +120,7 @@ export function HeroPanel() {
 
           <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
             {profile.heroStats.map((stat) => (
-              <div key={stat.label} className="stat-chip">
-                <span className="stat-chip-value">{stat.value}</span>
-                {stat.href ? (
-                  <a className="stat-chip-label underline-offset-4 hover:underline" href={stat.href} target="_blank" rel="noreferrer">
-                    {stat.label}
-                  </a>
-                ) : (
-                  <span className="stat-chip-label">{stat.label}</span>
-                )}
-              </div>
+              <HeroStatChip key={stat.label} stat={stat} />
             ))}
           </div>
 
@@ -192,16 +207,7 @@ export function HeroPanel() {
 
           <motion.div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3" variants={rise}>
             {profile.heroStats.map((stat) => (
-              <div key={stat.label} className="stat-chip">
-                <span className="stat-chip-value">{stat.value}</span>
-                {stat.href ? (
-                  <a className="stat-chip-label underline-offset-4 hover:underline" href={stat.href} target="_blank" rel="noreferrer">
-                    {stat.label}
-                  </a>
-                ) : (
-                  <span className="stat-chip-label">{stat.label}</span>
-                )}
-              </div>
+              <HeroStatChip key={stat.label} stat={stat} />
             ))}
           </motion.div>
 
