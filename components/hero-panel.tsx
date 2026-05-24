@@ -95,7 +95,7 @@ export function HeroPanel({ currentYear }: { currentYear: number }) {
     () => true,
     () => false,
   );
-  const heroTagline = getHeroTagline(currentYear);
+  const heroTagline = getHeroTagline(profile.name, currentYear);
 
   const staticHero = (
     <div className="glass-panel glass-panel--hero relative overflow-hidden rounded-3xl p-5 sm:rounded-[2rem] sm:p-8 lg:p-12">
