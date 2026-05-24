@@ -63,7 +63,7 @@ function HeroPortraitFrame() {
 }
 
 function HeroStatChip({ stat }: { stat: HeroStat }) {
-  const currentYear = new Date().getUTCFullYear();
+  const currentYear = new Date().getFullYear();
   const value = stat.startYear
     ? `${Math.max(MIN_DISPLAY_YEARS, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}`
     : stat.value ?? "";
