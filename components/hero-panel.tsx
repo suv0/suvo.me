@@ -64,9 +64,10 @@ function HeroPortraitFrame() {
 
 function HeroStatChip({ stat }: { stat: HeroStat }) {
   const currentYear = new Date().getFullYear();
-  const value = stat.startYear
-    ? `${Math.max(MIN_DISPLAY_YEARS, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}`
-    : stat.value ?? "";
+  const value =
+    "startYear" in stat
+      ? `${Math.max(MIN_DISPLAY_YEARS, currentYear - stat.startYear)}${stat.yearSuffix ?? ""}`
+      : stat.value;
 
   return (
     <div className="stat-chip">

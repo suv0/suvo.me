@@ -29,13 +29,21 @@ export type ProjectItem = {
   badge: string;
 };
 
-export type HeroStat = {
+type BaseHeroStat = {
   label: string;
-  value?: string;
-  startYear?: number;
-  yearSuffix?: string;
   href?: string;
 };
+
+type HeroStatWithValue = BaseHeroStat & {
+  value: string;
+};
+
+type HeroStatWithStartYear = BaseHeroStat & {
+  startYear: number;
+  yearSuffix?: string;
+};
+
+export type HeroStat = HeroStatWithValue | HeroStatWithStartYear;
 
 export const profile = {
   name: "Abdul Hamid Shuvo",
