@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
 
-import { profile } from "@/lib/portfolio-data";
+import { getProfileTenure, profile } from "@/lib/portfolio-data";
 
 export const alt = `${profile.name} — portfolio preview`;
 export const size = { width: 1200, height: 630 };
@@ -28,6 +28,7 @@ async function portraitDataUrl(): Promise<string | undefined> {
 
 export default async function OpenGraphImage() {
   const portraitSrc = await portraitDataUrl();
+  const tenure = getProfileTenure();
 
   return new ImageResponse(
     (
@@ -70,7 +71,7 @@ export default async function OpenGraphImage() {
             {profile.roleStack}
           </div>
           <div style={{ fontSize: 18, color: "#64748b", marginTop: 18, fontWeight: 500 }}>
-            16+ years · Chaldal (YC S15) · suvo.me
+            {`${tenure.careerYearsLabel} · Chaldal (YC S15) · suvo.me`}
           </div>
         </div>
         <div

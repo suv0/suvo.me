@@ -5,7 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { SkillMarquee } from "@/components/skill-marquee";
 import { FrontendSkillDemo } from "@/components/skill-demos/frontend-skill-demo";
-import { experiences, featuredProjects, profile, skillGroups } from "@/lib/portfolio-data";
+import { experiences, featuredProjects, getCurrentYear, getProfileTenure, profile, skillGroups } from "@/lib/portfolio-data";
 
 const skillBentoClass: string[] = [
   "bento-skill-card glass-panel lg:col-span-2 lg:row-span-2 rounded-2xl p-5 sm:p-6 md:p-7",
@@ -24,6 +24,9 @@ const projectGridClass: string[] = [
 ];
 
 export default function Home() {
+  const currentYear = getCurrentYear();
+  const tenure = getProfileTenure(currentYear);
+
   const personLd = {
     "@type": "Person",
     "@id": `${profile.website}/#person`,
@@ -38,7 +41,7 @@ export default function Home() {
     },
     knowsAbout: skillGroups.flatMap((group) => group.items),
     description:
-      "16+ years building software — Dwetech (2009–2016) and 9+ years at Chaldal (YC S15): shopper stack, logistics apps, and platform architecture.",
+      `${tenure.careerYearsLabel} building software — Dwetech (2009–2016) and ${tenure.chaldalYearsLabel} at Chaldal (YC S15): shopper stack, logistics apps, and platform architecture.`,
   };
 
   const websiteLd = {
@@ -47,7 +50,7 @@ export default function Home() {
     url: profile.website,
     name: `${profile.name} — portfolio`,
     description:
-      "16+ years in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.",
+      `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`,
     publisher: { "@id": `${profile.website}/#person` },
   };
 
@@ -65,7 +68,7 @@ export default function Home() {
       <main
         className="mx-auto flex w-full max-w-6xl min-w-0 flex-col gap-12 pl-[max(1rem,env(safe-area-inset-left,0px))] pr-[max(1rem,env(safe-area-inset-right,0px))] pt-[calc(2rem+env(safe-area-inset-top,0px))] pb-[calc(2rem+env(safe-area-inset-bottom,0px))] sm:gap-16 sm:pl-[max(1.5rem,env(safe-area-inset-left,0px))] sm:pr-[max(1.5rem,env(safe-area-inset-right,0px))] sm:pt-[calc(2.5rem+env(safe-area-inset-top,0px))] sm:pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:gap-20 md:pl-[max(2rem,env(safe-area-inset-left,0px))] md:pr-[max(2rem,env(safe-area-inset-right,0px))] md:pt-[calc(3.5rem+env(safe-area-inset-top,0px))] md:pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] lg:pl-[max(3rem,env(safe-area-inset-left,0px))] lg:pr-[max(3rem,env(safe-area-inset-right,0px))]"
       >
-        <HeroPanel />
+        <HeroPanel currentYear={currentYear} />
 
         <SkillMarquee />
 
@@ -131,7 +134,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Experience"
               title="Ownership across products and lifecycle"
-              description="About 16 years total: Dwetech from 2009 through 2016, then Chaldal (YC S15) from January 2017 — shopper web and native apps built from zero, then ride-sharing and logistics operations at national scale."
+              description={`About ${tenure.careerYears} years total: Dwetech from 2009 through 2016, then ${tenure.chaldalYearsLabel} at Chaldal (YC S15) from January 2017 — shopper web and native apps built from zero, then ride-sharing and logistics operations at national scale.`}
             />
           </Reveal>
           <div className="space-y-5">
