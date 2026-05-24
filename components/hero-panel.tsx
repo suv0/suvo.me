@@ -98,7 +98,13 @@ export function HeroPanel() {
             {profile.heroStats.map((stat) => (
               <div key={stat.label} className="stat-chip">
                 <span className="stat-chip-value">{stat.value}</span>
-                <span className="stat-chip-label">{stat.label}</span>
+                {stat.href ? (
+                  <a className="stat-chip-label underline-offset-4 hover:underline" href={stat.href} target="_blank" rel="noreferrer">
+                    {stat.label}
+                  </a>
+                ) : (
+                  <span className="stat-chip-label">{stat.label}</span>
+                )}
               </div>
             ))}
           </div>
@@ -188,7 +194,13 @@ export function HeroPanel() {
             {profile.heroStats.map((stat) => (
               <div key={stat.label} className="stat-chip">
                 <span className="stat-chip-value">{stat.value}</span>
-                <span className="stat-chip-label">{stat.label}</span>
+                {stat.href ? (
+                  <a className="stat-chip-label underline-offset-4 hover:underline" href={stat.href} target="_blank" rel="noreferrer">
+                    {stat.label}
+                  </a>
+                ) : (
+                  <span className="stat-chip-label">{stat.label}</span>
+                )}
               </div>
             ))}
           </motion.div>
