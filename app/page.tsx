@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DwetechLink, linkProfileText } from "@/components/profile-text-links";
 import { HeroPanel } from "@/components/hero-panel";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { SkillMarquee } from "@/components/skill-marquee";
 import { FrontendSkillDemo } from "@/components/skill-demos/frontend-skill-demo";
-import { experiences, featuredProjects, getCurrentYear, getProfileTenure, profile, skillGroups } from "@/lib/portfolio-data";
+import {
+  experiences,
+  featuredProjects,
+  getCurrentYear,
+  getProfileTenure,
+  profile,
+  skillGroups,
+} from "@/lib/portfolio-data";
+
+/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
+export const revalidate = 86_400;
 
 const skillBentoClass: string[] = [
   "bento-skill-card glass-panel lg:col-span-2 lg:row-span-2 rounded-2xl p-5 sm:p-6 md:p-7",
@@ -81,7 +92,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="About"
               title="Building products people actually use"
-              description={profile.about}
+              description={linkProfileText(profile.about)}
             />
           </Reveal>
         </section>
@@ -134,7 +145,9 @@ export default function Home() {
             <SectionHeading
               eyebrow="Experience"
               title="Ownership across products and lifecycle"
-              description={`About ${tenure.careerYears} years total: Dwetech from 2009 through 2016, then ${tenure.chaldalYearsLabel} at Chaldal (YC S15) from January 2017 — shopper web and native apps built from zero, then ride-sharing and logistics operations at national scale.`}
+              description={linkProfileText(
+                `About ${tenure.careerYears} years total: Dwetech from 2009 through 2016, then ${tenure.chaldalYearsLabel} at Chaldal (YC S15) from January 2017 — shopper web and native apps built from zero, then ride-sharing and logistics operations at national scale.`,
+              )}
             />
           </Reveal>
           <div className="space-y-5">
@@ -148,7 +161,13 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-semibold text-white">{item.role}</h3>
                     <p className="text-sm text-slate-300">
-                      {item.company} · {item.location}
+                      {item.company === "Dwetech" ? (
+                        <DwetechLink className="text-slate-300 hover:text-cyan-200" />
+                      ) : (
+                        item.company
+                      )}
+                      {" · "}
+                      {item.location}
                     </p>
                   </div>
                   <p className="text-sm font-medium text-cyan-200">{item.period}</p>
@@ -156,7 +175,7 @@ export default function Home() {
                 <ul className="mt-5 space-y-3 text-sm leading-relaxed text-slate-200 sm:text-base">
                   {item.highlights.map((point) => (
                     <li key={point} className="list-inside list-disc marker:text-cyan-300">
-                      {point}
+                      {linkProfileText(point)}
                     </li>
                   ))}
                 </ul>

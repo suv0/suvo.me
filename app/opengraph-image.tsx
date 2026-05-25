@@ -6,6 +6,9 @@ import sharp from "sharp";
 
 import { getProfileTenure, profile } from "@/lib/portfolio-data";
 
+/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
+export const revalidate = 86_400;
+
 export const alt = `${profile.name} — portfolio preview`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

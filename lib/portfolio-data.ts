@@ -51,6 +51,11 @@ export const getElapsedYears = (startYear: number, year: number = getCurrentYear
 
 export const CAREER_START_YEAR = 2009;
 export const CHALDAL_START_YEAR = 2017;
+export const DWETECH_URL = "https://dwetech.com";
+export const FREELANCER_PROFILE_URL = "https://www.freelancer.com/u/N0B0DY";
+
+/** ISR: recompute tenure copy daily so a new calendar year does not require redeploy. */
+export const TENURE_REVALIDATE_SECONDS = 86_400;
 
 export const getProfileTenure = (year: number = getCurrentYear()) => {
   const careerYears = getElapsedYears(CAREER_START_YEAR, year);
@@ -67,6 +72,11 @@ export const getProfileTenure = (year: number = getCurrentYear()) => {
 export const getHeroTagline = (name: string, year: number = getCurrentYear()): string => {
   const { careerYears, chaldalYears } = getProfileTenure(year);
   return `I'm ${name} — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
+};
+
+export const getCvSummary = (year: number = getCurrentYear()): string => {
+  const { careerYearsLabel, chaldalYearsLabel } = getProfileTenure(year);
+  return `Staff-level product engineer with ${careerYearsLabel} in software — Dwetech from 2009 through 2016 (60+ international client projects) and ${chaldalYearsLabel} at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.`;
 };
 
 export const profile = {
@@ -95,8 +105,16 @@ export const profile = {
   heroStats: [
     { label: "Career", startYear: CAREER_START_YEAR, yearSuffix: "+ yrs" },
     { label: "Chaldal · National scale · YC S15", startYear: CHALDAL_START_YEAR, yearSuffix: "+ yrs" },
-    { label: "Dwetech · 2009–2016", value: "60+ projects", href: "https://dwetech.com" },
+    { label: "Dwetech · 2009–2016", value: "60+ projects", href: DWETECH_URL },
   ] satisfies HeroStat[],
+};
+
+export const getSiteMetadata = (year: number = getCurrentYear()) => {
+  const tenure = getProfileTenure(year);
+  const ogTitle = `${profile.name} — Senior Software Engineer · ${tenure.careerYearsLabel}`;
+  const ogDescription = `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`;
+  const description = `${profile.name} — senior software engineer, ${tenure.careerYearsLabel}. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.`;
+  return { ogTitle, ogDescription, description };
 };
 
 export const skillGroups: SkillGroup[] = [

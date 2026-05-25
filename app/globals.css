@@ -376,6 +376,12 @@ body {
   transition-timing-function: var(--motion-ease-smooth);
 }
 
+a.stat-chip {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .stat-chip:hover {
   border-color: rgb(125 211 252 / 0.55);
   background: linear-gradient(160deg, rgb(30 41 59 / 0.9), rgb(15 23 42 / 0.65));

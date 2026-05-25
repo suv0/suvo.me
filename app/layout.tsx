@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, Space_Grotesk } from "next/font/google";
-import { getProfileTenure, profile } from "@/lib/portfolio-data";
+import { getSiteMetadata } from "@/lib/portfolio-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,39 +23,40 @@ export const viewport: Viewport = {
   themeColor: "#020617",
 };
 
-const tenure = getProfileTenure();
-const ogTitle = `${profile.name} — Senior Software Engineer · ${tenure.careerYearsLabel}`;
-const ogDescription =
-  `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`;
+/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
+export const revalidate = 86_400;
 
 /** Set in `.env` / build env so Sharing Debugger stops warning; create an app at https://developers.facebook.com/apps/ */
 const facebookAppId = process.env.NEXT_PUBLIC_FB_APP_ID?.trim();
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://suvo.me"),
-  title: {
-    default: ogTitle,
-    template: "%s | Abdul Hamid Shuvo",
-  },
-  description:
-    `${profile.name} — senior software engineer, ${tenure.careerYearsLabel}. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.`,
-  alternates: {
-    canonical: "https://suvo.me",
-  },
-  openGraph: {
-    title: ogTitle,
-    description: ogDescription,
-    type: "website",
-    url: "https://suvo.me",
-    siteName: "suvo.me",
-    locale: "en",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: ogTitle,
-    description: ogDescription,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { ogTitle, ogDescription, description } = getSiteMetadata();
+
+  return {
+    metadataBase: new URL("https://suvo.me"),
+    title: {
+      default: ogTitle,
+      template: "%s | Abdul Hamid Shuvo",
+    },
+    description,
+    alternates: {
+      canonical: "https://suvo.me",
+    },
+    openGraph: {
+      title: ogTitle,
+      description: ogDescription,
+      type: "website",
+      url: "https://suvo.me",
+      siteName: "suvo.me",
+      locale: "en",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: ogDescription,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

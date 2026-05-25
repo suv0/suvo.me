@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { useSyncExternalStore } from "react";
 import { motionEaseSoft } from "@/lib/motion";
+import { linkProfileText } from "@/components/profile-text-links";
 import { getElapsedYears, getHeroTagline, profile, type HeroStat } from "@/lib/portfolio-data";
 
 const staggerParent = {
@@ -68,24 +69,28 @@ function HeroStatChip({ stat, currentYear }: { stat: HeroStat; currentYear: numb
       ? `${Math.max(MIN_DISPLAY_YEARS, getElapsedYears(stat.startYear, currentYear))}${stat.yearSuffix ?? ""}`
       : stat.value;
 
-  return (
-    <div className="stat-chip">
+  const chipBody = (
+    <>
       <span className="stat-chip-value">{value}</span>
-      {stat.href ? (
-        <a
-          className="stat-chip-label underline-offset-4 hover:underline"
-          href={stat.href}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`${stat.label} (opens in a new tab)`}
-        >
-          {stat.label}
-        </a>
-      ) : (
-        <span className="stat-chip-label">{stat.label}</span>
-      )}
-    </div>
+      <span className="stat-chip-label">{stat.label}</span>
+    </>
   );
+
+  if (stat.href) {
+    return (
+      <a
+        className="stat-chip"
+        href={stat.href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`${stat.label} (opens in a new tab)`}
+      >
+        {chipBody}
+      </a>
+    );
+  }
+
+  return <div className="stat-chip">{chipBody}</div>;
 }
 
 export function HeroPanel({ currentYear }: { currentYear: number }) {
@@ -120,7 +125,9 @@ export function HeroPanel({ currentYear }: { currentYear: number }) {
           <p className="mt-2 max-w-full break-words font-mono text-[0.7rem] font-medium uppercase leading-relaxed tracking-[0.14em] text-slate-400 sm:text-xs sm:tracking-[0.2em] md:text-[0.8rem] md:tracking-[0.24em]">
             {profile.roleStack}
           </p>
-          <p className="mt-5 max-w-3xl text-pretty text-sm leading-relaxed text-slate-300 sm:text-base">{profile.heroSummary}</p>
+          <p className="mt-5 max-w-3xl text-pretty text-sm leading-relaxed text-slate-300 sm:text-base">
+            {linkProfileText(profile.heroSummary)}
+          </p>
 
           <div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3">
             {profile.heroStats.map((stat) => (
@@ -206,7 +213,7 @@ export function HeroPanel({ currentYear }: { currentYear: number }) {
             className="mt-5 max-w-3xl text-pretty text-sm leading-relaxed text-slate-300 sm:text-base"
             variants={rise}
           >
-            {profile.heroSummary}
+            {linkProfileText(profile.heroSummary)}
           </motion.p>
 
           <motion.div className="mt-6 flex flex-wrap gap-2.5 sm:mt-7 sm:gap-3" variants={rise}>
