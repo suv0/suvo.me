@@ -7,6 +7,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outputPath = resolve(__dirname, "../public/cv.pdf");
 const cv = JSON.parse(readFileSync(resolve(__dirname, "../lib/cv-data.json"), "utf8"));
 
+const CAREER_START_YEAR = 2009;
+const CHALDAL_START_YEAR = 2017;
+const currentYear = new Date().getFullYear();
+const elapsedYears = (startYear) => Math.max(1, currentYear - startYear);
+const cvSummary = `Staff-level product engineer with ${elapsedYears(CAREER_START_YEAR)}+ years in software — Dwetech from 2009 through 2016 (60+ international client projects) and ${elapsedYears(CHALDAL_START_YEAR)}+ years at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.`;
+
 const pageWidth = 595.28;
 const pageHeight = 841.89;
 const margin = 46;
@@ -114,7 +120,7 @@ pdf.line(margin, pdf.y, pageWidth - margin, pdf.y);
 pdf.y -= 18;
 
 pdf.heading("Profile");
-pdf.paragraph(cv.summary, 9.6, 14);
+pdf.paragraph(cvSummary, 9.6, 14);
 
 pdf.heading("Core strengths");
 for (const strength of cv.strengths) pdf.bullet(strength);

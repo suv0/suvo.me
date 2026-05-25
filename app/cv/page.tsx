@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { DwetechLink, linkProfileText } from "@/components/profile-text-links";
 import cv from "@/lib/cv-data.json";
+import { getCvSummary } from "@/lib/portfolio-data";
+
+/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
+export const revalidate = 86_400;
 
 export const metadata: Metadata = {
   title: `${cv.name} - CV`,
@@ -7,13 +12,15 @@ export const metadata: Metadata = {
 };
 
 export default function CvPage() {
+  const summary = getCvSummary();
+
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-8 text-slate-950 print:bg-white print:px-0 print:py-0">
       <article className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-xl print:max-w-none print:rounded-none print:p-0 print:shadow-none">
         <header className="border-b border-slate-300 pb-5">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">{cv.title}</p>
           <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-950">{cv.name}</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{cv.summary}</p>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{linkProfileText(summary)}</p>
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-700">
             <span>{cv.location}</span>
             <a href={`mailto:${cv.email}`}>{cv.email}</a>
@@ -43,7 +50,13 @@ export default function CvPage() {
                   <div>
                     <h3 className="text-lg font-bold text-slate-950">{job.role}</h3>
                     <p className="text-sm font-semibold text-slate-700">
-                      {job.company} - {job.location}
+                      {job.company === "Dwetech" ? (
+                        <DwetechLink className="text-slate-700 hover:text-sky-800" />
+                      ) : (
+                        job.company
+                      )}
+                      {" - "}
+                      {job.location}
                     </p>
                   </div>
                   <p className="text-sm font-semibold text-sky-800">{job.period}</p>
@@ -51,7 +64,7 @@ export default function CvPage() {
                 <ul className="mt-2 space-y-1.5 text-sm leading-6 text-slate-800">
                   {job.highlights.map((point) => (
                     <li key={point} className="list-inside list-disc marker:text-sky-700">
-                      {point}
+                      {linkProfileText(point)}
                     </li>
                   ))}
                 </ul>

@@ -29,9 +29,54 @@ export type ProjectItem = {
   badge: string;
 };
 
-export type HeroStat = {
+type BaseHeroStat = {
   label: string;
+  href?: string;
+};
+
+type HeroStatWithValue = BaseHeroStat & {
   value: string;
+};
+
+type HeroStatWithStartYear = BaseHeroStat & {
+  startYear: number;
+  yearSuffix?: string;
+};
+
+export type HeroStat = HeroStatWithValue | HeroStatWithStartYear;
+
+export const getCurrentYear = (): number => new Date().getFullYear();
+export const getElapsedYears = (startYear: number, year: number = getCurrentYear()): number =>
+  Math.max(1, year - startYear);
+
+export const CAREER_START_YEAR = 2009;
+export const CHALDAL_START_YEAR = 2017;
+export const DWETECH_URL = "https://dwetech.com";
+export const FREELANCER_PROFILE_URL = "https://www.freelancer.com/u/N0B0DY";
+
+/** ISR: recompute tenure copy daily so a new calendar year does not require redeploy. */
+export const TENURE_REVALIDATE_SECONDS = 86_400;
+
+export const getProfileTenure = (year: number = getCurrentYear()) => {
+  const careerYears = getElapsedYears(CAREER_START_YEAR, year);
+  const chaldalYears = getElapsedYears(CHALDAL_START_YEAR, year);
+
+  return {
+    careerYears,
+    chaldalYears,
+    careerYearsLabel: `${careerYears}+ years`,
+    chaldalYearsLabel: `${chaldalYears}+ years`,
+  };
+};
+
+export const getHeroTagline = (name: string, year: number = getCurrentYear()): string => {
+  const { careerYears, chaldalYears } = getProfileTenure(year);
+  return `I'm ${name} — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
+};
+
+export const getCvSummary = (year: number = getCurrentYear()): string => {
+  const { careerYearsLabel, chaldalYearsLabel } = getProfileTenure(year);
+  return `Staff-level product engineer with ${careerYearsLabel} in software — Dwetech from 2009 through 2016 (60+ international client projects) and ${chaldalYearsLabel} at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.`;
 };
 
 export const profile = {
@@ -52,18 +97,24 @@ export const profile = {
   contactHeadline: "Open to staff-level product engineering roles",
   /** AI studio portrait (editorial crop); high-res asset in `public/`. */
   profileImage: "/hero-portrait-editorial.png",
-  tagline:
-    "I'm Abdul Hamid Shuvo — 16 years building software, the last 9 at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.",
   heroSummary:
     "As a senior software engineer, I still build and own products end to end — from first mobile web through native apps to field logistics — with reliability under flaky networks, dispatch pressure, and a steady release cadence. From 2009 through 2016 I co-founded Dwetech and delivered 60+ international client projects; since January 2017 at Chaldal: mobile web from zero, native shopper apps, Chalao ride-sharing (BRTA licensing), Chalao Driver for last-mile logistics, and Protocol with platform architecture in F# and TypeScript.",
   about:
     "I started freelancing and co-founded Dwetech in 2009, delivering 60+ international projects over roughly seven years for clients across the USA, UK, Canada, and Australia. In January 2017, Chaldal (YC S15, ~2,200 staff) had minimal desktop web, no mobile web, and no production native shopper apps on a national-scale grocery and logistics platform. I built mobile web alone from zero, rebuilt and evolved the desktop experience, and led the ground-up Android and iOS shopper apps with teammates on delivery. After that foundation, I moved into Chalao as a consumer ride-sharing product under Chaldal: I built the app and carried BRTA meetings, documentation, and licensing so we could enlist; the ride business did not continue. Today the name Chalao also covers Chalao Driver, our logistics driver app for Chaldal’s own delivery network, which I own end to end with the same rigor I brought to the shopper stack — spanning logistics apps and platform architecture.",
   cta: "Open to Staff Product Engineer and Senior/Staff Software Engineer roles — remote or Dhaka-based. Reach out at me@suvo.me.",
   heroStats: [
-    { label: "Career", value: "16+ yrs" },
-    { label: "Chaldal · National scale · YC S15", value: "9+ yrs" },
-    { label: "Dwetech · 2009–2016", value: "60+ projects" },
+    { label: "Career", startYear: CAREER_START_YEAR, yearSuffix: "+ yrs" },
+    { label: "Chaldal · National scale · YC S15", startYear: CHALDAL_START_YEAR, yearSuffix: "+ yrs" },
+    { label: "Dwetech · 2009–2016", value: "60+ projects", href: DWETECH_URL },
   ] satisfies HeroStat[],
+};
+
+export const getSiteMetadata = (year: number = getCurrentYear()) => {
+  const tenure = getProfileTenure(year);
+  const ogTitle = `${profile.name} — Senior Software Engineer · ${tenure.careerYearsLabel}`;
+  const ogDescription = `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`;
+  const description = `${profile.name} — senior software engineer, ${tenure.careerYearsLabel}. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.`;
+  return { ogTitle, ogDescription, description };
 };
 
 export const skillGroups: SkillGroup[] = [

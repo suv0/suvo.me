@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { motionEaseSoft } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
@@ -7,7 +8,7 @@ import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 type SectionHeadingProps = {
   eyebrow: string;
   title: string;
-  description?: string;
+  description?: ReactNode;
 };
 
 export function SectionHeading({ eyebrow, title, description }: SectionHeadingProps) {
