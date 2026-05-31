@@ -3,3 +3,5 @@ Cover art: AI-generated 16:9 illustrations (not real app UI). Replace anytime wi
 To use real Play Store listing images: open the listing in a browser, right-click a screenshot or feature graphic, copy image address or Save image as, then host the file here (recommended) rather than hotlinking (Google CDN URLs can change).
 
 `chaldal-shopper.png` — AI-generated card art for the shopper project row (not a real store screenshot). Swap for an official feature graphic or device capture when you prefer.
+
+`gogobangla.png` — AI-generated card art for GogoBangla (not a real Play Console screenshot). Replace with listing art from https://play.google.com/store/apps/details?id=com.gogobangla when you prefer.

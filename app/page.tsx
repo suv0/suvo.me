@@ -25,13 +25,14 @@ const skillBentoClass: string[] = [
   "bento-skill-card glass-panel lg:col-span-3 rounded-2xl p-4 sm:p-5 md:p-6",
 ];
 
-/** Five cards: three × span-2 on first row, two × span-3 on second (6-column grid). */
+/** Six cards: three × span-2 per row on a 6-column grid. */
 const projectGridClass: string[] = [
   "lg:col-span-2",
   "lg:col-span-2",
   "lg:col-span-2",
-  "lg:col-span-3",
-  "lg:col-span-3",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
 ];
 
 export default function Home() {
@@ -193,7 +194,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Selected Work"
               title="Projects with durable product impact"
-              description="Chaldal shopper apps at national scale, logistics operations, internal Protocol, historical Chalao ride-sharing (regulatory), and open-source platform work."
+              description="Chaldal shopper apps at national scale, GogoBangla merchant fulfillment, logistics operations, internal Protocol, historical Chalao ride-sharing (regulatory), and open-source platform work."
             />
           </Reveal>
           <div className="grid min-w-0 gap-4 sm:gap-5 lg:grid-cols-6">

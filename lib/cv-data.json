@@ -45,6 +45,10 @@
       "details": "Consumer grocery app for Chaldal's national delivery platform. Primary engineer on the original Android and iOS builds; Android 1M+ downloads, 4.4 rating, iOS 4.8 rating."
     },
     {
+      "name": "GogoBangla",
+      "details": "Merchant fulfillment app for Chaldal's B2B logistics platform — e-commerce and f-commerce sellers offload picking, warehousing, and last-mile delivery via the same national network as consumer grocery."
+    },
+    {
       "name": "Chalao Driver",
       "details": "Production React Native driver app for dispatch, navigation, earnings, and field operations in Chaldal's last-mile logistics network."
     },
