@@ -149,6 +149,7 @@ export const experiences: ExperienceItem[] = [
       "Joined January 2017 when Chaldal had only bare-minimum desktop web: built mobile web alone (none existed), evolved desktop into the modern production shopper site, and shipped native Android and iOS shopper apps from the ground up as the primary engineer.",
       "Built Chalao consumer ride-sharing under Chaldal licensing: shipped the app and led BRTA and government-side work (meetings, documentation, enlistment). The ride business did not continue — Chaldal was listed among operators receiving BRTA enlistment certificates (Daily Star, Dec 2019).",
       "Own Chalao Driver (logistics): React Native operations app for Chaldal’s last-mile drivers, not the same product as consumer ride-sharing. Full ownership, real-time dispatch, unreliable networks, and ongoing Play Store releases.",
+      "Build and maintain GogoBangla, Chaldal’s merchant fulfillment app for e-commerce and f-commerce: picking, warehousing, and shipping on the same national logistics network — so merchants focus on sales while Chaldal handles last mile.",
       "Shipped Protocol for 1,000+ internal users (also on Play Store), maintained other Chaldal operations apps where applicable, and was an early core contributor to Subject / EggShell on the frontend layer.",
     ],
   },
@@ -178,6 +179,18 @@ export const featuredProjects: ProjectItem[] = [
     coverImage: "/projects/chaldal-shopper.png",
     coverAlt: "Chaldal shopper — consumer grocery app for national delivery",
     badge: "Production app",
+  },
+  {
+    name: "GogoBangla",
+    description:
+      "Merchant-facing fulfillment app for Chaldal’s B2B logistics platform. E-commerce and f-commerce sellers use it to hand off picking, storage, and last-mile delivery — leveraging the same warehouse and delivery network built for national grocery scale.",
+    impact:
+      "Live on Google Play with ongoing releases (updated Dec 2025). Supports merchant order fulfillment, pickups, and exchanges across Chaldal’s logistics footprint — dozens of large stores and hundreds of online merchants per Chaldal Engineering.",
+    link: "https://play.google.com/store/apps/details?id=com.gogobangla",
+    linkLabel: "Google Play →",
+    coverImage: "/projects/gogobangla.png",
+    coverAlt: "GogoBangla — merchant fulfillment app for e-commerce and f-commerce",
+    badge: "B2B · Live",
   },
   {
     name: "Chalao (ride-sharing)",
