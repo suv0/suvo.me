@@ -11,7 +11,7 @@ const CAREER_START_YEAR = 2009;
 const CHALDAL_START_YEAR = 2017;
 const currentYear = new Date().getFullYear();
 const elapsedYears = (startYear) => Math.max(1, currentYear - startYear);
-const cvSummary = `Staff-level product engineer with ${elapsedYears(CAREER_START_YEAR)}+ years in software — Dwetech from 2009 through 2016 (60+ international client projects) and ${elapsedYears(CHALDAL_START_YEAR)}+ years at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.`;
+const cvSummary = `Staff level product engineer with ${elapsedYears(CAREER_START_YEAR)}+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${elapsedYears(CHALDAL_START_YEAR)}+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
 
 const pageWidth = 595.28;
 const pageHeight = 841.89;

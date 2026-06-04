@@ -7,6 +7,7 @@ export type SkillDemoMeta = {
   id: string;
   title: string;
   description: string;
+  icon: string;
 };
 
 export type DemoShellProps = {

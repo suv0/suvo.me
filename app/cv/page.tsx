@@ -3,11 +3,11 @@ import { DwetechLink, linkProfileText } from "@/components/profile-text-links";
 import cv from "@/lib/cv-data.json";
 import { getCvSummary } from "@/lib/portfolio-data";
 
-/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
+/** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data`. Must be a literal for Next segment config. */
 export const revalidate = 86_400;
 
 export const metadata: Metadata = {
-  title: `${cv.name} - CV`,
+  title: `${cv.name} | CV`,
   description: `Professional CV for ${cv.name}, ${cv.title}.`,
 };
 
@@ -55,7 +55,7 @@ export default function CvPage() {
                       ) : (
                         job.company
                       )}
-                      {" - "}
+                      {" | "}
                       {job.location}
                     </p>
                   </div>

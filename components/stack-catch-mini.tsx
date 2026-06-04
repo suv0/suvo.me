@@ -247,7 +247,7 @@ export function StackCatchMini() {
               <strong className="text-slate-200">Next.js</strong>,{" "}
               <strong className="text-slate-200">Tailwind</strong>, and{" "}
               <strong className="text-slate-200">a11y</strong>. Let <code className="text-rose-300/90">any</code> /{" "}
-              <code className="text-amber-300/90">var</code> fall through for a bonus — grabbing them costs points.
+              <code className="text-amber-300/90">var</code> fall through for a bonus. Grabbing them costs points.
             </p>
             <button type="button" onClick={start} className="btn-primary rounded-full px-5 py-2 text-sm font-semibold">
               Play
@@ -336,7 +336,7 @@ export function StackCatchMini() {
       <div className="skill-bento-fill hidden min-h-[6.5rem] flex-1 flex-col justify-center gap-3 rounded-2xl border border-slate-500/15 px-4 py-4 motion-reduce:flex sm:min-h-[7rem]">
         <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-slate-500">Stack snapshot</p>
         <p className="text-center text-sm leading-relaxed text-slate-400">
-          TypeScript, React, Next.js, Tailwind, and accessible UI — the same tools this site uses. With reduced motion
+          TypeScript, React, Next.js, Tailwind, and accessible UI. These are the same tools this site uses. With reduced motion
           enabled, the mini-game stays off.
         </p>
         <ul className="flex flex-wrap justify-center gap-2">

@@ -19,7 +19,7 @@ export function DemoShell({
   children,
 }: DemoShellProps) {
   return (
-    <div className="skill-bento-fill flex min-h-[16.5rem] flex-col gap-3 rounded-2xl border border-slate-500/15 p-3 sm:min-h-[17.5rem] sm:p-4">
+    <div className="flex w-full flex-col gap-3 rounded-lg border border-border-muted bg-ink-black p-3 md:p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-cyan-300/80">{eyebrow}</p>

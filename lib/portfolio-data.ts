@@ -15,6 +15,10 @@ export type ProjectItem = {
   name: string;
   description: string;
   impact: string;
+  /** Organization or product family label shown as a subtle brand marker. */
+  brand?: string;
+  /** Optional brand icon used as visual cue in project header. */
+  brandLogo?: string;
   /** Primary outbound link (store, article, repo, etc.) */
   link?: string;
   /** CTA label for primary link (defaults in UI if omitted) */
@@ -28,22 +32,6 @@ export type ProjectItem = {
   /** Short pill on the card media (avoid misleading “Case study” unless it is one) */
   badge: string;
 };
-
-type BaseHeroStat = {
-  label: string;
-  href?: string;
-};
-
-type HeroStatWithValue = BaseHeroStat & {
-  value: string;
-};
-
-type HeroStatWithStartYear = BaseHeroStat & {
-  startYear: number;
-  yearSuffix?: string;
-};
-
-export type HeroStat = HeroStatWithValue | HeroStatWithStartYear;
 
 export const getCurrentYear = (): number => new Date().getFullYear();
 export const getElapsedYears = (startYear: number, year: number = getCurrentYear()): number =>
@@ -71,21 +59,20 @@ export const getProfileTenure = (year: number = getCurrentYear()) => {
 
 export const getHeroTagline = (name: string, year: number = getCurrentYear()): string => {
   const { careerYears, chaldalYears } = getProfileTenure(year);
-  return `I'm ${name} — ${careerYears} years building software, the last ${chaldalYears} at Chaldal (YC S15), shipping national-scale grocery and logistics products from scratch.`;
+  return `I'm ${name}. I have spent ${careerYears} years building software, including ${chaldalYears} years at Chaldal (YC S15), where I built and shipped national scale grocery and logistics products from scratch.`;
 };
 
 export const getCvSummary = (year: number = getCurrentYear()): string => {
   const { careerYearsLabel, chaldalYearsLabel } = getProfileTenure(year);
-  return `Staff-level product engineer with ${careerYearsLabel} in software — Dwetech from 2009 through 2016 (60+ international client projects) and ${chaldalYearsLabel} at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.`;
+  return `Staff level product engineer with ${careerYearsLabel} in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${chaldalYearsLabel} at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
 };
 
 export const profile = {
   name: "Abdul Hamid Shuvo",
-  shortName: "Shuvo",
   title: "Senior Software Engineer",
-  /** One-line role stack for hero chips / marquee context */
+  /** One-line role stack for OG image and metadata. */
   roleStack: "React · React Native · TypeScript · F# · Systems at scale",
-  location: "Dhaka, Bangladesh · Open to remote",
+  location: "Dhaka, Bangladesh. Open to remote roles.",
   email: "me@suvo.me",
   /** Canonical site URL — for metadata / JSON-LD only; do not use as an on-page self-link. */
   website: "https://suvo.me",
@@ -94,26 +81,19 @@ export const profile = {
   github: "https://github.com/suv0",
   /** Optional CV PDF under `public/` — add the file alongside this path. */
   cvPdfPath: "/cv.pdf",
-  contactHeadline: "Open to staff-level product engineering roles",
   /** AI studio portrait (editorial crop); high-res asset in `public/`. */
   profileImage: "/hero-portrait-editorial.png",
   heroSummary:
-    "As a senior software engineer, I still build and own products end to end — from first mobile web through native apps to field logistics — with reliability under flaky networks, dispatch pressure, and a steady release cadence. From 2009 through 2016 I co-founded Dwetech and delivered 60+ international client projects; since January 2017 at Chaldal: mobile web from zero, native shopper apps, Chalao ride-sharing (BRTA licensing), Chalao Driver for last-mile logistics, and Protocol with platform architecture in F# and TypeScript.",
+    "I build and own products end to end, from first release to long term production support. Since 2017 at Chaldal, I have worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
   about:
-    "I started freelancing and co-founded Dwetech in 2009, delivering 60+ international projects over roughly seven years for clients across the USA, UK, Canada, and Australia. In January 2017, Chaldal (YC S15, ~2,200 staff) had minimal desktop web, no mobile web, and no production native shopper apps on a national-scale grocery and logistics platform. I built mobile web alone from zero, rebuilt and evolved the desktop experience, and led the ground-up Android and iOS shopper apps with teammates on delivery. After that foundation, I moved into Chalao as a consumer ride-sharing product under Chaldal: I built the app and carried BRTA meetings, documentation, and licensing so we could enlist; the ride business did not continue. Today the name Chalao also covers Chalao Driver, our logistics driver app for Chaldal’s own delivery network, which I own end to end with the same rigor I brought to the shopper stack — spanning logistics apps and platform architecture.",
-  cta: "Open to Staff Product Engineer and Senior/Staff Software Engineer roles — remote or Dhaka-based. Reach out at me@suvo.me.",
-  heroStats: [
-    { label: "Career", startYear: CAREER_START_YEAR, yearSuffix: "+ yrs" },
-    { label: "Chaldal · National scale · YC S15", startYear: CHALDAL_START_YEAR, yearSuffix: "+ yrs" },
-    { label: "Dwetech · 2009–2016", value: "60+ projects", href: DWETECH_URL },
-  ] satisfies HeroStat[],
+    "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer.",
 };
 
 export const getSiteMetadata = (year: number = getCurrentYear()) => {
   const tenure = getProfileTenure(year);
-  const ogTitle = `${profile.name} — Senior Software Engineer · ${tenure.careerYearsLabel}`;
-  const ogDescription = `${tenure.careerYearsLabel} in software — from Dwetech (2009–2016) to Chaldal (YC S15): web, mobile, logistics, and platform engineering.`;
-  const description = `${profile.name} — senior software engineer, ${tenure.careerYearsLabel}. Chaldal (YC S15), React, React Native, TypeScript, F#. National-scale logistics products. Dhaka · remote.`;
+  const ogTitle = `${profile.name} | Senior Software Engineer | ${tenure.careerYearsLabel}`;
+  const ogDescription = `${tenure.careerYearsLabel} in software. Experience across Dwetech (2009 to 2016) and Chaldal (YC S15), with work in web, mobile, logistics, and platform engineering.`;
+  const description = `${profile.name} is a senior software engineer with ${tenure.careerYearsLabel} of experience. Focus areas include Chaldal (YC S15), React, React Native, TypeScript, F#, and logistics products at scale. Based in Dhaka and open to remote roles.`;
   return { ogTitle, ogDescription, description };
 };
 
@@ -136,32 +116,29 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-/** Flat list for marquee / orbit-style surfaces */
-export const allSkills: string[] = skillGroups.flatMap((g) => g.items);
-
 export const experiences: ExperienceItem[] = [
   {
     role: "Senior Software Engineer",
     company: "Chaldal (YC S15)",
-    period: "Jan 2017 - Present",
+    period: "Jan 2017 to Present",
     location: "Dhaka, Bangladesh",
     highlights: [
-      "Joined January 2017 when Chaldal had only bare-minimum desktop web: built mobile web alone (none existed), evolved desktop into the modern production shopper site, and shipped native Android and iOS shopper apps from the ground up as the primary engineer.",
-      "Built Chalao consumer ride-sharing under Chaldal licensing: shipped the app and led BRTA and government-side work (meetings, documentation, enlistment). The ride business did not continue — Chaldal was listed among operators receiving BRTA enlistment certificates (Daily Star, Dec 2019).",
-      "Own Chalao Driver (logistics): React Native operations app for Chaldal’s last-mile drivers, not the same product as consumer ride-sharing. Full ownership, real-time dispatch, unreliable networks, and ongoing Play Store releases.",
-      "Build and maintain GogoBangla, Chaldal’s merchant fulfillment app for e-commerce and f-commerce: picking, warehousing, and shipping on the same national logistics network — so merchants focus on sales while Chaldal handles last mile.",
-      "Shipped Protocol for 1,000+ internal users (also on Play Store), maintained other Chaldal operations apps where applicable, and was an early core contributor to Subject / EggShell on the frontend layer.",
+      "Joined Chaldal in January 2017 when the platform had a limited desktop experience and no production mobile web or native shopper apps. Built mobile web from zero, modernized desktop, and shipped Android and iOS shopper apps as a primary engineer.",
+      "Built Chalao ride sharing under Chaldal licensing. Shipped the app and led BRTA and government side work, including meetings, documentation, and enlistment.",
+      "Own Chalao Driver for logistics operations. Built and maintain the React Native app used by last mile drivers in production conditions.",
+      "Build and maintain GogoBangla, a merchant fulfillment app for ecommerce and f commerce workflows across picking, warehousing, and shipping.",
+      "Shipped Protocol for over 1,000 internal users, maintained multiple operations apps, and shaped early frontend architecture on Subject and EggShell.",
     ],
   },
   {
     role: "Co-founder & Lead Developer",
     company: "Dwetech",
-    period: "Jun 2009 - Dec 2016",
+    period: "Jun 2009 to Dec 2016",
     location: "Bangladesh (remote client delivery)",
     highlights: [
-      "Co-founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
+      "Co founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
       "Built product and client systems across PHP, JavaScript, CMS ecosystems, integrations, and automation-heavy workflows.",
-      "Built in-house SaaS products (CRM, mobile credit recharge) alongside client delivery. Maintained a 5.0 rating across 63 completed projects on Freelancer.com, including multi-year engagements with repeat enterprise clients.",
+      "Built in house SaaS products, including a CRM and mobile credit recharge tools, alongside client delivery. Maintained a 5.0 rating across 63 completed projects on Freelancer.com, including multi year engagements with repeat enterprise clients.",
     ],
   },
 ];
@@ -169,73 +146,85 @@ export const experiences: ExperienceItem[] = [
 export const featuredProjects: ProjectItem[] = [
   {
     name: "Chaldal Shopper App",
+    brand: "Chaldal",
+    brandLogo: "/logos/chaldal.png",
     description:
-      "Consumer grocery app for Chaldal’s national delivery platform. Primary engineer on the original Android and iOS build from the ground up; ongoing releases and production ownership across the shopper stack.",
+      "Consumer grocery app for Chaldal’s national delivery platform. Primary engineer on the original Android and iOS build from the ground up, with ongoing releases and production ownership across the shopper stack.",
     impact:
-      "Android: 1M+ downloads, 4.4★ · iOS: 4.8★. National-scale traffic, payments, and fulfillment UX in a regulated retail environment.",
+      "Android: 1M+ downloads and 4.4 stars. iOS: 4.8 stars. Supports national scale traffic, payments, and fulfillment in a regulated retail environment.",
     link: "https://play.google.com/store/apps/details?id=com.chaldal.poached",
     linkLabel: "Google Play →",
     extraLinks: [{ label: "App Store →", href: "https://apps.apple.com/us/app/chaldal-online-grocery/id1104493220" }],
     coverImage: "/projects/chaldal-shopper.png",
-    coverAlt: "Chaldal shopper — consumer grocery app for national delivery",
+    coverAlt: "Chaldal shopper consumer grocery app for national delivery",
     badge: "Production app",
   },
   {
     name: "GogoBangla",
+    brand: "GogoBangla",
+    brandLogo: "/logos/gogobangla.png",
     description:
-      "Merchant-facing fulfillment app for Chaldal’s B2B logistics platform. E-commerce and f-commerce sellers use it to hand off picking, storage, and last-mile delivery — leveraging the same warehouse and delivery network built for national grocery scale.",
+      "Merchant facing fulfillment app for Chaldal’s B2B logistics platform. Ecommerce and f commerce sellers use it for picking, storage, and last mile delivery on the same network used for national grocery scale.",
     impact:
-      "Live on Google Play with ongoing releases (updated Dec 2025). Supports merchant order fulfillment, pickups, and exchanges across Chaldal’s logistics footprint — dozens of large stores and hundreds of online merchants per Chaldal Engineering.",
+      "Live on Google Play with ongoing releases. Supports merchant order fulfillment, pickups, and exchanges across Chaldal’s logistics footprint, including dozens of large stores and hundreds of online merchants.",
     link: "https://play.google.com/store/apps/details?id=com.gogobangla",
     linkLabel: "Google Play →",
     coverImage: "/projects/gogobangla.png",
-    coverAlt: "GogoBangla — merchant fulfillment app for e-commerce and f-commerce",
-    badge: "B2B · Live",
+    coverAlt: "GogoBangla merchant fulfillment app for ecommerce and f commerce",
+    badge: "B2B Live",
   },
   {
     name: "Chalao (ride-sharing)",
+    brand: "Chalao",
+    brandLogo: "/logos/chaldal.png",
     description:
       "Consumer ride-hailing app licensed under Chaldal. I built the application and owned the regulatory path: BRTA meetings, documentation, and enlistment so we could operate in that category.",
     impact:
-      "Chaldal was listed among operators receiving BRTA enlistment certificates (Daily Star, Dec 2019). The ride-sharing business did not continue as an operating line; the work still shows product plus regulatory execution under pressure.",
+      "Chaldal was listed among operators receiving BRTA enlistment certificates in The Daily Star (Dec 2019). The ride sharing line did not continue.",
     link: "https://www.thedailystar.net/country/news/uber-pathao-and-shohoz-get-brta-certificate-1835719",
     linkLabel: "Read press mention →",
     coverImage: "/projects/chalao-rideshare.png",
-    coverAlt: "Chalao ride-sharing — regulatory and product chapter under Chaldal",
+    coverAlt: "Chalao ride sharing project under Chaldal",
     badge: "Regulatory",
   },
   {
     name: "Chalao Driver (logistics)",
+    brand: "Chalao Driver",
+    brandLogo: "/logos/chalao-driver.png",
     description:
-      "Production React Native app for Chaldal’s own last-mile drivers: dispatch, navigation, earnings, and field operations. Same brand family as historical Chalao ride-sharing, different product and codebase era.",
+      "Production React Native app for Chaldal’s own last mile drivers. Covers dispatch, navigation, earnings, and field operations.",
     impact:
-      "Designed for real-world constraints: unstable connectivity, location reliability, battery limits, and ongoing release cadence. Full product ownership from spec through production.",
+      "Designed for real world constraints such as unstable connectivity, location reliability, and battery limits. Full product ownership from specification through production.",
     link: "https://play.google.com/store/apps/details?id=app.chalao.driver",
     coverImage: "/projects/chalao-driver.png",
-    coverAlt: "Chalao Driver — React Native app for Chaldal last-mile logistics",
+    coverAlt: "Chalao Driver React Native app for Chaldal logistics",
     badge: "Live app",
   },
   {
     name: "Protocol by Chaldal",
+    brand: "Protocol",
+    brandLogo: "/logos/protocol.png",
     description:
       "Internal and mobile collaboration platform used by operations, finance, HR, and engineering teams.",
     impact:
       "Improved task visibility and coordination at scale with a practical workflow model used by 1,000+ internal users.",
     link: "https://play.google.com/store/apps/details?id=com.chaldal.protocol",
     coverImage: "/projects/protocol.png",
-    coverAlt: "Protocol by Chaldal — internal operations collaboration platform",
-    badge: "Internal · Live",
+    coverAlt: "Protocol by Chaldal internal operations collaboration platform",
+    badge: "Internal Live",
   },
   {
     name: "Subject / EggShell",
+    brand: "Subject / EggShell",
+    brandLogo: "/logos/github.png",
     description:
       "Open-source application stack contribution focused on frontend layer APIs and foundational component patterns.",
     impact:
-      "Helped shape early architecture decisions and reusable building blocks that made product development faster and safer.",
+      "Shaped early architecture decisions and reusable building blocks for the frontend layer.",
     link: "https://github.com/chaldal/subject",
     linkLabel: "View on GitHub →",
     coverImage: "/projects/opensource.png",
-    coverAlt: "Subject / EggShell — open-source frontend stack contribution",
+    coverAlt: "Subject and EggShell open source frontend stack contribution",
     badge: "Open source",
   },
 ];

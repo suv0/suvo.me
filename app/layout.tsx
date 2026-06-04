@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, JetBrains_Mono, Libre_Caslon_Text } from "next/font/google";
 import { getSiteMetadata } from "@/lib/portfolio-data";
 import "./globals.css";
 
@@ -10,9 +10,16 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const libreCaslon = Libre_Caslon_Text({
+  variable: "--font-libre-caslon",
   subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const viewport: Viewport = {
@@ -20,7 +27,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   /** Lets the page extend into the notch area so `env(safe-area-inset-*)` is meaningful on iOS. */
   viewportFit: "cover",
-  themeColor: "#020617",
+  themeColor: "#101412",
 };
 
 /** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data` — must be a literal for Next segment config. */
@@ -64,11 +71,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} h-full min-w-0 antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${libreCaslon.variable} ${jetbrainsMono.variable} h-full min-w-0 antialiased`}
+    >
       <head>
         {facebookAppId ? <meta property="fb:app_id" content={facebookAppId} /> : null}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="flex min-h-full min-w-0 flex-col overflow-x-hidden">
+      <body className="flex min-h-full min-w-0 flex-col overflow-x-hidden bg-ink-black text-on-surface">
         {children}
         <Analytics />
         <SpeedInsights />

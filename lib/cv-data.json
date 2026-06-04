@@ -1,12 +1,12 @@
 {
   "name": "Abdul Hamid Shuvo",
   "title": "Senior Software Engineer",
-  "location": "Dhaka, Bangladesh - open to remote",
+  "location": "Dhaka, Bangladesh. Open to remote roles.",
   "email": "me@suvo.me",
   "website": "https://suvo.me",
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
-  "summary": "Staff-level product engineer with 16+ years in software — Dwetech from 2009 through 2016 (60+ international client projects) and 9+ years at Chaldal (YC S15). Broad ownership across shopper products, mobile apps, logistics, and internal platforms, with consistent delivery from zero-to-production under real-world constraints.",
+  "summary": "Staff level product engineer with 17+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent 9+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.",
   "strengths": [
     "Frontend and mobile product ownership across React, React Native, Next.js, TypeScript, and accessibility-minded UI.",
     "Production systems judgment from grocery, logistics, payments, dispatch, and unstable-network field operations.",
@@ -18,20 +18,20 @@
       "role": "Senior Software Engineer",
       "company": "Chaldal (YC S15)",
       "location": "Dhaka, Bangladesh",
-      "period": "Jan 2017 - Present",
+      "period": "Jan 2017 to Present",
       "highlights": [
         "Joined when Chaldal had minimal desktop web, no mobile web, and no production native shopper apps; built the mobile web from zero and evolved the production shopper web experience.",
         "Built the original Android and iOS Chaldal shopper apps from the ground up as primary engineer, with ongoing ownership across releases and shopper-stack reliability.",
-        "Owned Chalao consumer ride-sharing product work under Chaldal, including app delivery plus BRTA meetings, documentation, and licensing/enlistment work.",
-        "Own Chalao Driver, a React Native logistics app for Chaldal's last-mile delivery network, designed around dispatch pressure, unreliable connectivity, location accuracy, and Play Store releases.",
-        "Shipped Protocol for 1,000+ internal users and contributed to Subject / EggShell frontend architecture and reusable product foundations."
+        "Owned Chalao consumer ride sharing product work under Chaldal, including app delivery plus BRTA meetings, documentation, and licensing work.",
+        "Own Chalao Driver, a React Native logistics app for Chaldal's last mile delivery network, designed around dispatch pressure, unreliable connectivity, location accuracy, and Play Store releases.",
+        "Shipped Protocol for 1,000+ internal users, maintained multiple operations apps, and shaped early frontend architecture on Subject and EggShell."
       ]
     },
     {
       "role": "Co-founder & Lead Developer",
       "company": "Dwetech",
       "location": "Bangladesh / remote client delivery",
-      "period": "Jun 2009 - Dec 2016",
+      "period": "Jun 2009 to Dec 2016",
       "highlights": [
         "Co-founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
         "Built client systems across PHP, JavaScript, CMS ecosystems, integrations, automation-heavy workflows, and productized internal tools.",
@@ -46,11 +46,11 @@
     },
     {
       "name": "GogoBangla",
-      "details": "Merchant fulfillment app for Chaldal's B2B logistics platform — e-commerce and f-commerce sellers offload picking, warehousing, and last-mile delivery via the same national network as consumer grocery."
+      "details": "Merchant fulfillment app for Chaldal's B2B logistics platform. Ecommerce and f commerce sellers offload picking, warehousing, and last mile delivery through the same national network used for consumer grocery."
     },
     {
       "name": "Chalao Driver",
-      "details": "Production React Native driver app for dispatch, navigation, earnings, and field operations in Chaldal's last-mile logistics network."
+      "details": "Production React Native driver app for dispatch, navigation, earnings, and field operations in Chaldal's last mile logistics network."
     },
     {
       "name": "Protocol by Chaldal",

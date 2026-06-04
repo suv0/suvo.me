@@ -90,6 +90,3 @@ export function linkProfileText(text: string): ReactNode {
 
   return text.split(profileTextSplitPattern).map(linkProfileTextSegment);
 }
-
-/** @deprecated Use `linkProfileText` */
-export const linkDwetechInText = linkProfileText;

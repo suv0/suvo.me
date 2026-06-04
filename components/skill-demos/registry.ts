@@ -6,36 +6,43 @@ export const skillDemoRegistry = [
     id: "spot-typescript-error",
     title: "Spot the TypeScript error",
     description: "Click the buggy line in a tiny snippet.",
+    icon: "bug_report",
   },
   {
     id: "guess-tailwind-class",
     title: "Guess the Tailwind class",
     description: "Match the preview to a plausible utility string.",
+    icon: "palette",
   },
   {
     id: "valid-typescript",
     title: "Valid TypeScript?",
     description: "Judge whether the snippet type-checks.",
+    icon: "rule",
   },
   {
     id: "name-that-hook",
     title: "Name that hook",
     description: "Map behavior to the right React hook.",
+    icon: "extension",
   },
   {
     id: "which-api",
     title: "Which API is correct?",
     description: "Choose the clean web-platform API.",
+    icon: "api",
   },
   {
     id: "render-order",
     title: "What happens next?",
     description: "Complete a frontend lifecycle sequence.",
+    icon: "timeline",
   },
   {
     id: "stack-catch",
     title: "Stack catch",
     description: "Catch the good frontend tokens.",
+    icon: "sports_esports",
   },
 ] as const satisfies readonly SkillDemoMeta[];
 

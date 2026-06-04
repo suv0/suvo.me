@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "cv:pdf": "node scripts/generate-cv-pdf.mjs",
+    "kids:enhance-photo": "node scripts/enhance-kids-hero.mjs",
     "docker:up": "node scripts/docker-deploy.mjs",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f web",
@@ -16,7 +17,6 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "framer-motion": "^12.38.0",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
