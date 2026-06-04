@@ -30,9 +30,9 @@ export function JournalHero({ currentYear }: { currentYear: number }) {
   return (
     <section
       id="top"
-      className="group/hero relative isolate scroll-mt-[calc(4.25rem+env(safe-area-inset-top,0px))] overflow-hidden border-b border-border-muted bg-journal-deep max-md:flex max-md:flex-col max-md:pt-[calc(4.25rem+env(safe-area-inset-top,0px))] md:min-h-[72svh] lg:min-h-[74svh]"
+      className="group/hero relative isolate scroll-mt-[calc(var(--journal-nav-height)+env(safe-area-inset-top,0px))] overflow-hidden border-b border-border-muted bg-journal-deep max-md:flex max-md:flex-col max-md:pt-[calc(var(--journal-nav-height)+0.5rem+env(safe-area-inset-top,0px))] md:min-h-[72svh] md:pt-0 lg:min-h-[74svh]"
     >
-      <div className="pointer-events-none z-0 max-md:relative max-md:h-[clamp(13rem,38vh,19rem)] max-md:w-full max-md:shrink-0 max-md:overflow-hidden md:absolute md:inset-0">
+      <div className="pointer-events-none z-0 max-md:relative max-md:mt-2 max-md:h-[clamp(13rem,38vh,19rem)] max-md:w-full max-md:shrink-0 max-md:overflow-hidden max-md:rounded-t-xl md:absolute md:inset-0 md:mt-0 md:rounded-none">
         <div className="journal-hero-backdrop relative h-full overflow-hidden">
           <div className="absolute inset-0 overflow-hidden md:hidden">
             <Image
@@ -42,7 +42,7 @@ export function JournalHero({ currentYear }: { currentYear: number }) {
               priority
               quality={90}
               sizes={portraitSizes}
-              className="object-cover object-[50%_28%]"
+              className="object-cover object-[50%_22%]"
             />
           </div>
           <div className="absolute inset-0 hidden overflow-hidden md:block">

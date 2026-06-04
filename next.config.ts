@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  /**
+   * Phone testing via LAN IP — Next blocks `/_next/*` from other hosts unless listed.
+   * Add your machine IP from `ipconfig` if it differs from 192.168.68.102.
+   */
+  allowedDevOrigins: ["192.168.68.102"],
   /** Allow `quality` values used by `next/image` (default is only 75). */
   images: {
     qualities: [75, 90],

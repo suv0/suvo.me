@@ -73,6 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${libreCaslon.variable} ${jetbrainsMono.variable} h-full min-w-0 antialiased`}
     >
       <head>

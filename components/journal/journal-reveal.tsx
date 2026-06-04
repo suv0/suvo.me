@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { JournalSectionRule } from "@/components/journal/journal-section-rule";
 import { revealJournalBlock } from "@/lib/journal-reveal-dom";
-import { usePrefersLightMotion } from "@/lib/use-prefers-light-motion";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 type JournalRevealProps = {
@@ -15,10 +14,7 @@ type JournalRevealProps = {
   rule?: boolean;
 };
 
-function markVisible(el: HTMLElement): void {
-  el.classList.remove("journal-reveal--pending");
-  el.classList.add("journal-reveal--visible");
-}
+type RevealPhase = "idle" | "pending" | "visible";
 
 export function JournalReveal({
   children,
@@ -29,33 +25,44 @@ export function JournalReveal({
 }: JournalRevealProps) {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = usePrefersReducedMotion();
-  const lightMotion = usePrefersLightMotion();
-  const skipScrollHide = reduceMotion || lightMotion;
+  /** SSR + first paint: idle (no hidden content) — avoids hydration mismatch. */
+  const [phase, setPhase] = useState<RevealPhase>("idle");
+
+  const phaseClass =
+    phase === "pending"
+      ? "journal-reveal--pending"
+      : phase === "visible"
+        ? "journal-reveal--visible"
+        : "";
+
   const revealClass = [
     "journal-reveal",
     reduceMotion ? "journal-reveal--reduced" : "",
-    !reduceMotion && lightMotion ? "journal-reveal--subtle" : "",
+    phaseClass,
+    className,
   ]
     .filter(Boolean)
     .join(" ");
 
-  useLayoutEffect(() => {
-    if (!ref.current) return;
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (reduceMotion) {
+        setPhase("visible");
+        return;
+      }
 
-    const el = ref.current;
-    if (skipScrollHide) {
-      markVisible(el);
-      return;
-    }
+      const el = ref.current;
+      if (!el) return;
 
-    const belowFold = el.getBoundingClientRect().top > window.innerHeight * 0.88;
+      const belowFold = el.getBoundingClientRect().top > window.innerHeight * 0.88;
+      setPhase(belowFold ? "pending" : "visible");
+    });
 
-    el.classList.toggle("journal-reveal--pending", belowFold);
-    el.classList.toggle("journal-reveal--visible", !belowFold);
-  }, [skipScrollHide]);
+    return () => cancelAnimationFrame(frame);
+  }, [reduceMotion]);
 
   useEffect(() => {
-    if (skipScrollHide || !ref.current) return;
+    if (reduceMotion || phase !== "pending" || !ref.current) return;
 
     const el = ref.current;
 
@@ -63,7 +70,7 @@ export function JournalReveal({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            markVisible(el);
+            setPhase("visible");
             observer.unobserve(el);
           }
         });
@@ -74,35 +81,32 @@ export function JournalReveal({
     observer.observe(el);
 
     const safety = window.setTimeout(() => {
-      if (el.classList.contains("journal-reveal--pending")) {
-        markVisible(el);
-      }
+      setPhase((current) => (current === "pending" ? "visible" : current));
     }, 2500);
 
     return () => {
       observer.disconnect();
       window.clearTimeout(safety);
     };
-  }, [skipScrollHide]);
+  }, [reduceMotion, phase]);
 
   useEffect(() => {
-    if (skipScrollHide || !ref.current || !id) return;
+    if (reduceMotion || !ref.current || !id) return;
 
     const el = ref.current;
     const onSectionNavigated = (event: Event) => {
       const targetId = (event as CustomEvent<{ id: string }>).detail?.id;
       if (targetId !== id) return;
+      setPhase("visible");
       revealJournalBlock(el);
     };
 
     window.addEventListener("journal-section-navigated", onSectionNavigated);
     return () => window.removeEventListener("journal-section-navigated", onSectionNavigated);
-  }, [skipScrollHide, id]);
-
-  const outerClass = [revealClass, className].filter(Boolean).join(" ");
+  }, [reduceMotion, id]);
 
   return (
-    <Tag ref={ref as never} id={id} className={outerClass || undefined}>
+    <Tag ref={ref as never} id={id} className={revealClass || undefined}>
       {rule ? <JournalSectionRule /> : null}
       <div className="journal-reveal__content">{children}</div>
     </Tag>

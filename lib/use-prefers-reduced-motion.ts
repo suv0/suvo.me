@@ -2,24 +2,23 @@
 
 import { useSyncExternalStore } from "react";
 
-/**
- * Matches `prefers-reduced-motion` on the client while staying hydration-safe:
- * server snapshot and the client's first hydrated pass both use `false`, then
- * the real media query value is applied after commit.
- */
+const REDUCE_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribe(onStoreChange: () => void) {
+  const mq = window.matchMedia(REDUCE_MOTION_QUERY);
+  mq.addEventListener("change", onStoreChange);
+  return () => mq.removeEventListener("change", onStoreChange);
+}
+
+function getServerSnapshot(): boolean {
+  return false;
+}
+
+function getClientSnapshot(): boolean {
+  return window.matchMedia(REDUCE_MOTION_QUERY).matches;
+}
+
+/** Matches `prefers-reduced-motion` — hydration-safe (server + first client pass use `false`). */
 export function usePrefersReducedMotion(): boolean {
-  return useSyncExternalStore(
-    (onStoreChange) => {
-      if (typeof window === "undefined") {
-        return () => {};
-      }
-      const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-      mq.addEventListener("change", onStoreChange);
-      return () => mq.removeEventListener("change", onStoreChange);
-    },
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    () => false,
-  );
+  return useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
 }

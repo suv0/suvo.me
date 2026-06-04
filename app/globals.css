@@ -114,6 +114,8 @@
   --duration-journal: 1250ms;
   --duration-journal-bento: 2000ms;
   --duration-journal-media: 700ms;
+  /* Measured on mount by JournalNav; fallback fits two-row mobile header. */
+  --journal-nav-height: 11.5rem;
 }
 
 .journal-hero-backdrop {
@@ -162,7 +164,7 @@ body {
 .journal-site #experience,
 .journal-site #systems,
 .journal-site #lab {
-  scroll-margin-top: calc(7.5rem + env(safe-area-inset-top, 0px));
+  scroll-margin-top: calc(var(--journal-nav-height) + env(safe-area-inset-top, 0px));
 }
 
 :where(a, button, summary):not(.journal-site a, .journal-site button) {
@@ -293,20 +295,13 @@ body {
   transform: translateY(0);
 }
 
-.journal-site .journal-reveal--subtle .journal-reveal__content {
-  transition:
-    opacity 0.45s var(--motion-ease-smooth),
-    transform 0.45s var(--motion-ease-smooth);
-}
-
-.journal-site .journal-reveal--subtle .journal-reveal__content {
-  opacity: 1;
-  transform: none;
-}
-
-.journal-site .journal-reveal--subtle.journal-reveal--pending .journal-reveal__content {
-  opacity: 1;
-  transform: none;
+/* Touch / narrow: never hide section copy (avoids blank blocks if reveal JS is late or hydration recovers). */
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .journal-site .journal-reveal.journal-reveal--pending .journal-reveal__content {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .journal-section-rule-fill {
@@ -328,13 +323,17 @@ body {
   transition-delay: 0.28s;
 }
 
-.journal-site .journal-reveal--subtle.journal-reveal--visible .journal-reveal__content {
-  transition-delay: 0.18s;
-}
 
 @media (max-width: 767px), (hover: none) and (pointer: coarse) {
   .journal-site {
     background-attachment: scroll;
+  }
+
+  /* Only the aria-current pill should look selected (not :active on pills passed while scrolling). */
+  .journal-mobile-sections button:not([aria-current="true"]):active {
+    border-color: var(--color-border-muted);
+    background-color: transparent;
+    color: var(--color-text-dim);
   }
 }
 

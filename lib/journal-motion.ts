@@ -41,10 +41,11 @@ export const journalTitleMotion = [
   "group-hover:text-chaldal-green",
 ].join(" ");
 
+/** Nav pills/links — snappy active state (not 1250ms UI hover timing). */
 export const journalNavLinkMotion = [
-  journalUiDuration,
+  "duration-200",
   journalEase,
-  "transition-[color,border-color]",
+  "transition-[color,border-color,background-color]",
   "hover:text-on-surface",
 ].join(" ");
 
