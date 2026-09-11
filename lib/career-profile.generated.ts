@@ -15,15 +15,16 @@ export const profileCore = {
   "website": "https://suvo.me",
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
-  "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end. From 2017 at Chaldal, I worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
-  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono."
+  "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end, and I lead the engineering hiring loop. From 2017 at Chaldal, I worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
+  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono, including interviews and assessments for the engineering team."
 } as const;
 
 export const strengths = [
   "Frontend and mobile product ownership across React, React Native, Next.js, TypeScript, and accessibility-minded UI.",
   "Production systems judgment from grocery, logistics, payments, dispatch, and unstable-network field operations.",
   "Backend and platform fluency with F#, .NET, Node.js, NestJS, REST APIs, PostgreSQL, Prisma, Redis, PHP, and MySQL.",
-  "Cross-functional delivery: product shaping, release management, code review, mentoring, regulatory documentation, and stakeholder communication."
+  "Cross-functional delivery: product shaping, release management, code review, mentoring, regulatory documentation, and stakeholder communication.",
+  "Lead engineering hiring loops and assessments, including nearly 30 senior software engineer interviews plus product and design interviews."
 ] as const;
 
 export const experiencesCore = [
@@ -37,6 +38,7 @@ export const experiencesCore = [
     "current": true,
     "highlights": [
       "Leading full-stack engineering at AllChrono, a global luxury-watch trading platform anchored in Saudi Arabia that provides trusted infrastructure for cross-border transactions.",
+      "Lead engineering hiring at AllChrono. I run interviews and assessments for nearly 30 senior software engineers, owning the loop and the hiring bar even when other interviewers join. I have also interviewed product and design candidates.",
       "Own product architecture across the Next.js marketplace, seller, operator, and landing surfaces together with the NestJS platform API, including identity, authentication, and seller-facing workflows.",
       "Shape technical direction on TypeScript services backed by PostgreSQL and Prisma, with Dockerized delivery across the application and API layers."
     ]
@@ -116,7 +118,9 @@ export const skillGroupsCore = [
       "Code Review",
       "CI/CD",
       "Docker",
-      "Mentorship"
+      "Mentorship",
+      "Technical interviews",
+      "Hiring"
     ]
   }
 ] as const;
