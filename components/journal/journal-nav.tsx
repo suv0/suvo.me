@@ -26,6 +26,7 @@ const navItems = [
   { href: "#philosophy", id: "philosophy", label: "Philosophy" },
   { href: "#impact", id: "impact", label: "Impact" },
   { href: "#experience", id: "experience", label: "Experience" },
+  { href: "#founded", id: "founded", label: "Founded" },
   { href: "#systems", id: "systems", label: "Stack" },
   { href: "#lab", id: "lab", label: "Lab" },
 ] as const;

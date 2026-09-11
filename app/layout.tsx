@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, JetBrains_Mono, Libre_Caslon_Text } from "next/font/google";
 import { getSiteMetadata } from "@/lib/portfolio-data";
+import { getOgPortrait } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,7 +38,9 @@ export const revalidate = 86_400;
 const facebookAppId = process.env.NEXT_PUBLIC_FB_APP_ID?.trim();
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { ogTitle, ogDescription, description, name } = getSiteMetadata();
+  const { ogTitle, ogDescription, description, name, keywords } = getSiteMetadata();
+  const portrait = getOgPortrait();
+  const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     metadataBase: new URL("https://suvo.me"),
@@ -46,8 +49,14 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${name}`,
     },
     description,
-    alternates: {
-      canonical: "https://suvo.me",
+    keywords,
+    authors: [{ name, url: "https://suvo.me" }],
+    creator: name,
+    publisher: name,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
     },
     openGraph: {
       title: ogTitle,
@@ -56,12 +65,15 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "https://suvo.me",
       siteName: "suvo.me",
       locale: "en",
+      images: [portrait],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description: ogDescription,
+      images: [portrait.url],
     },
+    ...(googleVerification ? { verification: { google: googleVerification } } : {}),
   };
 }
 

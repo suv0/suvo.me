@@ -1,11 +1,23 @@
 import type { ReactNode } from "react";
 
-import { DWETECH_URL, FREELANCER_PROFILE_URL, getExperienceUrl } from "@/lib/portfolio-data";
+import { DWETECH_URL, FREELANCER_PROFILE_URL, foundedProducts, getExperienceUrl } from "@/lib/portfolio-data";
 
 const externalLinkClassName =
   "text-inherit underline decoration-cyan-300/50 underline-offset-4 transition-colors hover:text-cyan-200 hover:decoration-cyan-200";
 
-const profileTextSplitPattern = /(AllChrono|Dwetech|Freelancer\.com|freelancing)/;
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const profileTextTokens = [
+  "AllChrono",
+  "Dwetech",
+  "Freelancer.com",
+  "freelancing",
+  ...foundedProducts.map((item) => item.name),
+].sort((a, b) => b.length - a.length);
+
+const profileTextSplitPattern = new RegExp(`(${profileTextTokens.map(escapeRegExp).join("|")})`);
 
 type ExternalLinkProps = {
   href: string;
@@ -71,6 +83,14 @@ export function FreelancerLink({ children, className }: FreelancerLinkProps) {
   );
 }
 
+function FoundedProductLink({ name, href }: { name: string; href: string }) {
+  return (
+    <a href={href} className={externalLinkClassName} aria-label={`${name}, jump to Founded on this page`}>
+      {name}
+    </a>
+  );
+}
+
 function linkProfileTextSegment(part: string, index: number): ReactNode {
   switch (part) {
     case "AllChrono":
@@ -89,19 +109,19 @@ function linkProfileTextSegment(part: string, index: number): ReactNode {
           freelancing
         </FreelancerLink>
       );
-    default:
+    default: {
+      const founded = foundedProducts.find((item) => item.name === part);
+      if (founded) {
+        return <FoundedProductLink key={index} name={founded.name} href={`#${founded.id}`} />;
+      }
       return part;
+    }
   }
 }
 
-/** Link company mentions in portfolio copy. */
+/** Link company and founded-product mentions in portfolio copy. */
 export function linkProfileText(text: string): ReactNode {
-  if (
-    !text.includes("AllChrono") &&
-    !text.includes("Dwetech") &&
-    !text.includes("Freelancer.com") &&
-    !text.includes("freelancing")
-  ) {
+  if (!profileTextTokens.some((token) => text.includes(token))) {
     return text;
   }
 

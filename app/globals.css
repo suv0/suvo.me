@@ -162,6 +162,7 @@ body {
 .journal-site #philosophy,
 .journal-site #impact,
 .journal-site #experience,
+.journal-site #founded,
 .journal-site #systems,
 .journal-site #lab {
   scroll-margin-top: calc(var(--journal-nav-height) + env(safe-area-inset-top, 0px));

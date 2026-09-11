@@ -16,7 +16,7 @@ export const profileCore = {
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
   "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end, and I lead the engineering hiring loop. From 2017 at Chaldal, I worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
-  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono, including interviews and assessments for the engineering team."
+  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono, including interviews and assessments for the engineering team. I also found independent tools I actually use to ship, including Precious and PRism."
 } as const;
 
 export const strengths = [
@@ -180,5 +180,40 @@ export const projectsCore = [
     "links": {
       "github": "https://github.com/chaldal/subject"
     }
+  }
+] as const;
+
+export const foundedCore = [
+  {
+    "id": "precious",
+    "name": "Precious",
+    "role": "Founder",
+    "tagline": "One key to rule them all.",
+    "status": "Public · MIT · self-hosted",
+    "description": "Self-hosted LLM router. You add your own API keys from Groq, Gemini, OpenAI, and other providers. When one hits a rate limit, Precious fails over to the next and forwards the full conversation so chat does not start over.",
+    "impact": "One prec_ key for Cursor, Python, LangChain, or any OpenAI-compatible client. Seventeen provider adapters. Keys encrypted at rest.",
+    "links": {
+      "github": "https://github.com/suv0/precious"
+    }
+  },
+  {
+    "id": "prsm",
+    "name": "PRism",
+    "role": "Founder",
+    "tagline": "See every angle before you merge.",
+    "status": "Public · MIT · local",
+    "description": "Local multi-agent pull request review. Point the prsm CLI at a GitHub PR. Specialist passes (correctness, nitpick, devil's advocate) run through AI CLIs already on your machine.",
+    "impact": "Agents run in parallel and merge into one triage queue. It never auto-posts to GitHub; you paste comments yourself. No PRism API key.",
+    "links": {
+      "github": "https://github.com/suv0/prsm"
+    }
+  }
+] as const;
+
+export const educationCore = [
+  {
+    "credential": "B.Sc., Computer Science & Engineering",
+    "institution": "Stamford University Bangladesh",
+    "period": "2008 - 2012"
   }
 ] as const;
