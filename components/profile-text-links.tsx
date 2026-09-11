@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 
-import { DWETECH_URL, FREELANCER_PROFILE_URL } from "@/lib/portfolio-data";
+import { DWETECH_URL, FREELANCER_PROFILE_URL, getExperienceUrl } from "@/lib/portfolio-data";
 
 const externalLinkClassName =
   "text-inherit underline decoration-cyan-300/50 underline-offset-4 transition-colors hover:text-cyan-200 hover:decoration-cyan-200";
 
-const profileTextSplitPattern = /(Dwetech|Freelancer\.com|freelancing)/;
+const profileTextSplitPattern = /(AllChrono|Dwetech|Freelancer\.com|freelancing)/;
 
 type ExternalLinkProps = {
   href: string;
@@ -25,6 +25,20 @@ function ExternalTextLink({ href, children, className, ariaLabel }: ExternalLink
     >
       {children}
     </a>
+  );
+}
+
+type AllChronoLinkProps = {
+  className?: string;
+};
+
+export function AllChronoLink({ className }: AllChronoLinkProps) {
+  const href = getExperienceUrl("AllChrono");
+  if (!href) return "AllChrono";
+  return (
+    <ExternalTextLink href={href} className={className} ariaLabel="AllChrono (opens in a new tab)">
+      AllChrono
+    </ExternalTextLink>
   );
 }
 
@@ -59,6 +73,8 @@ export function FreelancerLink({ children, className }: FreelancerLinkProps) {
 
 function linkProfileTextSegment(part: string, index: number): ReactNode {
   switch (part) {
+    case "AllChrono":
+      return <AllChronoLink key={index} />;
     case "Dwetech":
       return <DwetechLink key={index} />;
     case "Freelancer.com":
@@ -78,9 +94,10 @@ function linkProfileTextSegment(part: string, index: number): ReactNode {
   }
 }
 
-/** Link Dwetech and Freelancer mentions in portfolio copy. */
+/** Link company mentions in portfolio copy. */
 export function linkProfileText(text: string): ReactNode {
   if (
+    !text.includes("AllChrono") &&
     !text.includes("Dwetech") &&
     !text.includes("Freelancer.com") &&
     !text.includes("freelancing")

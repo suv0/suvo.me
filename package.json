@@ -12,7 +12,8 @@
     "docker:up": "node scripts/docker-deploy.mjs",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f web",
-    "docker:rebuild": "node scripts/docker-deploy.mjs --no-cache"
+    "docker:rebuild": "node scripts/docker-deploy.mjs --no-cache",
+    "sync:career": "node scripts/sync-career.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
