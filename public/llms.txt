@@ -16,7 +16,7 @@ Also known as Shuvo. GitHub handle suv0. Personal site suvo.me.
 
 ## Current work
 
-Lead Full Stack Software Engineer at AllChrono (https://allchrono.com), a luxury-watch trading marketplace. Owns product architecture across Next.js surfaces and a NestJS API, and leads engineering hiring (nearly 30 senior software engineer interviews).
+Lead Full Stack Software Engineer at AllChrono (https://allchrono.com), a luxury-watch trading marketplace. Owns product architecture across Next.js surfaces and a NestJS API, and leads engineering hiring across senior, lead, and other levels, including product and design interviews.
 
 ## Earlier career
 
