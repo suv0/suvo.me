@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   title: {
     absolute: `${cv.name} | CV`,
   },
-  description: `Professional CV for ${cv.name}, ${cv.title}.`,
+  description: `CV for ${cv.name}, ${cv.title}. AllChrono and previously Chaldal (YC S15). Based in Dhaka, open to remote roles.`,
+  alternates: {
+    canonical: "https://suvo.me/cv",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function CvPage() {

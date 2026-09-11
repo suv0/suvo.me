@@ -85,6 +85,28 @@ export const experienceEnrichment: Record<string, ExperienceEnrichment> = {
   },
 };
 
+export type FoundedDiagramId = "precious-key" | "prsm-angles";
+
+export type FoundedEnrichment = {
+  badge: string;
+  diagram?: FoundedDiagramId;
+  linkLabel?: string;
+};
+
+/** UI-only fields keyed by founded product id from career-profile.yaml */
+export const foundedEnrichment: Record<string, FoundedEnrichment> = {
+  precious: {
+    badge: "Founded",
+    diagram: "precious-key",
+    linkLabel: "View on GitHub →",
+  },
+  prsm: {
+    badge: "Founded",
+    diagram: "prsm-angles",
+    linkLabel: "View on GitHub →",
+  },
+};
+
 export const portfolioUi = {
   cvPdfPath: "/cv.pdf",
   profileImage: "/hero-portrait-editorial.png",

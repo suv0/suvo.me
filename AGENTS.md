@@ -25,10 +25,10 @@ Career facts are **not** edited in this repo directly. They live in the sibling 
 
 | File | Role | Hand-edit? |
 |------|------|------------|
-| `../../career-data/career-profile.yaml` | Canonical facts (profile, experience, projects, skills) | **Yes** — when user confirms a durable change |
+| `../../career-data/career-profile.yaml` | Canonical facts (profile, experience, projects, founded products, skills) | **Yes** — when user confirms a durable change |
 | `lib/career-profile.generated.ts` | Generated from YAML | **Never** |
 | `lib/cv-data.json` | Generated CV content for `/cv` and PDF | **Never** |
-| `lib/portfolio-enrichment.ts` | UI-only (images, badges, card links) | **Yes** |
+| `lib/portfolio-enrichment.ts` | UI-only (images, badges, card links, founded diagrams) | **Yes** |
 | `lib/portfolio-data.ts` | Merges generated facts + UI enrichment | **Rarely** — prefer YAML or enrichment |
 
 ### Sync after fact changes

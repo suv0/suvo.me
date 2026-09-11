@@ -4,11 +4,13 @@ import {
   DWETECH_URL,
   FREELANCER_PROFILE_URL,
   experiencesCore,
+  foundedCore,
+  educationCore,
   profileCore,
   projectsCore,
   skillGroupsCore,
 } from "@/lib/career-profile.generated";
-import { experienceEnrichment, portfolioUi, projectEnrichment } from "@/lib/portfolio-enrichment";
+import { experienceEnrichment, foundedEnrichment, portfolioUi, projectEnrichment, type FoundedDiagramId } from "@/lib/portfolio-enrichment";
 
 export type SkillGroup = {
   title: string;
@@ -41,7 +43,7 @@ export type ProjectItem = {
   badge: string;
 };
 
-export { CAREER_START_YEAR, CHALDAL_START_YEAR, DWETECH_URL, FREELANCER_PROFILE_URL };
+export { CAREER_START_YEAR, CHALDAL_START_YEAR, DWETECH_URL, FREELANCER_PROFILE_URL, educationCore };
 
 export const getCurrentYear = (): number => new Date().getFullYear();
 export const getElapsedYears = (startYear: number, year: number = getCurrentYear()): number =>
@@ -86,9 +88,19 @@ export const getSiteMetadata = (year: number = getCurrentYear()) => {
   const tenure = getProfileTenure(year);
   const current = getCurrentJob();
   const ogTitle = `${profile.name} | ${profile.title} | ${tenure.careerYearsLabel}`;
-  const ogDescription = `${tenure.careerYearsLabel} in software. Currently ${current.role} at ${current.company}. Experience also includes Dwetech (2009 to 2016) and Chaldal (YC S15).`;
-  const description = `${profile.name} is a ${profile.title} with ${tenure.careerYearsLabel} of experience. Currently at ${current.company}. Prior work includes Chaldal (YC S15), React, React Native, TypeScript, F#, and logistics products at scale. Based in Dhaka and open to remote roles.`;
-  return { ogTitle, ogDescription, description, name: profile.name };
+  const ogDescription = `${profile.name} (${tenure.careerYearsLabel} in software). ${current.role} at ${current.company}. Previously Chaldal (YC S15) and co-founder of Dwetech. Based in Dhaka, open to remote.`;
+  const description = `${profile.name} is a ${profile.title} in Dhaka, Bangladesh, with ${tenure.careerYearsLabel} of experience. Currently at ${current.company}. Previously at Chaldal (YC S15). Founder of Precious and PRism. Open to remote roles.`;
+  const keywords = [
+    "Abdul Hamid Shuvo",
+    "Shuvo",
+    "suvo.me",
+    "suv0",
+    "Lead Full Stack Software Engineer",
+    "AllChrono",
+    "Chaldal",
+    "Dhaka software engineer",
+  ];
+  return { ogTitle, ogDescription, description, name: profile.name, keywords };
 };
 
 export const skillGroups: SkillGroup[] = skillGroupsCore.map((group) => ({
@@ -132,5 +144,42 @@ export const featuredProjects: ProjectItem[] = projectsCore.map((project) => {
     coverImage: ui.coverImage,
     coverAlt: ui.coverAlt,
     badge: ui.badge,
+  };
+});
+
+export type FoundedItem = {
+  id: string;
+  name: string;
+  role: string;
+  tagline?: string;
+  status?: string;
+  description: string;
+  impact: string;
+  github?: string;
+  badge: string;
+  diagram?: FoundedDiagramId;
+  linkLabel: string;
+};
+
+export const foundedProducts: FoundedItem[] = foundedCore.map((item) => {
+  const ui = foundedEnrichment[item.id];
+  if (!ui) {
+    throw new Error(`Missing portfolio enrichment for founded product id: ${item.id}`);
+  }
+
+  const github = "github" in item.links ? item.links.github : undefined;
+
+  return {
+    id: item.id,
+    name: item.name,
+    role: item.role,
+    tagline: "tagline" in item ? item.tagline : undefined,
+    status: "status" in item ? item.status : undefined,
+    description: item.description,
+    impact: item.impact,
+    github,
+    badge: ui.badge,
+    diagram: ui.diagram,
+    linkLabel: ui.linkLabel ?? "View on GitHub →",
   };
 });

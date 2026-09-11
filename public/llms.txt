@@ -1,0 +1,33 @@
+# Abdul Hamid Shuvo
+
+> Lead Full Stack Software Engineer in Dhaka, Bangladesh. Open to remote roles.
+
+- Site: https://suvo.me
+- CV: https://suvo.me/cv
+- PDF: https://suvo.me/cv.pdf
+- Email: me@suvo.me
+- GitHub: https://github.com/suv0
+- LinkedIn: https://www.linkedin.com/in/shuv0
+- Freelancer: https://www.freelancer.com/u/N0B0DY
+
+## Identity
+
+Also known as Shuvo. GitHub handle suv0. Personal site suvo.me.
+
+## Current work
+
+Lead Full Stack Software Engineer at AllChrono (https://allchrono.com), a luxury-watch trading marketplace. Owns product architecture across Next.js surfaces and a NestJS API, and leads engineering hiring (nearly 30 senior software engineer interviews).
+
+## Earlier career
+
+- Co-founded Dwetech (2009 to 2016); 60+ client projects in the USA, UK, Canada, and Australia.
+- Senior Software Engineer at Chaldal (YC S15), from January 2017. Built mobile web and native shopper apps from scratch (Android 1M+ downloads). Also Chalao ride-sharing, Chalao Driver logistics, GogoBangla, and Protocol.
+
+## Independent products founded
+
+- Precious — self-hosted LLM router. https://github.com/suv0/precious and https://suvo.me/#precious
+- PRism — local multi-agent PR review. https://github.com/suv0/prsm and https://suvo.me/#prsm
+
+## Education
+
+B.Sc., Computer Science & Engineering, Stamford University Bangladesh (2008 to 2012).
