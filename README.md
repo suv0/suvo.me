@@ -2,9 +2,22 @@
 
 Next.js 16, TypeScript, and Tailwind CSS v4.
 
+## Three folders, one set of facts
+
+Career facts do **not** live in this repo. They live in a **private** sibling repo. On every computer the folders must look like this:
+
+```
+<work>/
+  career-data/              private facts (suv0/career-data)
+  CV/                       job applications (suv0/personal-cv-generation)
+  pet-projects/suvo.me/     this website
+```
+
+Edit YAML in `career-data`, then `npm run sync:career` here. The live site deploys generated files from this repo, so Vercel never needs the private folder. After a fact change, push **both** `career-data` and this feature branch.
+
 ## Prerequisites
 
-Use a current [Node.js](https://nodejs.org/) LTS release (this repo does not pin an `engines` field in `package.json`).
+Use a current [Node.js](https://nodejs.org/) LTS release (this repo does not pin an `engines` field in `package.json`). Clone `career-data` as shown above before changing facts.
 
 ## Scripts
 
