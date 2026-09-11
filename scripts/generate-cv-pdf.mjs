@@ -7,11 +7,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outputPath = resolve(__dirname, "../public/cv.pdf");
 const cv = JSON.parse(readFileSync(resolve(__dirname, "../lib/cv-data.json"), "utf8"));
 
-const CAREER_START_YEAR = 2009;
-const CHALDAL_START_YEAR = 2017;
 const currentYear = new Date().getFullYear();
 const elapsedYears = (startYear) => Math.max(1, currentYear - startYear);
-const cvSummary = `Staff level product engineer with ${elapsedYears(CAREER_START_YEAR)}+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${elapsedYears(CHALDAL_START_YEAR)}+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
+const cvSummary = `Staff level product engineer with ${elapsedYears(cv.careerStartYear)}+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${elapsedYears(cv.chaldalStartYear)}+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
 
 const pageWidth = 595.28;
 const pageHeight = 841.89;
@@ -148,10 +146,18 @@ for (const project of cv.projects) {
 
 pdf.heading("Skills");
 for (const group of cv.skills) {
-  pdf.ensure(24);
-  pdf.text(`${group.group}: `, margin, pdf.y, 9.5, "F2", "0.02 0.06 0.15");
-  pdf.text(group.items.join(", "), margin + 92, pdf.y, 9.3);
+  const label = `${group.group}: `;
+  const items = group.items.join(", ");
+  const labelWidth = widthOf(label, 9.5);
+  const lines = wrap(items, 9.3, contentWidth - labelWidth);
+  pdf.ensure(lines.length * 14 + 4);
+  pdf.text(label, margin, pdf.y, 9.5, "F2", "0.02 0.06 0.15");
+  pdf.text(lines[0] ?? "", margin + labelWidth, pdf.y, 9.3);
   pdf.y -= 14;
+  for (const line of lines.slice(1)) {
+    pdf.text(line, margin + labelWidth, pdf.y, 9.3);
+    pdf.y -= 14;
+  }
 }
 
 pdf.finishPages();
@@ -204,3 +210,4 @@ function buildPdf(pages) {
 await mkdir(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, buildPdf(pdf.pages));
 console.log(`Wrote ${outputPath}`);
+

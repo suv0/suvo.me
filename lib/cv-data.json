@@ -1,4 +1,6 @@
 {
+  "careerStartYear": 2009,
+  "chaldalStartYear": 2017,
   "name": "Abdul Hamid Shuvo",
   "title": "Senior Software Engineer",
   "location": "Dhaka, Bangladesh. Open to remote roles.",
@@ -6,11 +8,11 @@
   "website": "https://suvo.me",
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
-  "summary": "Staff level product engineer with 17+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent 9+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.",
+  "summary": "",
   "strengths": [
     "Frontend and mobile product ownership across React, React Native, Next.js, TypeScript, and accessibility-minded UI.",
     "Production systems judgment from grocery, logistics, payments, dispatch, and unstable-network field operations.",
-    "Backend and platform fluency with F#, .NET, REST APIs, PostgreSQL, Redis, PHP, and MySQL.",
+    "Backend and platform fluency with F#, .NET, Node.js, REST APIs, PostgreSQL, Redis, PHP, and MySQL.",
     "Cross-functional delivery: product shaping, release management, code review, mentoring, regulatory documentation, and stakeholder communication."
   ],
   "experience": [
@@ -20,63 +22,95 @@
       "location": "Dhaka, Bangladesh",
       "period": "Jan 2017 to Present",
       "highlights": [
-        "Joined when Chaldal had minimal desktop web, no mobile web, and no production native shopper apps; built the mobile web from zero and evolved the production shopper web experience.",
-        "Built the original Android and iOS Chaldal shopper apps from the ground up as primary engineer, with ongoing ownership across releases and shopper-stack reliability.",
-        "Owned Chalao consumer ride sharing product work under Chaldal, including app delivery plus BRTA meetings, documentation, and licensing work.",
-        "Own Chalao Driver, a React Native logistics app for Chaldal's last mile delivery network, designed around dispatch pressure, unreliable connectivity, location accuracy, and Play Store releases.",
-        "Shipped Protocol for 1,000+ internal users, maintained multiple operations apps, and shaped early frontend architecture on Subject and EggShell."
+        "Joined Chaldal in January 2017 when the platform had a limited desktop experience and no production mobile web or native shopper apps. Built mobile web from zero, modernized desktop, and shipped Android and iOS shopper apps as a primary engineer.",
+        "Built Chalao ride sharing under Chaldal licensing. Shipped the app and led BRTA and government side work, including meetings, documentation, and enlistment.",
+        "Own Chalao Driver for logistics operations. Built and maintain the React Native app used by last mile drivers in production conditions.",
+        "Build and maintain GogoBangla, a merchant fulfillment app for ecommerce and f commerce workflows across picking, warehousing, and shipping.",
+        "Shipped Protocol for over 1,000 internal users, maintained multiple operations apps, and shaped early frontend architecture on Subject and EggShell."
       ]
     },
     {
       "role": "Co-founder & Lead Developer",
       "company": "Dwetech",
-      "location": "Bangladesh / remote client delivery",
+      "location": "Bangladesh (remote client delivery)",
       "period": "Jun 2009 to Dec 2016",
       "highlights": [
-        "Co-founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
-        "Built client systems across PHP, JavaScript, CMS ecosystems, integrations, automation-heavy workflows, and productized internal tools.",
-        "Maintained a 5.0 rating across 63 completed Freelancer.com projects, including long-running repeat enterprise engagements."
+        "Co founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
+        "Built product and client systems across PHP, JavaScript, CMS ecosystems, integrations, and automation-heavy workflows.",
+        "Built in house SaaS products, including a CRM and mobile credit recharge tools, alongside client delivery. Maintained a 5.0 rating across 63 completed projects on Freelancer.com, including multi year engagements with repeat enterprise clients."
       ]
     }
   ],
   "projects": [
     {
       "name": "Chaldal Shopper App",
-      "details": "Consumer grocery app for Chaldal's national delivery platform. Primary engineer on the original Android and iOS builds; Android 1M+ downloads, 4.4 rating, iOS 4.8 rating."
+      "details": "Consumer grocery app for Chaldal national delivery platform. Primary engineer on the original Android and iOS build from the ground up, with ongoing releases and production ownership across the shopper stack. Android: 1M+ downloads and 4.4 stars. iOS: 4.8 stars. Supports national scale traffic, payments, and fulfillment in a regulated retail environment."
     },
     {
       "name": "GogoBangla",
-      "details": "Merchant fulfillment app for Chaldal's B2B logistics platform. Ecommerce and f commerce sellers offload picking, warehousing, and last mile delivery through the same national network used for consumer grocery."
+      "details": "Merchant facing fulfillment app for Chaldal B2B logistics platform. Ecommerce and f commerce sellers use it for picking, storage, and last mile delivery on the same network used for national grocery scale. Live on Google Play with ongoing releases. Supports merchant order fulfillment, pickups, and exchanges across Chaldal logistics footprint, including dozens of large stores and hundreds of online merchants."
     },
     {
-      "name": "Chalao Driver",
-      "details": "Production React Native driver app for dispatch, navigation, earnings, and field operations in Chaldal's last mile logistics network."
+      "name": "Chalao (ride-sharing)",
+      "details": "Consumer ride-hailing app licensed under Chaldal. I built the application and owned the regulatory path: BRTA meetings, documentation, and enlistment so we could operate in that category. Chaldal was listed among operators receiving BRTA enlistment certificates in The Daily Star (Dec 2019). The ride sharing line did not continue."
+    },
+    {
+      "name": "Chalao Driver (logistics)",
+      "details": "Production React Native app for Chaldal own last mile drivers. Covers dispatch, navigation, earnings, and field operations. Designed for real world constraints such as unstable connectivity, location reliability, and battery limits. Full product ownership from specification through production."
     },
     {
       "name": "Protocol by Chaldal",
-      "details": "Internal collaboration platform used by operations, finance, HR, and engineering teams; supports task visibility and workflow coordination for 1,000+ users."
+      "details": "Internal and mobile collaboration platform used by operations, finance, HR, and engineering teams. Improved task visibility and coordination at scale with a practical workflow model used by 1,000+ internal users."
     },
     {
       "name": "Subject / EggShell",
-      "details": "Open-source application stack contribution focused on frontend APIs, reusable component patterns, and product development foundations."
+      "details": "Open-source application stack contribution focused on frontend layer APIs and foundational component patterns. Shaped early architecture decisions and reusable building blocks for the frontend layer."
     }
   ],
   "skills": [
     {
       "group": "Frontend",
-      "items": ["TypeScript", "React", "Next.js", "Tailwind CSS", "Accessibility", "Performance"]
+      "items": [
+        "TypeScript",
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "Accessibility",
+        "Performance"
+      ]
     },
     {
       "group": "Mobile",
-      "items": ["React Native", "Android releases", "iOS releases", "Location systems", "Field operations"]
+      "items": [
+        "React Native",
+        "Android Releases",
+        "iOS Releases",
+        "Location Systems",
+        "Field operations"
+      ]
     },
     {
-      "group": "Backend & data",
-      "items": ["F#", ".NET", "REST APIs", "PostgreSQL", "Redis", "PHP", "MySQL"]
+      "group": "Backend & Data",
+      "items": [
+        "F#",
+        ".NET",
+        "Node.js",
+        "REST APIs",
+        "PostgreSQL",
+        "Redis",
+        "PHP",
+        "MySQL"
+      ]
     },
     {
-      "group": "Practice",
-      "items": ["System design", "Release management", "Code review", "CI/CD", "Mentorship"]
+      "group": "Engineering practice",
+      "items": [
+        "System Design",
+        "Release Management",
+        "Code Review",
+        "CI/CD",
+        "Mentorship"
+      ]
     }
   ]
 }
