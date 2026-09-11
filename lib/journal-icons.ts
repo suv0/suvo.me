@@ -1,6 +1,7 @@
 /** Material Symbol name for an experience company row. */
 export function getExperienceCompanyIcon(company: string): string {
   if (company.startsWith("Chaldal")) return "storefront";
+  if (company === "AllChrono") return "watch";
   if (company === "Dwetech") return "hub";
   return "corporate_fare";
 }

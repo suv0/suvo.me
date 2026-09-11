@@ -37,13 +37,13 @@ export const revalidate = 86_400;
 const facebookAppId = process.env.NEXT_PUBLIC_FB_APP_ID?.trim();
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { ogTitle, ogDescription, description } = getSiteMetadata();
+  const { ogTitle, ogDescription, description, name } = getSiteMetadata();
 
   return {
     metadataBase: new URL("https://suvo.me"),
     title: {
       default: ogTitle,
-      template: "%s | Abdul Hamid Shuvo",
+      template: `%s | ${name}`,
     },
     description,
     alternates: {

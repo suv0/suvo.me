@@ -1,213 +1,60 @@
-import { readFileSync, writeFileSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { buildCvHtml } from "../lib/cv-html.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outputPath = resolve(__dirname, "../public/cv.pdf");
 const cv = JSON.parse(readFileSync(resolve(__dirname, "../lib/cv-data.json"), "utf8"));
 
-const currentYear = new Date().getFullYear();
-const elapsedYears = (startYear) => Math.max(1, currentYear - startYear);
-const cvSummary = `Staff level product engineer with ${elapsedYears(cv.careerStartYear)}+ years in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${elapsedYears(cv.chaldalStartYear)}+ years at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
+function findBrowser() {
+  const candidates = [
+    process.env.CHROME_PATH,
+    process.env.EDGE_PATH,
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    join(process.env.LOCALAPPDATA ?? "", "Google\\Chrome\\Application\\chrome.exe"),
+    "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+  ].filter(Boolean);
 
-const pageWidth = 595.28;
-const pageHeight = 841.89;
-const margin = 46;
-const contentWidth = pageWidth - margin * 2;
-
-function esc(value) {
-  return String(value).replaceAll("\\", "\\\\").replaceAll("(", "\\(").replaceAll(")", "\\)");
+  return candidates.find((path) => existsSync(path));
 }
 
-function widthOf(value, size) {
-  return value.length * size * 0.47;
+const browser = findBrowser();
+if (!browser) {
+  throw new Error("Chrome or Edge is required to print the CV PDF.");
 }
 
-function wrap(value, size, maxWidth) {
-  const words = String(value).split(/\s+/);
-  const lines = [];
-  let line = "";
+const tempDir = mkdtempSync(join(tmpdir(), "suvo-cv-"));
+const htmlPath = join(tempDir, "cv.html");
+writeFileSync(htmlPath, buildCvHtml(cv, { toolbar: false }));
 
-  for (const word of words) {
-    const next = line ? `${line} ${word}` : word;
-    if (line && widthOf(next, size) > maxWidth) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = next;
-    }
-  }
+const result = spawnSync(
+  browser,
+  [
+    "--headless=new",
+    "--disable-gpu",
+    "--no-pdf-header-footer",
+    "--no-first-run",
+    "--no-default-browser-check",
+    `--print-to-pdf=${outputPath}`,
+    pathToFileURL(htmlPath).href,
+  ],
+  { stdio: "inherit" },
+);
 
-  if (line) lines.push(line);
-  return lines;
+rmSync(tempDir, { recursive: true, force: true });
+
+if (result.status !== 0) {
+  throw new Error(`Browser print failed with status ${result.status ?? "unknown"}`);
 }
 
-class Pdf {
-  pages = [];
-  commands = [];
-  y = pageHeight - margin;
-
-  constructor() {
-    this.addPage();
-  }
-
-  addPage() {
-    if (this.commands.length) this.pages.push(this.commands.join("\n"));
-    this.commands = [];
-    this.y = pageHeight - margin;
-  }
-
-  ensure(space) {
-    if (this.y - space < margin + 28) this.addPage();
-  }
-
-  text(value, x, y, size = 10, font = "F1", color = "0.08 0.11 0.18") {
-    this.commands.push(`${color} rg BT /${font} ${size} Tf ${x.toFixed(2)} ${y.toFixed(2)} Td (${esc(value)}) Tj ET`);
-  }
-
-  line(x1, y1, x2, y2, color = "0.78 0.82 0.88") {
-    this.commands.push(`${color} RG 0.7 w ${x1.toFixed(2)} ${y1.toFixed(2)} m ${x2.toFixed(2)} ${y2.toFixed(2)} l S`);
-  }
-
-  heading(value) {
-    this.ensure(32);
-    this.text(value.toUpperCase(), margin, this.y, 9.5, "F2", "0.03 0.41 0.58");
-    this.y -= 17;
-  }
-
-  paragraph(value, size = 9.6, lineHeight = 14, indent = 0) {
-    const lines = wrap(value, size, contentWidth - indent);
-    this.ensure(lines.length * lineHeight + 4);
-    for (const line of lines) {
-      this.text(line, margin + indent, this.y, size);
-      this.y -= lineHeight;
-    }
-    this.y -= 3;
-  }
-
-  bullet(value) {
-    const lines = wrap(value, 9.2, contentWidth - 16);
-    this.ensure(lines.length * 13 + 3);
-    this.text("-", margin, this.y, 9.2, "F2");
-    this.text(lines[0], margin + 14, this.y, 9.2);
-    this.y -= 13;
-    for (const line of lines.slice(1)) {
-      this.text(line, margin + 14, this.y, 9.2);
-      this.y -= 13;
-    }
-    this.y -= 2;
-  }
-
-  finishPages() {
-    if (this.commands.length) this.pages.push(this.commands.join("\n"));
-  }
-}
-
-const pdf = new Pdf();
-
-pdf.text(cv.name, margin, pdf.y, 24, "F2", "0.02 0.06 0.15");
-pdf.y -= 25;
-pdf.text(cv.title, margin, pdf.y, 12, "F2", "0.03 0.41 0.58");
-pdf.y -= 17;
-pdf.text(`${cv.location} | ${cv.email} | ${cv.website}`, margin, pdf.y, 9.2, "F1", "0.28 0.33 0.41");
-pdf.y -= 13;
-pdf.text(`${cv.linkedin} | ${cv.github}`, margin, pdf.y, 9.2, "F1", "0.28 0.33 0.41");
-pdf.y -= 12;
-pdf.line(margin, pdf.y, pageWidth - margin, pdf.y);
-pdf.y -= 18;
-
-pdf.heading("Profile");
-pdf.paragraph(cvSummary, 9.6, 14);
-
-pdf.heading("Core strengths");
-for (const strength of cv.strengths) pdf.bullet(strength);
-pdf.y -= 4;
-
-pdf.heading("Experience");
-for (const job of cv.experience) {
-  pdf.ensure(58);
-  pdf.text(job.role, margin, pdf.y, 12, "F2", "0.02 0.06 0.15");
-  pdf.text(job.period, pageWidth - margin - widthOf(job.period, 9.4), pdf.y, 9.4, "F2", "0.03 0.41 0.58");
-  pdf.y -= 14;
-  pdf.text(`${job.company} - ${job.location}`, margin, pdf.y, 9.5, "F2", "0.28 0.33 0.41");
-  pdf.y -= 14;
-  for (const highlight of job.highlights) pdf.bullet(highlight);
-  pdf.y -= 6;
-}
-
-pdf.heading("Selected projects");
-for (const project of cv.projects) {
-  pdf.ensure(42);
-  pdf.text(project.name, margin, pdf.y, 10.5, "F2", "0.02 0.06 0.15");
-  pdf.y -= 13;
-  pdf.paragraph(project.details, 9.2, 13, 0);
-}
-
-pdf.heading("Skills");
-for (const group of cv.skills) {
-  const label = `${group.group}: `;
-  const items = group.items.join(", ");
-  const labelWidth = widthOf(label, 9.5);
-  const lines = wrap(items, 9.3, contentWidth - labelWidth);
-  pdf.ensure(lines.length * 14 + 4);
-  pdf.text(label, margin, pdf.y, 9.5, "F2", "0.02 0.06 0.15");
-  pdf.text(lines[0] ?? "", margin + labelWidth, pdf.y, 9.3);
-  pdf.y -= 14;
-  for (const line of lines.slice(1)) {
-    pdf.text(line, margin + labelWidth, pdf.y, 9.3);
-    pdf.y -= 14;
-  }
-}
-
-pdf.finishPages();
-
-function buildPdf(pages) {
-  const objects = [""];
-  const reserve = () => {
-    objects.push("");
-    return objects.length - 1;
-  };
-  const add = (body) => {
-    objects.push(body);
-    return objects.length - 1;
-  };
-
-  const catalogId = reserve();
-  const pagesId = reserve();
-  const fontRegularId = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
-  const fontBoldId = add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
-  const pageIds = [];
-
-  for (const stream of pages) {
-    const length = Buffer.byteLength(stream, "utf8");
-    const contentId = add(`<< /Length ${length} >>\nstream\n${stream}\nendstream`);
-    const pageId = add(
-      `<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 ${fontRegularId} 0 R /F2 ${fontBoldId} 0 R >> >> /Contents ${contentId} 0 R >>`,
-    );
-    pageIds.push(pageId);
-  }
-
-  objects[pagesId] = `<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageIds.length} >>`;
-  objects[catalogId] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
-
-  let body = "%PDF-1.4\n";
-  const offsets = [0];
-  for (let i = 1; i < objects.length; i++) {
-    offsets[i] = Buffer.byteLength(body, "utf8");
-    body += `${i} 0 obj\n${objects[i]}\nendobj\n`;
-  }
-
-  const xrefOffset = Buffer.byteLength(body, "utf8");
-  body += `xref\n0 ${objects.length}\n0000000000 65535 f \n`;
-  for (let i = 1; i < objects.length; i++) {
-    body += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-  }
-  body += `trailer\n<< /Size ${objects.length} /Root ${catalogId} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`;
-  return body;
-}
-
-await mkdir(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, buildPdf(pdf.pages));
 console.log(`Wrote ${outputPath}`);
-

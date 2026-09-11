@@ -66,6 +66,25 @@ export const projectEnrichment: Record<string, ProjectEnrichment> = {
   },
 };
 
+export type ExperienceEnrichment = {
+  logo?: string;
+  linkLabel?: string;
+};
+
+/**
+ * UI-only fields keyed by experience id from career-profile.yaml.
+ * Do not put company, role, dates, or job copy here.
+ */
+export const experienceEnrichment: Record<string, ExperienceEnrichment> = {
+  allchrono: {
+    // Official AllChrono mark (ivory) from the company brand kit.
+    // Site: https://allchrono.com/logo/log-only-deep-green.svg
+    // Repo: ac-lockfix/packages/ui/brand/logo/logo-only-ivory.svg
+    logo: "/logos/allchrono.svg",
+    linkLabel: "Website",
+  },
+};
+
 export const portfolioUi = {
   cvPdfPath: "/cv.pdf",
   profileImage: "/hero-portrait-editorial.png",

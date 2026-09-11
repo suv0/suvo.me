@@ -8,7 +8,7 @@ import {
   projectsCore,
   skillGroupsCore,
 } from "@/lib/career-profile.generated";
-import { portfolioUi, projectEnrichment } from "@/lib/portfolio-enrichment";
+import { experienceEnrichment, portfolioUi, projectEnrichment } from "@/lib/portfolio-enrichment";
 
 export type SkillGroup = {
   title: string;
@@ -16,10 +16,14 @@ export type SkillGroup = {
 };
 
 export type ExperienceItem = {
+  id: string;
   role: string;
   company: string;
   period: string;
   location: string;
+  url?: string;
+  current?: boolean;
+  logo?: string;
   highlights: string[];
 };
 
@@ -58,14 +62,18 @@ export const getProfileTenure = (year: number = getCurrentYear()) => {
   };
 };
 
+const getCurrentJob = () => experiencesCore.find((job) => job.current) ?? experiencesCore[0];
+
 export const getHeroTagline = (name: string, year: number = getCurrentYear()): string => {
   const { careerYears, chaldalYears } = getProfileTenure(year);
-  return `I'm ${name}. I have spent ${careerYears} years building software, including ${chaldalYears} years at Chaldal (YC S15), where I built and shipped national scale grocery and logistics products from scratch.`;
+  const current = getCurrentJob();
+  return `I'm ${name}. I work at ${current.company} as ${current.role}. I have spent ${careerYears} years building software, including ${chaldalYears} years at Chaldal (YC S15), where I built and shipped national scale grocery and logistics products from scratch.`;
 };
 
 export const getCvSummary = (year: number = getCurrentYear()): string => {
   const { careerYearsLabel, chaldalYearsLabel } = getProfileTenure(year);
-  return `Staff level product engineer with ${careerYearsLabel} in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I have spent ${chaldalYearsLabel} at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
+  const current = getCurrentJob();
+  return `${current.role} at ${current.company}. Staff level product engineer with ${careerYearsLabel} in software. I co founded Dwetech and delivered 60+ international client projects from 2009 to 2016. I previously spent ${chaldalYearsLabel} at Chaldal (YC S15), with hands on ownership across shopper products, mobile apps, logistics, and internal platforms.`;
 };
 
 export const profile = {
@@ -76,10 +84,11 @@ export const profile = {
 
 export const getSiteMetadata = (year: number = getCurrentYear()) => {
   const tenure = getProfileTenure(year);
-  const ogTitle = `${profile.name} | Senior Software Engineer | ${tenure.careerYearsLabel}`;
-  const ogDescription = `${tenure.careerYearsLabel} in software. Experience across Dwetech (2009 to 2016) and Chaldal (YC S15), with work in web, mobile, logistics, and platform engineering.`;
-  const description = `${profile.name} is a senior software engineer with ${tenure.careerYearsLabel} of experience. Focus areas include Chaldal (YC S15), React, React Native, TypeScript, F#, and logistics products at scale. Based in Dhaka and open to remote roles.`;
-  return { ogTitle, ogDescription, description };
+  const current = getCurrentJob();
+  const ogTitle = `${profile.name} | ${profile.title} | ${tenure.careerYearsLabel}`;
+  const ogDescription = `${tenure.careerYearsLabel} in software. Currently ${current.role} at ${current.company}. Experience also includes Dwetech (2009 to 2016) and Chaldal (YC S15).`;
+  const description = `${profile.name} is a ${profile.title} with ${tenure.careerYearsLabel} of experience. Currently at ${current.company}. Prior work includes Chaldal (YC S15), React, React Native, TypeScript, F#, and logistics products at scale. Based in Dhaka and open to remote roles.`;
+  return { ogTitle, ogDescription, description, name: profile.name };
 };
 
 export const skillGroups: SkillGroup[] = skillGroupsCore.map((group) => ({
@@ -87,13 +96,23 @@ export const skillGroups: SkillGroup[] = skillGroupsCore.map((group) => ({
   items: [...group.items],
 }));
 
-export const experiences: ExperienceItem[] = experiencesCore.map((job) => ({
-  role: job.role,
-  company: job.company,
-  period: job.period,
-  location: job.location,
-  highlights: [...job.highlights],
-}));
+export const experiences: ExperienceItem[] = experiencesCore.map((job) => {
+  const ui = experienceEnrichment[job.id];
+  return {
+    id: job.id,
+    role: job.role,
+    company: job.company,
+    period: job.period,
+    location: job.location,
+    url: "url" in job ? job.url : undefined,
+    current: job.current,
+    logo: ui?.logo,
+    highlights: [...job.highlights],
+  };
+});
+
+export const getExperienceUrl = (company: string): string | undefined =>
+  experiences.find((job) => job.company === company)?.url;
 
 export const featuredProjects: ProjectItem[] = projectsCore.map((project) => {
   const ui = projectEnrichment[project.id];

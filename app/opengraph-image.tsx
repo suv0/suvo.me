@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
 
-import { getProfileTenure, profile } from "@/lib/portfolio-data";
+import { experiences, getProfileTenure, profile } from "@/lib/portfolio-data";
 
 /** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data`. Must be a literal for Next segment config. */
 export const revalidate = 86_400;
@@ -74,7 +74,7 @@ export default async function OpenGraphImage() {
             {profile.roleStack}
           </div>
           <div style={{ fontSize: 18, color: "#64748b", marginTop: 18, fontWeight: 500 }}>
-            {`${tenure.careerYearsLabel} · Chaldal (YC S15) · suvo.me`}
+            {`${tenure.careerYearsLabel} · ${experiences[0]?.company ?? profile.title} · suvo.me`}
           </div>
         </div>
         <div

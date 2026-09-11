@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { DwetechLink, linkProfileText } from "@/components/profile-text-links";
 import { JournalReveal } from "@/components/journal/journal-reveal";
 import {
@@ -26,20 +27,60 @@ export function JournalExperience({ items }: { items: ExperienceItem[] }) {
 
       <div className="space-y-0">
         {items.map((item) => (
-          <JournalReveal as="article" key={item.company} rule className="py-14 md:py-16">
+          <JournalReveal as="article" key={item.id || item.company} rule className="py-14 md:py-16">
             <div className="grid gap-grid-gutter md:grid-cols-12">
               <div className="md:col-span-4">
                 <JournalMetaRow icon="calendar_month" className="text-chaldal-green">
                   {item.period}
                 </JournalMetaRow>
                 <h4 className="font-headline-md text-headline-md mt-4 text-white">
-                  <JournalIconLabel icon={getExperienceCompanyIcon(item.company)}>
-                    {item.company === "Dwetech" ? (
-                      <DwetechLink className={`${journalLinkMotion} text-white hover:underline`} />
-                    ) : (
-                      item.company
-                    )}
-                  </JournalIconLabel>
+                  {item.logo ? (
+                    <span className="inline-flex items-center gap-3">
+                      <Image
+                        src={item.logo}
+                        alt=""
+                        width={40}
+                        height={40}
+                        unoptimized
+                        className="size-10 shrink-0 object-contain"
+                      />
+                      <span className="min-w-0">
+                        {item.url ? (
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={`${journalLinkMotion} text-white hover:underline`}
+                            aria-label={`${item.company} (opens in a new tab)`}
+                          >
+                            {item.company}
+                          </a>
+                        ) : item.company === "Dwetech" ? (
+                          <DwetechLink className={`${journalLinkMotion} text-white hover:underline`} />
+                        ) : (
+                          item.company
+                        )}
+                      </span>
+                    </span>
+                  ) : (
+                    <JournalIconLabel icon={getExperienceCompanyIcon(item.company)}>
+                      {item.company === "Dwetech" ? (
+                        <DwetechLink className={`${journalLinkMotion} text-white hover:underline`} />
+                      ) : item.url ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`${journalLinkMotion} text-white hover:underline`}
+                          aria-label={`${item.company} (opens in a new tab)`}
+                        >
+                          {item.company}
+                        </a>
+                      ) : (
+                        item.company
+                      )}
+                    </JournalIconLabel>
+                  )}
                 </h4>
                 <JournalMetaRow icon="location_on" className="mt-3 text-text-dim">
                   {item.location}

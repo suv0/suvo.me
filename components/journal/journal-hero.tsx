@@ -63,8 +63,8 @@ export function JournalHero({ currentYear }: { currentYear: number }) {
         </div>
       </div>
 
-      <div className="relative z-10 grid w-full max-md:min-h-0 md:min-h-[72svh] md:grid-cols-[minmax(0,42%)_1fr] lg:min-h-[74svh]">
-        <div className="flex flex-col justify-center px-grid-margin pb-10 pt-6 max-lg:pl-[max(1rem,env(safe-area-inset-left,0px))] max-lg:pr-[max(1rem,env(safe-area-inset-right,0px))] md:min-h-[72svh] md:max-w-[42vw] md:bg-transparent md:pb-12 md:pt-28 lg:min-h-[74svh] lg:max-w-[38rem]">
+      <div className="relative z-10 grid w-full max-md:min-h-0 md:min-h-[72svh] md:grid-cols-[42%_1fr] lg:min-h-[74svh]">
+        <div className="flex flex-col justify-center px-grid-margin pb-10 pt-6 max-lg:pl-[max(1rem,env(safe-area-inset-left,0px))] max-lg:pr-[max(1rem,env(safe-area-inset-right,0px))] md:min-h-[72svh] md:bg-transparent md:pb-12 md:pt-28 lg:min-h-[74svh] xl:ml-auto xl:w-full xl:max-w-[38rem]">
           <div className="mb-stack-md flex flex-wrap items-center gap-4">
             <span className="inline-flex items-center gap-2 font-mono-label text-mono-label uppercase tracking-[0.2em] text-chaldal-green">
               <JournalSymbol name="terminal" />

@@ -14,7 +14,7 @@ Use a current [Node.js](https://nodejs.org/) LTS release (this repo does not pin
 | `npm run build`   | Production build         |
 | `npm run start`   | Run production server    |
 | `npm run lint`    | ESLint                   |
-| `npm run cv:pdf`  | Generate `public/cv.pdf` from structured CV data |
+| `npm run cv:pdf`  | Print `public/cv.pdf` from the same HTML used at `/cv` |
 | `npm run sync:career` | Regenerate career artifacts from `../../career-data` |
 | `npm run docker:up` | Build image, then recreate container (see [Docker](#docker-on-your-own-host)) |
 | `npm run docker:down` | Stop stack (`docker compose down`) |

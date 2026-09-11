@@ -2,25 +2,47 @@
   "careerStartYear": 2009,
   "chaldalStartYear": 2017,
   "name": "Abdul Hamid Shuvo",
-  "title": "Senior Software Engineer",
+  "title": "Lead Full Stack Software Engineer",
+  "roleStack": "TypeScript · Next.js · React · NestJS · Systems at scale",
   "location": "Dhaka, Bangladesh. Open to remote roles.",
   "email": "me@suvo.me",
+  "phone": "+880 1711 279909",
   "website": "https://suvo.me",
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
+  "dwetechUrl": "https://dwetech.com",
+  "freelancerProfileUrl": "https://www.freelancer.com/u/N0B0DY",
+  "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end. From 2017 at Chaldal, I worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
+  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono.",
   "summary": "",
   "strengths": [
     "Frontend and mobile product ownership across React, React Native, Next.js, TypeScript, and accessibility-minded UI.",
     "Production systems judgment from grocery, logistics, payments, dispatch, and unstable-network field operations.",
-    "Backend and platform fluency with F#, .NET, Node.js, REST APIs, PostgreSQL, Redis, PHP, and MySQL.",
+    "Backend and platform fluency with F#, .NET, Node.js, NestJS, REST APIs, PostgreSQL, Prisma, Redis, PHP, and MySQL.",
     "Cross-functional delivery: product shaping, release management, code review, mentoring, regulatory documentation, and stakeholder communication."
   ],
   "experience": [
     {
+      "id": "allchrono",
+      "role": "Lead Full Stack Software Engineer",
+      "company": "AllChrono",
+      "location": "Dhaka, Bangladesh (remote)",
+      "period": "Present",
+      "url": "https://allchrono.com",
+      "current": true,
+      "highlights": [
+        "Leading full-stack engineering at AllChrono, a global luxury-watch trading platform anchored in Saudi Arabia that provides trusted infrastructure for cross-border transactions.",
+        "Own product architecture across the Next.js marketplace, seller, operator, and landing surfaces together with the NestJS platform API, including identity, authentication, and seller-facing workflows.",
+        "Shape technical direction on TypeScript services backed by PostgreSQL and Prisma, with Dockerized delivery across the application and API layers."
+      ]
+    },
+    {
+      "id": "chaldal",
       "role": "Senior Software Engineer",
       "company": "Chaldal (YC S15)",
       "location": "Dhaka, Bangladesh",
-      "period": "Jan 2017 to Present",
+      "period": "Jan 2017 to 2026",
+      "current": false,
       "highlights": [
         "Joined Chaldal in January 2017 when the platform had a limited desktop experience and no production mobile web or native shopper apps. Built mobile web from zero, modernized desktop, and shipped Android and iOS shopper apps as a primary engineer.",
         "Built Chalao ride sharing under Chaldal licensing. Shipped the app and led BRTA and government side work, including meetings, documentation, and enlistment.",
@@ -30,10 +52,12 @@
       ]
     },
     {
+      "id": "dwetech",
       "role": "Co-founder & Lead Developer",
       "company": "Dwetech",
       "location": "Bangladesh (remote client delivery)",
       "period": "Jun 2009 to Dec 2016",
+      "current": false,
       "highlights": [
         "Co founded a software company and delivered 60+ projects for clients across the USA, UK, Canada, and Australia.",
         "Built product and client systems across PHP, JavaScript, CMS ecosystems, integrations, and automation-heavy workflows.",
@@ -44,27 +68,46 @@
   "projects": [
     {
       "name": "Chaldal Shopper App",
-      "details": "Consumer grocery app for Chaldal national delivery platform. Primary engineer on the original Android and iOS build from the ground up, with ongoing releases and production ownership across the shopper stack. Android: 1M+ downloads and 4.4 stars. iOS: 4.8 stars. Supports national scale traffic, payments, and fulfillment in a regulated retail environment."
+      "details": "Consumer grocery app for Chaldal national delivery platform. Primary engineer on the original Android and iOS build from the ground up, with ongoing releases and production ownership across the shopper stack. Android: 1M+ downloads and 4.4 stars. iOS: 4.8 stars. Supports national scale traffic, payments, and fulfillment in a regulated retail environment.",
+      "links": {
+        "playStore": "https://play.google.com/store/apps/details?id=com.chaldal.poached",
+        "appStore": "https://apps.apple.com/us/app/chaldal-online-grocery/id1104493220"
+      }
     },
     {
       "name": "GogoBangla",
-      "details": "Merchant facing fulfillment app for Chaldal B2B logistics platform. Ecommerce and f commerce sellers use it for picking, storage, and last mile delivery on the same network used for national grocery scale. Live on Google Play with ongoing releases. Supports merchant order fulfillment, pickups, and exchanges across Chaldal logistics footprint, including dozens of large stores and hundreds of online merchants."
+      "details": "Merchant facing fulfillment app for Chaldal B2B logistics platform. Ecommerce and f commerce sellers use it for picking, storage, and last mile delivery on the same network used for national grocery scale. Live on Google Play with ongoing releases. Supports merchant order fulfillment, pickups, and exchanges across Chaldal logistics footprint, including dozens of large stores and hundreds of online merchants.",
+      "links": {
+        "playStore": "https://play.google.com/store/apps/details?id=com.gogobangla"
+      }
     },
     {
       "name": "Chalao (ride-sharing)",
-      "details": "Consumer ride-hailing app licensed under Chaldal. I built the application and owned the regulatory path: BRTA meetings, documentation, and enlistment so we could operate in that category. Chaldal was listed among operators receiving BRTA enlistment certificates in The Daily Star (Dec 2019). The ride sharing line did not continue."
+      "details": "Consumer ride-hailing app licensed under Chaldal. I built the application and owned the regulatory path: BRTA meetings, documentation, and enlistment so we could operate in that category. Chaldal was listed among operators receiving BRTA enlistment certificates in The Daily Star (Dec 2019). The ride sharing line did not continue.",
+      "links": {
+        "press": "https://www.thedailystar.net/country/news/uber-pathao-and-shohoz-get-brta-certificate-1835719"
+      }
     },
     {
       "name": "Chalao Driver (logistics)",
-      "details": "Production React Native app for Chaldal own last mile drivers. Covers dispatch, navigation, earnings, and field operations. Designed for real world constraints such as unstable connectivity, location reliability, and battery limits. Full product ownership from specification through production."
+      "details": "Production React Native app for Chaldal own last mile drivers. Covers dispatch, navigation, earnings, and field operations. Designed for real world constraints such as unstable connectivity, location reliability, and battery limits. Full product ownership from specification through production.",
+      "links": {
+        "playStore": "https://play.google.com/store/apps/details?id=app.chalao.driver"
+      }
     },
     {
       "name": "Protocol by Chaldal",
-      "details": "Internal and mobile collaboration platform used by operations, finance, HR, and engineering teams. Improved task visibility and coordination at scale with a practical workflow model used by 1,000+ internal users."
+      "details": "Internal and mobile collaboration platform used by operations, finance, HR, and engineering teams. Improved task visibility and coordination at scale with a practical workflow model used by 1,000+ internal users.",
+      "links": {
+        "playStore": "https://play.google.com/store/apps/details?id=com.chaldal.protocol"
+      }
     },
     {
       "name": "Subject / EggShell",
-      "details": "Open-source application stack contribution focused on frontend layer APIs and foundational component patterns. Shaped early architecture decisions and reusable building blocks for the frontend layer."
+      "details": "Open-source application stack contribution focused on frontend layer APIs and foundational component patterns. Shaped early architecture decisions and reusable building blocks for the frontend layer.",
+      "links": {
+        "github": "https://github.com/chaldal/subject"
+      }
     }
   ],
   "skills": [
@@ -95,8 +138,10 @@
         "F#",
         ".NET",
         "Node.js",
+        "NestJS",
         "REST APIs",
         "PostgreSQL",
+        "Prisma",
         "Redis",
         "PHP",
         "MySQL"
@@ -109,8 +154,22 @@
         "Release Management",
         "Code Review",
         "CI/CD",
+        "Docker",
         "Mentorship"
       ]
+    }
+  ],
+  "education": [
+    {
+      "credential": "B.Sc., Computer Science & Engineering",
+      "institution": "Stamford University Bangladesh",
+      "period": "2008 - 2012"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "proficiency": "Professional proficiency for global teams"
     }
   ]
 }

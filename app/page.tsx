@@ -32,11 +32,12 @@ export default function Home() {
     sameAs: [profile.linkedin, profile.github],
     worksFor: {
       "@type": "Organization",
-      name: "Chaldal",
+      name: experiences[0]?.company ?? profile.title,
+      ...(experiences[0]?.url ? { url: experiences[0].url } : {}),
     },
     knowsAbout: skillGroups.flatMap((group) => group.items),
     description:
-      `${tenure.careerYearsLabel} building software. Work includes Dwetech from 2009 to 2016 and ${tenure.chaldalYearsLabel} at Chaldal (YC S15), across shopper systems, logistics apps, and platform architecture.`,
+      `${tenure.careerYearsLabel} building software. Currently ${profile.title} at ${experiences[0]?.company}. Prior work includes Dwetech from 2009 to 2016 and ${tenure.chaldalYearsLabel} at Chaldal (YC S15).`,
   };
 
   const websiteLd = {
@@ -45,7 +46,7 @@ export default function Home() {
     url: profile.website,
     name: `${profile.name} portfolio`,
     description:
-      `${tenure.careerYearsLabel} in software. Journey includes Dwetech from 2009 to 2016 and Chaldal (YC S15), with work in web, mobile, logistics, and platform engineering.`,
+      `${tenure.careerYearsLabel} in software. Currently ${profile.title} at ${experiences[0]?.company}. Journey includes Dwetech from 2009 to 2016 and Chaldal (YC S15).`,
     publisher: { "@id": `${profile.website}/#person` },
   };
 
