@@ -15,8 +15,8 @@ export const profileCore = {
   "website": "https://suvo.me",
   "linkedin": "https://www.linkedin.com/in/shuv0",
   "github": "https://github.com/suv0",
-  "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end, and I lead the engineering hiring loop. From 2017 at Chaldal, I worked across mobile web, native shopper apps, Chalao ride sharing, Chalao Driver logistics, and Protocol.",
-  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer. I now lead full-stack engineering at AllChrono, including hiring across senior, lead, and other engineering levels, plus product and design interviews. I also found independent tools I actually use to ship, including Precious and PRism."
+  "heroSummary": "I am Lead Full Stack Software Engineer at AllChrono, where I help build the platform behind a global luxury-watch trading marketplace. I still own products end to end, and I lead engineering hiring across senior, lead, and other levels, including product and design interviews.",
+  "about": "I started freelancing in 2009 and later co founded Dwetech. From 2009 to 2016, we delivered more than 60 projects for clients in the USA, UK, Canada, and Australia. In January 2017, I joined Chaldal (YC S15, about 2,200 staff) when the company had only a minimal desktop site and no production mobile web or native shopper apps. I built the mobile web from zero, rebuilt the desktop experience, and shipped Android and iOS shopper apps as primary engineer."
 } as const;
 
 export const strengths = [

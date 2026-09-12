@@ -6,6 +6,7 @@ import { profile } from "@/lib/portfolio-data";
 const PHILOSOPHY_PULL_QUOTE =
   "Real engineering shows up in reliability, especially under unstable networks and operational pressure.";
 
+/** Origin story (`about`) before the quote; current role (`heroSummary`) after. Do not render both full bios. */
 const aboutLeadEnd = profile.about.indexOf("In January 2017");
 const aboutLead = aboutLeadEnd > 0 ? profile.about.slice(0, aboutLeadEnd).trim() : profile.about;
 const aboutRest = aboutLeadEnd > 0 ? profile.about.slice(aboutLeadEnd).trim() : "";
@@ -33,7 +34,7 @@ export function JournalPhilosophy() {
             <JournalSymbol name="format_quote" className="shrink-0 text-chaldal-green/80" size="lg" />
             <span>&ldquo;{PHILOSOPHY_PULL_QUOTE}&rdquo;</span>
           </blockquote>
-          <p className="font-body-md text-body-md text-text-dim">{linkProfileText(profile.heroSummary)}</p>
+          <p className="font-body-lg text-body-lg text-text-dim">{linkProfileText(profile.heroSummary)}</p>
         </div>
       </div>
     </JournalReveal>
