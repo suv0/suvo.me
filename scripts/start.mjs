@@ -8,8 +8,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const standaloneDir = join(root, ".next", "standalone");
 const serverJs = join(standaloneDir, "server.js");
 
-/** Dev uses 3002; local prod preview uses 3003 so both can run side by side. */
-const port = process.env.PORT ?? "3003";
+/** Dev uses 3010; local prod preview uses 3011 so both can run side by side. */
+const port = process.env.PORT ?? "3011";
 
 function syncStandaloneAssets() {
   const publicSrc = join(root, "public");

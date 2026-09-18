@@ -8,14 +8,14 @@ import { JournalNav } from "@/components/journal/journal-nav";
 import { JournalPhilosophy } from "@/components/journal/journal-philosophy";
 import { JournalProjects } from "@/components/journal/journal-projects";
 import { JournalSkills } from "@/components/journal/journal-skills";
+import { getFoundedProductsForSite } from "@/lib/github-founded";
 import {
   experiences,
   featuredProjects,
-  foundedProducts,
   getCurrentYear,
   skillGroups,
 } from "@/lib/portfolio-data";
-import { getHomeJsonLd } from "@/lib/seo";
+import { getHomeJsonLd, jsonLdScript } from "@/lib/seo";
 
 /** Match `TENURE_REVALIDATE_SECONDS` in `@/lib/portfolio-data`. Must be a literal for Next segment config. */
 export const revalidate = 86_400;
@@ -33,9 +33,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
   const currentYear = getCurrentYear();
-  const structuredData = getHomeJsonLd(currentYear);
+  const founded = await getFoundedProductsForSite();
+  const structuredData = getHomeJsonLd(currentYear, founded);
 
   return (
     <div className="journal-site overflow-x-hidden font-body-md text-body-md text-on-surface antialiased">
@@ -47,14 +48,14 @@ export default function Home() {
         <JournalPhilosophy />
         <JournalProjects projects={featuredProjects} />
         <JournalExperience items={experiences} />
-        <JournalFounded items={foundedProducts} />
+        <JournalFounded items={founded} />
         <JournalSkills groups={skillGroups} />
         <JournalLab groups={skillGroups} />
       </main>
 
       <JournalFooter year={currentYear} />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(structuredData) }} />
     </div>
   );
 }

@@ -20,6 +20,10 @@ function absoluteUrl(path: string): string {
   return `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+export function jsonLdScript(data: object): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export function getOgPortrait() {
   return {
     url: profile.profileImage,
@@ -33,7 +37,7 @@ export function getSameAsProfiles(): string[] {
   return [profile.linkedin, profile.github, FREELANCER_PROFILE_URL, DWETECH_URL];
 }
 
-export function getHomeJsonLd(year?: number) {
+export function getHomeJsonLd(year?: number, founded: typeof foundedProducts = foundedProducts) {
   const tenure = getProfileTenure(year);
   const current = experiences.find((job) => job.current) ?? experiences[0];
   const chaldal = experiences.find((job) => job.company.startsWith("Chaldal"));
@@ -83,15 +87,15 @@ export function getHomeJsonLd(year?: number) {
       }
     : null;
 
-  const softwareLd = foundedProducts.map((item) => ({
+  const softwareLd = founded.map((item) => ({
     "@type": "SoftwareSourceCode",
     "@id": item.github ?? `${SITE_ORIGIN}/#${item.id}`,
     name: item.name,
     description: item.description,
     url: `${SITE_ORIGIN}/#${item.id}`,
     codeRepository: item.github,
-    programmingLanguage: "TypeScript",
-    license: "https://opensource.org/licenses/MIT",
+    programmingLanguage: item.language ?? "TypeScript",
+    ...(item.license === "MIT" ? { license: "https://opensource.org/licenses/MIT" } : {}),
     author: { "@id": PERSON_ID },
     creator: { "@id": PERSON_ID },
   }));

@@ -20,7 +20,15 @@ export function JournalFooter({ year }: { year: number }) {
           <p className="font-mono-label text-mono-label mt-2 text-text-dim">
             © {year} {profile.title}.
           </p>
-          <p className="mt-4">
+          <p className="mt-4 flex flex-col items-center gap-2 md:items-start">
+            <Link
+              href="/stories"
+              className={`${journalLinkMotion} inline-flex items-center gap-2 font-mono-label text-mono-label text-text-dim`}
+            >
+              <JournalSymbol name="auto_stories" className="text-chaldal-green/85" />
+              Stories
+              <JournalSymbol name="arrow_forward" className="text-text-dim" />
+            </Link>
             <Link
               href="/kids"
               className={`${journalLinkMotion} inline-flex items-center gap-2 font-mono-label text-mono-label text-text-dim`}

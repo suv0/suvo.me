@@ -159,6 +159,10 @@ export type FoundedItem = {
   badge: string;
   diagram?: FoundedDiagramId;
   linkLabel: string;
+  stars?: number;
+  language?: string;
+  license?: string;
+  pushedAt?: string;
 };
 
 export const foundedProducts: FoundedItem[] = foundedCore.map((item) => {

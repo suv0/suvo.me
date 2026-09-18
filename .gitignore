@@ -36,6 +36,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Payload local database and uploads (Vercel uses Neon + Blob)
+/data/*.db
+/data/*.db-*
+/media/*
+!/media/.gitkeep
 
 # Stitch API exports (local reference only)
 .stitch-export/

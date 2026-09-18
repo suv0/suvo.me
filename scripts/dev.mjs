@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
 import { printNetworkBanner } from "./network-urls.mjs";
 
-const port = process.env.PORT ?? "3002";
+/** Avoid 3002/3003 — Docker/WSL on this machine already binds those (AllChrono). */
+const port = process.env.PORT ?? "3010";
 
 printNetworkBanner({ port, mode: "dev" });
 

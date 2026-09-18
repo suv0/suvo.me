@@ -34,7 +34,7 @@ Use a current [Node.js](https://nodejs.org/) LTS release (this repo does not pin
 | `npm run docker:logs` | Follow web container logs |
 | `npm run docker:rebuild` | Same as `docker:up` with `--no-cache` build |
 
-After `npm run dev`, open [http://localhost:3000](http://localhost:3000).
+After `npm run dev`, open [http://127.0.0.1:3010](http://127.0.0.1:3010). Stories CMS admin is [http://127.0.0.1:3010/admin](http://127.0.0.1:3010/admin).
 
 ## Project layout
 
@@ -56,7 +56,17 @@ Do not commit secrets. If something sensitive was ever pushed to a public remote
 
 Deploy on [Vercel](https://vercel.com/) or any Node-capable host: run `npm run build`, then `npm run start`. For platform-specific options, see the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
 
-Site metadata uses `metadataBase` (`https://suvo.me`) in [`app/layout.tsx`](app/layout.tsx) for canonical URLs and Open Graph. Optional env: `NEXT_PUBLIC_FB_APP_ID` (see [`.env.example`](.env.example)). After changing titles or share images, use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) (“Scrape Again”) if previews look stale.
+Site metadata uses `metadataBase` (`https://suvo.me`) in [`app/(frontend)/layout.tsx`](app/(frontend)/layout.tsx) for canonical URLs and Open Graph. Optional env: `NEXT_PUBLIC_FB_APP_ID` (see [`.env.example`](.env.example)). After changing titles or share images, use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) (“Scrape Again”) if previews look stale.
+
+## Stories (free)
+
+`/stories` is a Payload CMS inside this Next app. Locally it uses SQLite (`data/payload.db`) and files in `media/`. On Vercel Hobby, set `POSTGRES_URL` (Neon marketplace, free tier) and `BLOB_READ_WRITE_TOKEN` (Vercel Blob, hobby). Video stays on YouTube or Vimeo embeds so there is no paid media CDN.
+
+Copy `.env.example` to `.env` and set `PAYLOAD_SECRET` before the first admin login. Create the first user at `/admin`, then add a published Story. Do not invent posts. Life writing does not belong in `career-profile.yaml`.
+
+`GITHUB_TOKEN` is optional; set it to raise the unauthenticated GitHub API rate limit for the Founded section. `NEXT_PUBLIC_SERVER_URL` overrides the Payload server URL in every environment; without it, Payload falls back to the production Vercel hostname, then the deployment hostname, then `http://127.0.0.1:3010`. The Media collection and uploaded files are public reads, including uploads attached to unpublished stories.
+
+Postgres migrations are generated offline (`npm run payload -- migrate:create initial_stories`) and applied in production via `prodMigrations`. Generating migrations does not need a database; executing `migrate` does. Fresh production SQLite is not covered by this flow.
 
 [`next.config.ts`](next.config.ts) uses `output: "standalone"` for Docker; Vercel’s default Next.js flow does not require the Dockerfile.
 

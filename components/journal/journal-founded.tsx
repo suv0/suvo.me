@@ -24,8 +24,22 @@ function FoundedDiagramPanel({ item }: { item: FoundedItem }) {
   }
 }
 
+function foundedLiveMeta(item: FoundedItem): string | undefined {
+  const pushed = item.pushedAt
+    ? new Date(item.pushedAt).toLocaleDateString("en", { month: "short", year: "numeric", timeZone: "UTC" })
+    : undefined;
+  const parts = [
+    item.language,
+    item.stars != null ? `${item.stars} stars` : undefined,
+    item.license,
+    pushed ? `Updated ${pushed}` : undefined,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : undefined;
+}
+
 function FoundedCard({ item, index, total }: { item: FoundedItem; index: number; total: number }) {
   const indexLabel = String(index + 1).padStart(2, "0");
+  const liveMeta = foundedLiveMeta(item);
 
   return (
     <JournalReveal
@@ -51,7 +65,12 @@ function FoundedCard({ item, index, total }: { item: FoundedItem; index: number;
         <h4 className={`${journalTitleMotion} font-headline-md text-headline-md mb-2 text-white`}>{item.name}</h4>
         {item.tagline ? <p className="font-body-md text-body-md mb-3 text-chaldal-green/90">{item.tagline}</p> : null}
         <p className="font-body-md text-body-md mb-3 text-text-dim">{item.description}</p>
-        <p className="font-body-md text-body-md mb-5 text-text-dim">{item.impact}</p>
+        <p className="font-body-md text-body-md mb-3 text-text-dim">{item.impact}</p>
+        {liveMeta ? (
+          <p className="font-mono-label text-[0.68rem] mb-5 uppercase tracking-[0.12em] text-text-dim">{liveMeta}</p>
+        ) : (
+          <div className="mb-5" />
+        )}
         {item.github ? (
           <a
             className={`${journalLinkMotion} mt-auto inline-flex items-center gap-2 font-mono-label text-mono-label text-white`}
@@ -91,7 +110,7 @@ export function JournalFounded({ items }: { items: FoundedItem[] }) {
         </div>
         <p className="font-body-md text-body-md inline-flex max-w-md items-start gap-2 text-text-dim">
           <JournalSymbol name="south" className="mt-0.5 shrink-0 text-chaldal-green/80" />
-          <span>Independent tools I found and still use.</span>
+          <span>Independent tools I founded and still use.</span>
         </p>
       </div>
 

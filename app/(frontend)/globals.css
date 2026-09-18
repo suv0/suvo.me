@@ -346,6 +346,55 @@ body {
 }
 
 
+.story-prose {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text-dim);
+}
+
+.story-prose > * + * {
+  margin-top: 1.15em;
+}
+
+.story-prose h2,
+.story-prose h3 {
+  color: var(--color-on-surface);
+  font-weight: 600;
+}
+
+.story-prose a {
+  color: var(--color-chaldal-green);
+}
+
+.story-prose strong {
+  color: var(--color-on-surface);
+  font-weight: 600;
+}
+
+.story-prose blockquote {
+  border-left: 2px solid rgb(39 201 109 / 0.7);
+  padding-left: 1.25rem;
+  color: var(--color-on-surface);
+}
+
+.story-prose ul,
+.story-prose ol {
+  padding-left: 1.25em;
+}
+
+.story-prose ul {
+  list-style: disc;
+}
+
+.story-prose ol {
+  list-style: decimal;
+}
+
+.story-prose li + li {
+  margin-top: 0.5em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
