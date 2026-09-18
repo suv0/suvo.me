@@ -60,13 +60,13 @@ Site metadata uses `metadataBase` (`https://suvo.me`) in [`app/(frontend)/layout
 
 ## Stories (free)
 
-`/stories` is a Payload CMS inside this Next app. Locally it uses SQLite (`data/payload.db`) and files in `media/`. On Vercel Hobby, set `POSTGRES_URL` (Neon marketplace, free tier) and `BLOB_READ_WRITE_TOKEN` (Vercel Blob, hobby). Video stays on YouTube or Vimeo embeds so there is no paid media CDN.
+`/stories` is a Payload CMS inside this Next app. Locally it uses SQLite (`data/payload.db`) and files in `media/`. On Vercel Hobby, one Neon Postgres and one Blob store are shared by Preview (`qa`) and Production (`suvo.me`) — QA is only a safe URL to verify; content lives in the same journal database. Video stays on YouTube or Vimeo embeds so there is no paid media CDN.
 
 Copy `.env.example` to `.env` and set `PAYLOAD_SECRET` before the first admin login. Create the first user at `/admin`, then add a published Story. Do not invent posts. Life writing does not belong in `career-profile.yaml`.
 
-`GITHUB_TOKEN` is optional; set it to raise the unauthenticated GitHub API rate limit for the Founded section. `NEXT_PUBLIC_SERVER_URL` overrides the Payload server URL in every environment; without it, Payload falls back to the production Vercel hostname, then the deployment hostname, then `http://127.0.0.1:3010`. The Media collection and uploaded files are public reads, including uploads attached to unpublished stories.
+`GITHUB_TOKEN` is optional; set it to raise the unauthenticated GitHub API rate limit for the Founded section. `NEXT_PUBLIC_SERVER_URL` overrides the Payload server URL in every environment; without it, Preview uses the branch URL, Production uses the Vercel production host, then `http://127.0.0.1:3010`. The Media collection and uploaded files are public reads, including uploads attached to unpublished stories.
 
-Postgres migrations are generated offline (`npm run payload -- migrate:create initial_stories`) and applied in production via `prodMigrations`. Generating migrations does not need a database; executing `migrate` does. Fresh production SQLite is not covered by this flow.
+Postgres migrations ship in `migrations/postgres` and apply in production/preview via `prodMigrations`. Generating migrations does not need a database; executing `migrate` does. Fresh production SQLite is not covered by this flow.
 
 [`next.config.ts`](next.config.ts) uses `output: "standalone"` for Docker; Vercel’s default Next.js flow does not require the Dockerfile.
 

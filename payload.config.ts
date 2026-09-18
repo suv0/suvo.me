@@ -29,7 +29,10 @@ if (!postgresUrl && !process.env.VERCEL) {
 function serverURL(): string {
   const explicit = process.env.NEXT_PUBLIC_SERVER_URL?.trim();
   if (explicit) return explicit.replace(/\/$/, "");
-  // Preview must use this deployment host, not the production domain.
+  // Stable branch alias (e.g. …-git-qa-…) — better for admin CSRF than the unique deploy host.
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_BRANCH_URL) {
+    return `https://${process.env.VERCEL_BRANCH_URL}`;
+  }
   if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
@@ -40,6 +43,19 @@ function serverURL(): string {
     return `https://${process.env.VERCEL_URL}`;
   }
   return "http://127.0.0.1:3010";
+}
+
+function trustedOrigins(): string[] {
+  const origins = new Set<string>([
+    serverURL(),
+    "https://suvo.me",
+    "https://www.suvo.me",
+    "http://127.0.0.1:3010",
+    "http://localhost:3010",
+  ]);
+  if (process.env.VERCEL_URL) origins.add(`https://${process.env.VERCEL_URL}`);
+  if (process.env.VERCEL_BRANCH_URL) origins.add(`https://${process.env.VERCEL_BRANCH_URL}`);
+  return [...origins];
 }
 
 export default buildConfig({
@@ -56,8 +72,8 @@ export default buildConfig({
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   serverURL: serverURL(),
-  csrf: [serverURL(), "https://suvo.me", "http://127.0.0.1:3010", "http://localhost:3010"],
-  cors: [serverURL(), "https://suvo.me", "http://127.0.0.1:3010", "http://localhost:3010"],
+  csrf: trustedOrigins(),
+  cors: trustedOrigins(),
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
