@@ -8,9 +8,8 @@ import { getPublishedStories, storyDateLabel } from "@/lib/stories";
 
 export const dynamic = "force-dynamic";
 
-const title = "Off the resume.";
-const description =
-  "Memory, photographs, and a film when there is one — written so search can find the person, not just the CV.";
+const title = "Life, written.";
+const description = "Photographs, short films, and the days worth keeping.";
 
 export const metadata: Metadata = {
   title,
@@ -65,11 +64,10 @@ export default async function StoriesPage() {
                   id="stories-heading"
                   className="font-headline-lg text-balance text-headline-lg text-white sm:text-4xl lg:text-[2.75rem]"
                 >
-                  Off the resume.
+                  Life, written.
                 </h1>
                 <p className="font-body-lg text-body-lg max-w-lg text-pretty text-text-dim">
-                  Memory, photographs, and a film when there is one. Written here so search can find the person, not
-                  just the CV.
+                  Photographs, short films, and the days worth keeping.
                 </p>
               </header>
             </div>
@@ -79,10 +77,11 @@ export default async function StoriesPage() {
               aria-hidden
             >
               <div className="pointer-events-none absolute inset-y-0 left-0 z-[1] hidden w-12 bg-gradient-to-r from-journal-deep to-transparent md:block" />
-              <p className="relative z-[1] max-w-[11ch] font-display-xl text-[clamp(2.75rem,8vw,4.5rem)] leading-[0.95] tracking-tight text-white/90">
-                Life,
-                <span className="mt-1 block text-chaldal-green">written.</span>
-              </p>
+              <div className="relative z-[1] space-y-3 font-mono-label text-mono-label uppercase tracking-[0.22em] text-white/55">
+                <p>Photos</p>
+                <p className="text-chaldal-green">Film</p>
+                <p>Memory</p>
+              </div>
             </div>
           </div>
         </div>
