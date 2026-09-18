@@ -79,10 +79,11 @@ export default buildConfig({
   },
   db: postgresUrl
     ? vercelPostgresAdapter({
-        // Schema push is development-only; production applies bundled Postgres migrations.
+        // Never push against the shared Neon DB — only bundled migrations.
+        // Push left a batch=-1 row that made Vercel hang on an interactive migrate prompt.
         migrationDir: path.resolve(dirname, "migrations/postgres"),
         prodMigrations: postgresMigrations,
-        push: true,
+        push: false,
       })
     : sqliteAdapter({
         client: { url: sqliteUrl },
