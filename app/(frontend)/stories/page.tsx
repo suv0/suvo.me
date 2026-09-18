@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JournalSectionEyebrow, JournalSymbol } from "@/components/journal/journal-symbol";
 import { StoryMediaImage } from "@/components/stories/story-media-image";
+import { isNonProductionDeploy } from "@/lib/deploy-env";
 import { journalLinkMotion } from "@/lib/journal-motion";
 import { getPublishedStories, storyDateLabel } from "@/lib/stories";
 
@@ -13,8 +14,10 @@ const description = "Life writing from Abdul Hamid Shuvo — memory, photos, and
 export const metadata: Metadata = {
   title,
   description,
-  robots: { index: true, follow: true },
-  alternates: { canonical: "https://suvo.me/stories" },
+  robots: isNonProductionDeploy()
+    ? { index: false, follow: false }
+    : { index: true, follow: true },
+  alternates: isNonProductionDeploy() ? undefined : { canonical: "https://suvo.me/stories" },
   openGraph: {
     title,
     description,

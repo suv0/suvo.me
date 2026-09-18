@@ -1,7 +1,14 @@
 import type { MetadataRoute } from "next";
+import { isNonProductionDeploy } from "@/lib/deploy-env";
 
 /** Explicit crawler allows — Facebook Sharing Debugger warns if `facebookexternalhit` is not clearly allowed. */
 export default function robots(): MetadataRoute.Robots {
+  if (isNonProductionDeploy()) {
+    return {
+      rules: [{ userAgent: "*", disallow: "/" }],
+    };
+  }
+
   return {
     rules: [
       { userAgent: "facebookexternalhit", allow: "/", disallow: ["/admin"] },

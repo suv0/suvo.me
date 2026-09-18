@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { JournalSectionEyebrow, JournalSymbol } from "@/components/journal/journal-symbol";
 import { StoryLayout } from "@/components/stories/story-layout";
 import { StoryMediaImage } from "@/components/stories/story-media-image";
+import { isNonProductionDeploy } from "@/lib/deploy-env";
 import { journalLinkMotion } from "@/lib/journal-motion";
 import { mediaAlt, mediaSrc } from "@/lib/media";
 import { jsonLdScript } from "@/lib/seo";
@@ -18,6 +19,7 @@ type StoryPageProps = {
 export async function generateMetadata({ params }: StoryPageProps): Promise<Metadata> {
   const { slug } = await params;
   const story = await getPublishedStory(slug);
+  const preview = isNonProductionDeploy();
   if (!story) {
     return { title: "Story", robots: { index: false, follow: false } };
   }
@@ -29,8 +31,10 @@ export async function generateMetadata({ params }: StoryPageProps): Promise<Meta
   return {
     title: story.title,
     description,
-    robots: { index: true, follow: true },
-    alternates: { canonical },
+    robots: preview
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
+    alternates: preview ? undefined : { canonical },
     openGraph: {
       title: story.title,
       description,

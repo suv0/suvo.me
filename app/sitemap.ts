@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { isNonProductionDeploy } from "@/lib/deploy-env";
 import { getPublishedStories } from "@/lib/stories";
 
 const SITE = "https://suvo.me";
@@ -7,6 +8,11 @@ const SITE = "https://suvo.me";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Never advertise preview / QA URLs to crawlers.
+  if (isNonProductionDeploy()) {
+    return [];
+  }
+
   const now = new Date();
   let stories: Awaited<ReturnType<typeof getPublishedStories>> = [];
   try {

@@ -15,7 +15,9 @@ import { migrations as postgresMigrations } from "./migrations/postgres";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const postgresUrl = process.env.POSTGRES_URL?.trim();
+/** Neon Marketplace often sets DATABASE_URL; our docs/scripts use POSTGRES_URL. */
+const postgresUrl =
+  process.env.POSTGRES_URL?.trim() || process.env.DATABASE_URL?.trim() || undefined;
 const blobToken = process.env.BLOB_READ_WRITE_TOKEN?.trim();
 const sqliteUrl = process.env.DATABASE_URI?.trim() || "file:./data/payload.db";
 
@@ -27,6 +29,10 @@ if (!postgresUrl && !process.env.VERCEL) {
 function serverURL(): string {
   const explicit = process.env.NEXT_PUBLIC_SERVER_URL?.trim();
   if (explicit) return explicit.replace(/\/$/, "");
+  // Preview must use this deployment host, not the production domain.
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   }

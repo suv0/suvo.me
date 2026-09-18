@@ -10,9 +10,18 @@ function payloadSecretConfigured(): boolean {
   return Boolean(process.env.PAYLOAD_SECRET?.trim());
 }
 
+/** Serverless has no durable SQLite disk — require Postgres on Vercel. */
+function payloadDbReady(): boolean {
+  if (!payloadSecretConfigured()) return false;
+  if (process.env.VERCEL && !process.env.POSTGRES_URL?.trim() && !process.env.DATABASE_URL?.trim()) {
+    return false;
+  }
+  return true;
+}
+
 export async function getPublishedStories(): Promise<Story[]> {
-  if (!payloadSecretConfigured()) {
-    console.error("Payload secret missing; skipping published stories query");
+  if (!payloadDbReady()) {
+    console.error("Payload DB not configured; skipping published stories query");
     return [];
   }
 
@@ -29,13 +38,13 @@ export async function getPublishedStories(): Promise<Story[]> {
     return result.docs as Story[];
   } catch (error) {
     console.error("Failed to read published stories:", error);
-    throw error;
+    return [];
   }
 }
 
 export const getPublishedStory = cache(async (slug: string): Promise<Story | null> => {
-  if (!payloadSecretConfigured()) {
-    console.error("Payload secret missing; skipping published story query");
+  if (!payloadDbReady()) {
+    console.error("Payload DB not configured; skipping published story query");
     return null;
   }
 
@@ -53,7 +62,7 @@ export const getPublishedStory = cache(async (slug: string): Promise<Story | nul
     return (result.docs[0] as Story | undefined) ?? null;
   } catch (error) {
     console.error("Failed to read published story:", error);
-    throw error;
+    return null;
   }
 });
 

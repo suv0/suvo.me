@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter, JetBrains_Mono, Libre_Caslon_Text } from "next/font/google";
+import { isNonProductionDeploy } from "@/lib/deploy-env";
 import { getSiteMetadata } from "@/lib/portfolio-data";
 import { getOgPortrait } from "@/lib/seo";
 import "./globals.css";
@@ -41,6 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { ogTitle, ogDescription, description, name, keywords } = getSiteMetadata();
   const portrait = getOgPortrait();
   const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+  const preview = isNonProductionDeploy();
 
   return {
     metadataBase: new URL("https://suvo.me"),
@@ -53,11 +55,13 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name, url: "https://suvo.me" }],
     creator: name,
     publisher: name,
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true },
-    },
+    robots: preview
+      ? { index: false, follow: false, googleBot: { index: false, follow: false, noimageindex: true } }
+      : {
+          index: true,
+          follow: true,
+          googleBot: { index: true, follow: true },
+        },
     openGraph: {
       title: ogTitle,
       description: ogDescription,
@@ -73,7 +77,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: ogDescription,
       images: [portrait.url],
     },
-    ...(googleVerification ? { verification: { google: googleVerification } } : {}),
+    ...(!preview && googleVerification ? { verification: { google: googleVerification } } : {}),
   };
 }
 
