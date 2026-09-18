@@ -66,7 +66,7 @@ When unsure whether a change is a portfolio fact or a one-off CV tailoring, **as
 
 Public life writing lives at `/stories`, edited in `/admin`. It is **not** career data. Do not invent stories, and do not copy life posts into `career-profile.yaml`.
 
-Free stack: Payload OSS, local SQLite + `media/` uploads, production Neon Postgres + Vercel Blob (hobby). Video is YouTube/Vimeo embeds only — no paid transcoding.
+Free stack: Payload OSS, local SQLite + `media/` uploads, one Neon Postgres + Vercel Blob shared by Preview (`qa`) and Production (`suvo.me`) on the hobby tier. QA is only for verifying the stack; journal content is the same DB. Video is YouTube/Vimeo embeds only — no paid transcoding.
 
 ### Founded products and GitHub
 
