@@ -6,7 +6,16 @@ import { mediaSrc } from "@/lib/media";
 import { profile } from "@/lib/portfolio-data";
 import { SITE_ORIGIN } from "@/lib/seo";
 
+function payloadSecretConfigured(): boolean {
+  return Boolean(process.env.PAYLOAD_SECRET?.trim());
+}
+
 export async function getPublishedStories(): Promise<Story[]> {
+  if (!payloadSecretConfigured()) {
+    console.error("Payload secret missing; skipping published stories query");
+    return [];
+  }
+
   try {
     const payload = await getPayload({ config });
     const result = await payload.find({
@@ -25,6 +34,11 @@ export async function getPublishedStories(): Promise<Story[]> {
 }
 
 export const getPublishedStory = cache(async (slug: string): Promise<Story | null> => {
+  if (!payloadSecretConfigured()) {
+    console.error("Payload secret missing; skipping published story query");
+    return null;
+  }
+
   try {
     const payload = await getPayload({ config });
     const result = await payload.find({

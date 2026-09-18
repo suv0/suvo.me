@@ -3,11 +3,17 @@ import { getPublishedStories } from "@/lib/stories";
 
 const SITE = "https://suvo.me";
 
-export const revalidate = 3600;
+/** Request-time so a missing Payload secret cannot fail `next build` on preview. */
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const stories = await getPublishedStories();
+  let stories: Awaited<ReturnType<typeof getPublishedStories>> = [];
+  try {
+    stories = await getPublishedStories();
+  } catch (error) {
+    console.error("Sitemap skipped published stories", error);
+  }
 
   return [
     { url: SITE, lastModified: now, changeFrequency: "weekly", priority: 1 },
