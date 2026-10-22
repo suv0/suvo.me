@@ -87,8 +87,18 @@ export const experienceEnrichment: Record<string, ExperienceEnrichment> = {
 
 export type FoundedDiagramId = "precious-key" | "prsm-angles";
 
+/** Animated product demo in public/founded, mirrored from the repo's docs/demo.svg. */
+export type FoundedDemo = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
 export type FoundedEnrichment = {
   badge: string;
+  /** Shown instead of the diagram when present. */
+  demo?: FoundedDemo;
   diagram?: FoundedDiagramId;
   linkLabel?: string;
 };
@@ -97,12 +107,34 @@ export type FoundedEnrichment = {
 export const foundedEnrichment: Record<string, FoundedEnrichment> = {
   precious: {
     badge: "Founded",
+    demo: {
+      src: "/founded/precious-demo.svg",
+      width: 760,
+      height: 360,
+      alt: "Precious in action: Groq hits a rate limit, Precious fails over to Gemini, and the answer arrives with the whole chat carried over",
+    },
     diagram: "precious-key",
     linkLabel: "View on GitHub →",
   },
   prsm: {
     badge: "Founded",
+    demo: {
+      src: "/founded/prsm-demo.svg",
+      width: 760,
+      height: 360,
+      alt: "PRism in action: a PR link is pasted, three review passes run in parallel, then one finding is triaged with a suggested comment",
+    },
     diagram: "prsm-angles",
+    linkLabel: "View on GitHub →",
+  },
+  utter: {
+    badge: "Founded",
+    demo: {
+      src: "/founded/utter-demo.svg",
+      width: 760,
+      height: 330,
+      alt: "Utter in action: spoken words type into Claude's message box, the message is sent, and Claude's answer is read aloud",
+    },
     linkLabel: "View on GitHub →",
   },
 };

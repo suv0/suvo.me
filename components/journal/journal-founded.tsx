@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import {
   FoundedDefaultDiagram,
   PreciousKeyDiagram,
@@ -10,6 +12,22 @@ import { journalLinkIconMotion, journalLinkMotion, journalTitleMotion } from "@/
 import type { FoundedItem } from "@/lib/portfolio-data";
 
 function FoundedDiagramPanel({ item }: { item: FoundedItem }) {
+  if (item.demo) {
+    // Animated SVG from the repo README; next/image serves .svg unoptimized, so the animation survives.
+    return (
+      <div className="flex h-full items-center bg-ink-black/50 p-3 md:p-4">
+        <Image
+          src={item.demo.src}
+          width={item.demo.width}
+          height={item.demo.height}
+          alt={item.demo.alt}
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          className="h-auto w-full"
+        />
+      </div>
+    );
+  }
+
   switch (item.diagram) {
     case "precious-key":
       return <PreciousKeyDiagram />;
@@ -45,48 +63,51 @@ function FoundedCard({ item, index, total }: { item: FoundedItem; index: number;
     <JournalReveal
       as="article"
       id={item.id}
-      className="flex h-full scroll-mt-[calc(var(--journal-nav-height)+env(safe-area-inset-top,0px))] flex-col border border-border-muted bg-surface-charcoal"
+      className="h-full scroll-mt-[calc(var(--journal-nav-height)+env(safe-area-inset-top,0px))] border border-border-muted bg-surface-charcoal"
     >
-      <div className="shrink-0">
-        <FoundedDiagramPanel item={item} />
-      </div>
-      <div className="flex flex-1 flex-col p-5 md:p-6">
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-2 font-mono-label text-mono-label text-text-dim">
-            <JournalSymbol name="tag" className="text-chaldal-green/70" />
-            {indexLabel} / {(item.role || item.badge).toUpperCase()}
-          </span>
-          {item.status ? (
-            <span className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-text-dim">
-              {item.status}
-            </span>
-          ) : null}
+      {/* JournalReveal wraps children in its own div, so the demo | text split needs a grid inside it. */}
+      <div className="flex h-full flex-col lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <div className="shrink-0 lg:border-r lg:border-border-muted">
+          <FoundedDiagramPanel item={item} />
         </div>
-        <h4 className={`${journalTitleMotion} font-headline-md text-headline-md mb-2 text-white`}>{item.name}</h4>
-        {item.tagline ? <p className="font-body-md text-body-md mb-3 text-chaldal-green/90">{item.tagline}</p> : null}
-        <p className="font-body-md text-body-md mb-3 text-text-dim">{item.description}</p>
-        <p className="font-body-md text-body-md mb-3 text-text-dim">{item.impact}</p>
-        {liveMeta ? (
-          <p className="font-mono-label text-[0.68rem] mb-5 uppercase tracking-[0.12em] text-text-dim">{liveMeta}</p>
-        ) : (
-          <div className="mb-5" />
-        )}
-        {item.github ? (
-          <a
-            className={`${journalLinkMotion} mt-auto inline-flex items-center gap-2 font-mono-label text-mono-label text-white`}
-            href={item.github}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {item.linkLabel.replace(/\s*→\s*$/, "").toUpperCase()}
-            <span className={`material-symbols-outlined text-sm ${journalLinkIconMotion}`}>
-              {getProjectLinkIcon(item.linkLabel, item.github)}
+        <div className="flex flex-1 flex-col p-5 md:p-6">
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 font-mono-label text-mono-label text-text-dim">
+              <JournalSymbol name="tag" className="text-chaldal-green/70" />
+              {indexLabel} / {(item.role || item.badge).toUpperCase()}
             </span>
-          </a>
-        ) : null}
-        <span className="sr-only">
-          {index + 1} of {total}
-        </span>
+            {item.status ? (
+              <span className="font-mono-label text-[0.68rem] uppercase tracking-[0.12em] text-text-dim">
+                {item.status}
+              </span>
+            ) : null}
+          </div>
+          <h4 className={`${journalTitleMotion} font-headline-md text-headline-md mb-2 text-white`}>{item.name}</h4>
+          {item.tagline ? <p className="font-body-md text-body-md mb-3 text-chaldal-green/90">{item.tagline}</p> : null}
+          <p className="font-body-md text-body-md mb-3 text-text-dim">{item.description}</p>
+          <p className="font-body-md text-body-md mb-3 text-text-dim">{item.impact}</p>
+          {liveMeta ? (
+            <p className="font-mono-label text-[0.68rem] mb-5 uppercase tracking-[0.12em] text-text-dim">{liveMeta}</p>
+          ) : (
+            <div className="mb-5" />
+          )}
+          {item.github ? (
+            <a
+              className={`${journalLinkMotion} mt-auto inline-flex items-center gap-2 font-mono-label text-mono-label text-white`}
+              href={item.github}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {item.linkLabel.replace(/\s*→\s*$/, "").toUpperCase()}
+              <span className={`material-symbols-outlined text-sm ${journalLinkIconMotion}`}>
+                {getProjectLinkIcon(item.linkLabel, item.github)}
+              </span>
+            </a>
+          ) : null}
+          <span className="sr-only">
+            {index + 1} of {total}
+          </span>
+        </div>
       </div>
     </JournalReveal>
   );
@@ -114,7 +135,7 @@ export function JournalFounded({ items }: { items: FoundedItem[] }) {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4">
         {items.map((item, index) => (
           <FoundedCard key={item.id} item={item} index={index} total={items.length} />
         ))}

@@ -59,6 +59,7 @@ function cardFromGithub(repo: GithubRepo): FoundedItem {
     impact: "Available on GitHub.",
     github: repo.html_url,
     badge: ui?.badge ?? "Founded",
+    demo: ui?.demo,
     diagram: ui?.diagram,
     linkLabel: ui?.linkLabel ?? "View on GitHub →",
     ...live,

@@ -10,7 +10,7 @@ import {
   projectsCore,
   skillGroupsCore,
 } from "@/lib/career-profile.generated";
-import { experienceEnrichment, foundedEnrichment, portfolioUi, projectEnrichment, type FoundedDiagramId } from "@/lib/portfolio-enrichment";
+import { experienceEnrichment, foundedEnrichment, portfolioUi, projectEnrichment, type FoundedDemo, type FoundedDiagramId } from "@/lib/portfolio-enrichment";
 
 export type SkillGroup = {
   title: string;
@@ -157,6 +157,7 @@ export type FoundedItem = {
   impact: string;
   github?: string;
   badge: string;
+  demo?: FoundedDemo;
   diagram?: FoundedDiagramId;
   linkLabel: string;
   stars?: number;
@@ -183,6 +184,7 @@ export const foundedProducts: FoundedItem[] = foundedCore.map((item) => {
     impact: item.impact,
     github,
     badge: ui.badge,
+    demo: ui.demo,
     diagram: ui.diagram,
     linkLabel: ui.linkLabel ?? "View on GitHub →",
   };

@@ -207,6 +207,18 @@ export const foundedCore = [
     "links": {
       "github": "https://github.com/suv0/prsm"
     }
+  },
+  {
+    "id": "utter",
+    "name": "Utter",
+    "role": "Founder",
+    "tagline": "Talk to Claude. Hands free.",
+    "status": "Public · MIT · Windows",
+    "description": "Hands-free voice for Claude on Windows. Say \"Hey Claude\", talk, and your words type into Claude's message box as you speak. Say \"send it\" and the answer is read back aloud.",
+    "impact": "Offline speech recognition, so your voice never leaves the PC. Voice commands to fix words, spell, stop or repeat. Built for access: no mouse, keyboard or screen needed.",
+    "links": {
+      "github": "https://github.com/suv0/utter"
+    }
   }
 ] as const;
 
