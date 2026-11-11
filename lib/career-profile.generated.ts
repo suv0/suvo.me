@@ -219,6 +219,18 @@ export const foundedCore = [
     "links": {
       "github": "https://github.com/suv0/utter"
     }
+  },
+  {
+    "id": "deputy",
+    "name": "deputy",
+    "role": "Founder",
+    "tagline": "Background agent jobs that wake only when there's work.",
+    "status": "Public · MIT · Windows, macOS, Linux",
+    "description": "Cheap checks run on timers, and a headless coding agent starts only when one finds work. The first built-in job reviews the pull requests you're asked to review: cheap models gather the facts, a strong model drafts the review, and a second model tries to prove it wrong.",
+    "impact": "The review rules live in code, not in the prompt: a moved head, a comment outside the diff or an unapproved verdict is refused or held for you. New installs only draft. Routes work across Claude Code, Codex, Command Code and OpenRouter, skipping a tool that is out of limit.",
+    "links": {
+      "github": "https://github.com/suv0/deputy"
+    }
   }
 ] as const;
 

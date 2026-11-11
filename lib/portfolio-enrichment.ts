@@ -137,6 +137,16 @@ export const foundedEnrichment: Record<string, FoundedEnrichment> = {
     },
     linkLabel: "View on GitHub →",
   },
+  deputy: {
+    badge: "Founded",
+    demo: {
+      src: "/founded/deputy-demo.svg",
+      width: 760,
+      height: 400,
+      alt: "deputy in action: checks run on timers, the PR check finds a review request, facts, review and challenge run on outside models, the review is posted, and a pop-up says so",
+    },
+    linkLabel: "View on GitHub →",
+  },
 };
 
 export const portfolioUi = {
